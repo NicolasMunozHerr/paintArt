@@ -10,6 +10,7 @@
         private $idArtista;
         private $IdDireccion;
         private $precioCompra;
+        private $estadoEnvio;
 
         public function __construct($idCompra, $fechaCompra, $metodoCompra, $idObra,$idUsuarioRegistrado,$idArtista,$IdDireccion, $precioCompra)
         {
@@ -85,6 +86,14 @@
 
         public function setPrecioCompra($precioCompra){
             $this->precioCompra= $precioCompra;
+            return $this;
+        }
+        public function getEstadoEnvio()
+        {
+            return $this->estadoEnvio;
+        }
+        public function setEstadoEnvio($estadoEnvio){
+            $this->estadoEnvio= $estadoEnvio;
             return $this;
         }
 
@@ -219,7 +228,7 @@
                     while($fila = $resul->fetch())
                     {
                         $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"],$fila["precioCompra"]);
-                      
+                        $c->setEstadoEnvio($fila['estadoEnvio']);
                         $lista->add($c);
                     }
                     return $lista;
@@ -246,7 +255,7 @@
                     while($fila = $resul->fetch())
                     {
                         $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"],$fila["precioCompra"]);
-                      
+                        $c->setEstadoEnvio($fila['estadoEnvio']);
                         $lista->add($c);
                     }
                     return $lista;
@@ -338,7 +347,26 @@
                     $this->pdo->closeConnection();
                 }
         }
+
+        public function editarCompra($idCompra, $codigoEnvio){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE compra SET estadoEnvio=? WHERE idCompra=?");
+                $res->execute([$codigoEnvio,$idCompra]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
         
+
 
     }
 

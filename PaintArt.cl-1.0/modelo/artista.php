@@ -6,6 +6,11 @@
         private $idArtista;
         private $biografia;
         private $idUsuarioRegistrado;
+        private $contacFace;
+        private $contacIg;
+        private $contacTwit;
+        private $contacTikTok;
+
 
         public function __construct($idArtista, $biografia, $idUsuarioRegistrado)
         {
@@ -40,6 +45,39 @@
             $this->idUsuarioRegistrado= $idUsuarioRegistrado;
             return $this;
         }
+
+        public function getContacIg(){
+            return $this->contacIg;
+        }
+        public function setContacIg($contacIg){
+            $this->contacIg= $contacIg;
+            return $this;
+        }
+
+        public function getContacTwit(){
+            return $this->contacTwit;
+        }
+        public function setContacTwit($contacTwit){
+            $this->contacTwit= $contacTwit;
+            return $this;
+        }
+
+        public function setContacTikTok(){
+            return $this->contacTikTok;
+        }
+        public function setContaTikTok($contacTikTok){
+            $this->contacTikTok= $contacTikTok;
+            return $this;
+        }
+
+        public function getContacFace(){
+            return $this->contacFace;
+        }
+        public function setContaFace($contacFace){
+            $this->contacFace= $contacFace;
+            return $this;
+        }
+
 
         public function __toString()
         {

@@ -97,6 +97,8 @@ class perfilUusarioRegistrado{
                     <p></p>
                   <span><h4>'.$NombreYApellido.'</span>
                     <p></p>
+                    <span><a style="text-decoration: none;" href="confirmarEnvio.php"><h6>[Obras por confirmar envio]</h6></a></span>
+                    <p></p>
                   <span><a style="text-decoration: none;" href="listarPeticionesAprobar.php"><h6>[Ver lista de nuevas peticiones]</h6></a></span>
                     <p></p>
                   <span><a style="text-decoration: none;" href="listaTrabajosPerso.php"><h6>[Lista de trabajo a pedido]</h6></a></span>
@@ -107,6 +109,7 @@ class perfilUusarioRegistrado{
                     <p></p>
                     <span><a style="text-decoration: none;" href="listarVentas.php"><h6>[Mis ventas]</h6></a></span>
                     <p></p>
+                    
                    
                     
                   <span style= "width:100%"><a style="text-decoration: none ;" href="cambiarFotoPerfil.php"><button type="submit"  class="btn btn-success">Cambiar Mi foto </button></a></span>
@@ -120,15 +123,16 @@ class perfilUusarioRegistrado{
                     <p></p>
                   <span class="bio" ><h5>BIOGRAFIA: </h5></span>
                   <span style="margin-top: 5px;" class="bio" ><h6> <a href="cambiarBiografia.php">edita tu Biografia</a></h6></span>
-                    <br>
-                  
-                  
                   <span  class="biografia">
-                    <div  class="contenidoBiografia">
-                        <p>
-                           <h6 style= "margin-left: 20px; margin-rigth:20px "> '.$mostrarBio. '</h6> 
-                        </p>
-                   </div></span>';
+                  <div  class="contenidoBiografia">
+                      <p>
+                         <h6 style= "margin-left: 20px; margin-rigth:20px "> '.$mostrarBio. '</h6> 
+                      </p>
+                 </div></span>
+                 
+                  ';
+                  
+                 
 
                 }
                 
@@ -240,10 +244,10 @@ class perfilUusarioRegistrado{
                     <table style="width:100%;">
                         <td style="text-align:center">   
 
-                            <p><h4> ha llegado al final de la lista de obras </h4></p>
+                            <p><h4 id="cuenta" data-id="4"> </h4></p>
                         </td> 
                     </table>';
-                }   
+                }    
 
 
             }
@@ -276,7 +280,7 @@ class perfilUusarioRegistrado{
                                         <img style="height: 100%;
                                         object-fit: cover;
                                         object-position: center center; " class="imagenObraArista" src="'.$image->getUrlImagen().'" alt="">
-                                        <h6>'.$listObras->get($i)->getTitulo().'<button type="button" style="border:0px; background-color:transparent" id="desarchivar" data-web="'.$contador.'" data-id="'.$listObras->get($i)->getIdObra(). '" >📤</button>  <button type="button" style="border:0px; background-color:transparent" id="eliminar" data-web="'.$contador.'" data-id="'.$listObras->get($i)->getIdObra(). '" >❌</button> </h6>
+                                        <h6>'.$listObras->get($i)->getTitulo().'<button type="button" style="border:0px; background-color:transparent" id="desarchivar" data-estado="ar" data-web="'.$contador.'" data-id="'.$listObras->get($i)->getIdObra(). '" >📤</button>  <button type="button" style="border:0px; background-color:transparent" id="eliminar" data-web="'.$contador.'" data-id="'.$listObras->get($i)->getIdObra(). '" >❌</button> </h6>
                                     </div>';
                             }
                             $a++;
@@ -291,7 +295,16 @@ class perfilUusarioRegistrado{
                                 </p>
                             </td> 
                         </table>';
-                    }
+                    }else{
+                        echo'
+                       
+                        <table style="width:100%;">
+                            <td style="text-align:center">   
+    
+                                <p><h4 id="cuenta" data-id="4"> </h4></p>
+                            </td> 
+                        </table>';
+                    }  
 
 
                 }
@@ -514,7 +527,7 @@ class perfilUusarioRegistrado{
                         if ($imagen==false) {
                             echo 'No se pudo bajar la imagen asociada';
                         }else{
-                        
+                            echo 'Se elimino exitosamente';
                         }
                     }
                 }else{
@@ -583,8 +596,26 @@ class perfilUusarioRegistrado{
                     echo "<h6 style='margin-left:20px '>No hay subastas por el momento </h6>";
                 }else{
                     $imagen = new imagen(null);
-
+                    date_default_timezone_set("America/Santiago");
+                    setlocale(LC_ALL, "es_ES");
+                    $subasta= new subasta();
+                    $accion= 0;
                     for ($i=0; $i < $largo; $i++) { 
+                        $fecha_actual = date("Y-m-d H:i:00");
+                        $subasta =$subasta->validaAsociacionObra($lista->get($i)->getIdObra());
+                        if($subasta==false){
+                            echo 'No se encontro la subasta';
+                        }else{
+                            if($fecha_actual> $subasta->__getFechaLimite()){
+                                //$accion= 'Eliminable'.$fecha_actual;
+                                $accion = '<button type="button" style="border:0px; background-color:transparent" id="eliminar" data-estado="sub" data-web="'.$contador.'" data-id="'.$lista->get($i)->getIdObra(). '" >❌</button>';
+                                
+                            }else{
+                                $accion= '';
+                                //$accion= 'fecha actual'.$fecha_actual.' fehca termino'.$subasta->__getFechaLimite();
+                            }
+                        }
+                      
                         if($i<$contador){
                             $idImagen= $lista->get($i)->getIdImagen();
                             $imagen= $imagen->buscarImagenID($idImagen);
@@ -595,9 +626,9 @@ class perfilUusarioRegistrado{
                                 echo' <a style="text-decoration:none;color: black;" href="detalleObra.php?id='.$lista->get($i)->getIdObra().'"><div class="cuadroArtista">
                                 <img style="height: 100%;
                                 object-fit: cover;
-                                object-position: center center; " class="imagenObraArista" src="'.$urlImagen.'" alt="">
-                                <h6 >'.$lista->get($i)->getTitulo().' <button type="button" style="border:0px; background-color:transparent" id="eliminar" data-id="'.$lista->get($i)->getIdObra(). '" >📂</button> </h6>
-                                </div></a>';
+                                object-position: center center; " class="imagenObraArista" src="'.$urlImagen.'" alt=""></a>
+                                <h6 >'.$lista->get($i)->getTitulo().$accion./*' <button type="button" style="border:0px; background-color:transparent" id="eliminar" data-id="'.$lista->get($i)->getIdObra(). '" >❌</button> */'</h6>
+                                </div>';
                             }
                             $a++;
                         }
@@ -618,7 +649,7 @@ class perfilUusarioRegistrado{
                         <table style="width:100%;">
                             <td style="text-align:center">   
     
-                                <p><h4 id="cuenta" data-id="4"> ha llegado al final de la lista de subasta </h4></p>
+                                <p><h4 id="cuenta" data-id="4"> </h4></p>
                             </td> 
                         </table>';
                     }   
@@ -776,6 +807,10 @@ if(empty($_POST["subasta"])){
         $perfil= new perfilUusarioRegistrado();
        $perfil->desarchivar($id);
     
+    }elseif ($subasta==7) {
+        $idObra= $_POST["idObra"];
+        $perfil= new perfilUusarioRegistrado();
+        echo $perfil->eliminarObra($idObra);
     }
 }
 

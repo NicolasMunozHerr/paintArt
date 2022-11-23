@@ -212,6 +212,9 @@ class registroPujadores{
         }
     }
 
+
+    
+
     public function maximoPujador($idSubasta){
 
         $c="";

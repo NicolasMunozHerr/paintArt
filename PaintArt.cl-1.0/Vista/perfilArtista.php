@@ -206,7 +206,9 @@ $perfiUsuario= new perfilUusarioRegistrado();
       data:{subasta:subasta, idUser:idUser, contador:contador},
       success: function(data){
         $('#Cuadros').html(data);
-        
+   
+
+       
       }
     });
     }
@@ -254,6 +256,27 @@ $perfiUsuario= new perfilUusarioRegistrado();
       }
     });
   }
+  function subastadas(contador){
+    $('#Cuadros').html('<img style="margin-left: 132%;" src="imagenes/carga.gif" alt="" srcset="">');
+    var subasta= 1;
+    var idUser=<?php  echo $online?>;
+    var contador= contador;
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:'POST',
+      data:{subasta:subasta, idUser:idUser, contador:contador},
+      success:function(data){
+        $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+              sub.className='btn btn-warning ';
+              sub.dataset.id=true;
+              let ob= document.getElementById('verObras');
+              ob.className= 'btn btn-warning ';
+              ob.dataset.id=true;
+      }
+    });
+  
+  }
 
   $(document).on("click", "#archivar",function(){
     swal({
@@ -290,7 +313,7 @@ $perfiUsuario= new perfilUusarioRegistrado();
     })
     $(document).on("click", "#desarchivar",function(){
     swal({
-      title: "Esta seguro de querer archivar?",
+      title: "Esta seguro de querer desaarchivar?",
       text: "La obra saldra al ojo publico, es decir, se vera para el publico en tu lista de 'obras'",
       incon:"warning",
       buttons: true,
@@ -326,6 +349,9 @@ $perfiUsuario= new perfilUusarioRegistrado();
   $(document).on("click", "#verSubasta",function(){
     var subasta= 1;
     var idUser=<?php echo $online ?>;
+    let btn= document.getElementById("cuenta");
+    btn.dataset.id=4;
+  
     var contador= sacarContador();
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',
@@ -345,9 +371,15 @@ $perfiUsuario= new perfilUusarioRegistrado();
 
   })
   $(document).on("click", "#verObras",function(){
+
     var subasta= 2;
+ 
     var idUser=<?php echo $online ?>;
-    var contador= sacarContador();
+    
+    var btn= document.getElementById("cuenta");
+    var newCuenta=4;
+    
+    var contador= sacarContador(newCuenta);
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',
       method:"POST",
@@ -390,6 +422,46 @@ $perfiUsuario= new perfilUusarioRegistrado();
 
 
 
+  })
+  ///acqui coloco lo nuevo
+  $(document).on("click", "#eliminar", function(){
+    swal({
+      title: "¿Esta seguro de querer eliminar?",
+      text: "La obra borrara toda la informacion asociadas, compras, imagen, numeros de ventas y de visitas entre otros",
+      incon:"warning",
+      buttons: true,
+      dangermode:true,
+      
+    }).then((willDelete)=>{
+      if (willDelete) {
+        var subasta=7;
+        var idUser=<?php  echo $online?>;
+        var idObra= $(this).data("id");
+        var contador= $(this).data("web");
+        var estado = $(this).data('estado');
+        
+        $.ajax({
+          url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+          method:"POST",
+          data:{subasta:subasta, idUser:idUser, contador:contador, idObra:idObra},
+          success: function(data){
+            swal(data);
+            if(estado=='ar'){
+              archivadas(contador);
+            }else{
+              subastadas(contador);
+            }
+            
+          }
+        });
+        
+      }else{
+        swal("No se ha elminado nada", {icon:"info",});
+      }
+      
+    });
+
+    
   })
 
 

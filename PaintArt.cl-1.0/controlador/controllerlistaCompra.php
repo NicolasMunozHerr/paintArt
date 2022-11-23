@@ -70,6 +70,12 @@ class historialCompras{
                                     <button id="subasta" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
                                     <h6>No se  pudo encontrar la imagen asociada</h6>';
                                 }else{
+                                    $estadoEnvio= $listaCompra->get($i)->getEstadoEnvio();
+                                    if($estadoEnvio==""){
+                                        $estadoEnvio= 'Por confirmar';
+                                    }else{
+                                        $estadoEnvio= ' cod. seguimiento '.$estadoEnvio;
+                                    }
                                     echo'
                                     
                                   
@@ -78,12 +84,14 @@ class historialCompras{
                                                     <h5>Obra de: '.$nombre.'</h5>
                                                     
                                                     <H6>Titulo de la Obra: '.$infoObra->getTitulo().'</H6>
+                                                    <H6>Estado de la compra:<b>'.$estadoEnvio.'<b/></H6>
                                                     <P>
                                                     <P>
                                                     <label>Fecha de compra: '.$listaCompra->get($i)->getFechaCompra().'</label>
                                                     <P>
                                                     <label>Monto de la compra: '.$coste.'</label>
                                                     <P>
+                                                    
                                                     <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$listaCompra->get($i)->getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a>
                                                     <p>
                                                     <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$listaCompra->get($i)->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>
@@ -182,19 +190,26 @@ class historialCompras{
                                     }else{
                                         $estado= '<b class= "text-warning">Puja nuevamente para ganar la subasta  </b>';
                                     }
+                                    $estadoEnvio=null;
+                                    if($subasta->__getEstadoEnvio()==""){
+                                        $estadoEnvio="Procesando compra";
+                                    }else{
+                                        $estadoEnvio= "Codigo de seguimiento: ". $subasta->__getEstadoEnvio(); 
+                                    }
                                     echo'
                                             
                                            
                                                     
                                                         <div style="text-align:left; width:95% " class="peticion">
-                                                            <h5>Estado: '.$estado.'</h5>
-                                                            
+                                                            <h5>Estado: '.$estado.'</h5> <p></p>
+                                                            <h6>'.$estadoEnvio.'</h6>
                                                             <H6>Titulo de la Obra: '.$obra->getTitulo().'</H6>
                                                             <P>
                                                             <P>
                                                             <label>Fecha de finalizacion: '.$subasta->__getFechaLimite().'</label>
                                                             <P>
                                                             <label>Monto de la puja suya: '.$registro->get($i)->__getValor().'</label>
+                                                            
                                                             <p>
                                                             <label>Usuario con la puja Mayor: '.$UserMaxPujador->getNombreYApellido().'</label>
                                                             <p>

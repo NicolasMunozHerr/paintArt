@@ -9,6 +9,7 @@ class subasta{
     private $precioMinimo;
     private $idArtista;
     private $idObra;
+    private $estadoEnvio;
     public function __construct()
     {
         
@@ -70,6 +71,13 @@ class subasta{
         $this->idObra= $idObra;
         return $this;
     }
+    public function __getEstadoEnvio(){
+        return $this->estadoEnvio;
+    }
+    public function __setEstadoEnvio($estadoEnvio){
+        $this->estadoEnvio= $estadoEnvio;
+        return $this;
+    }
 
     public function mostrarSubasta(){
         return "idSubasta: ".$this->idSubasta." fechaLimiete:".$this->fechaLimite." precioPuja: ".$this->precioPuja." idArtista: ".$this->idArtista." idObra: ".$this->idObra." precioMinimo: ".$this->precioMinimo ; 
@@ -112,6 +120,7 @@ class subasta{
                 $idAr->__setPrecioPuja($fila["precioPuja"]);
                 $idAr->__setPrecioMinimo($fila["precioMinimo"]);
                 $idAr->__setIdArtista($fila["Artista_idArtista"]);
+                $idAr->__setEstadoEnvio($fila["estadoEnvio"]);
             }    
             return $idAr;
         }
@@ -168,6 +177,7 @@ class subasta{
                     $idAr->__setFechaLimite($fila["fechaTermino"]);
                     $idAr->__setPrecioPuja($fila["precioPuja"]);
                     $idAr->__setPrecioMinimo($fila["precioMinimo"]);
+                    $idAr->__setEstadoEnvio($fila["estadoEnvio"]);
                 }    
                 return $idAr;
             }
@@ -221,6 +231,24 @@ class subasta{
         }
     
     }
+    public function editarestadoEnvio($codigoEnvio,$id){
+        try{
+            $this->pdo = Conexion::getInstance();
+            $this->pdo->openConnection();
+            $res = $this->pdo->useConnection()->prepare("UPDATE subasta SET estadoEnvio=? WHERE idSubasta=?");
+            $res->execute([$codigoEnvio,$id]);
+            return TRUE;
+        }
+        catch(PDOException $e)
+        {
+            error_log($e->getMessage());
+            return FALSE;
+        }
+        finally{
+            $this->pdo->closeConnection();
+        }
+    
+    }
 
 
     public function listarSubastaIdArtista($idAr){
@@ -239,6 +267,7 @@ class subasta{
                     $c->__setFechaLimite($fila["fechaTermino"]);
                     $c->__setPrecioPuja($fila["precioPuja"]);
                     $c->__setPrecioMinimo($fila["precioMinimo"]);
+                    $idAr->__setEstadoEnvio($fila["estadoEnvio"]);
                     $lista->add($c);
                 }
                 return $lista;
@@ -253,6 +282,40 @@ class subasta{
             finally{
                 $this->pdo->closeConnection();
             }
+    }
+
+
+    public function listarSubastaTerminadas($idAr, $fechaAcual){
+        $lista = new ArrayList();
+        try
+        {
+            $this->pdo = Conexion::getInstance();
+            $this->pdo->openConnection();
+            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `subasta` WHERE `Artista_idArtista`=? and `fechaTermino` < ?;");
+            $resul->execute([$idAr, $fechaAcual]);
+            while($fila = $resul->fetch())
+            {
+                
+                $c = new subasta();
+                $c->__setidSubasta($fila["idSubasta"]);
+                $c->__setFechaLimite($fila["fechaTermino"]);
+                $c->__setPrecioPuja($fila["precioPuja"]);
+                $c->__setPrecioMinimo($fila["precioMinimo"]);
+                $c->__setEstadoEnvio($fila["estadoEnvio"]);
+                $lista->add($c);
+            }
+            return $lista;
+        }
+        catch(PDOException $e)
+        {
+            error_log($e->getMessage());
+            return FALSE;
+            //return error_log($e->getMessage());
+
+        }
+        finally{
+            $this->pdo->closeConnection();
+        }
     }
     public function subastasUltimosSeisMeses($idAr){
             try
