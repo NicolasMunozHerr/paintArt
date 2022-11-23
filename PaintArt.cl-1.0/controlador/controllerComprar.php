@@ -60,7 +60,7 @@ if(empty($_SESSION['online'])){
                     $_SESSION['errorCompra']= 'hemos tenido problemas busar la direccion';
                     header("Location: ../Vista/detalleObra.php");
                     }else{
-                        $compra= new compra(null, $fecha, $metodo,$idObra,$idUser,$obra->getIdArtista(), $direccion->getIdDireccion());
+                        $compra= new compra(null, $fecha, $metodo,$idObra,$idUser,$obra->getIdArtista(), $direccion->getIdDireccion(), $obra->getPrecio());
                         $stock=$obra->getStock();
                         $newStock=intval($stock)-1;
                         $ob->descontarStock($newStock,$idObra);

@@ -163,6 +163,7 @@ session_start();
       </div> 
 
 </body> 
+<?php include_once 'footer.php';?>
 <?php 
 if( empty( $_SESSION["error"]))
 {}

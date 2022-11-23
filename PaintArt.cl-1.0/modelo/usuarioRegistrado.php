@@ -152,6 +152,7 @@
                     $idUs->setApellido($fila["apellido"]);
                     $idUs->setPermisos($fila["permisos"]);
                     $idUs->setIdImagen($fila["Imagen_idImagen"]);
+                    $idUs->setFechaNac($fila['fechaNac']);
                     
                 }    
                 return $idUs;

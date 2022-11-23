@@ -71,7 +71,7 @@ class controllerVentas{
         if($artista==false){
             echo "ERROR al buscar al artista";
         }else{
-            $ventas= new compra(null,null, null, null, null, null, null);
+            $ventas= new compra(null,null, null, null, null, null, null,null);
             $lista= $ventas->listarVentasIdArtista($artista->getIdArtista());
             if ($lista==false) {
                 echo "ERROR al buscar las ventas del artista";
@@ -79,13 +79,9 @@ class controllerVentas{
                 $largo= $lista->size();
                 $acumuladorObra=0;
                 for ($i=0; $i < $largo; $i++) { 
-                    $obra= new obra(NULL, null, null, null, null, null, null,null,null);
-                    $obra= $obra->buscarObraId($lista->get($i)->getIdObra());
-                    if($obra==false){
-                        echo "error al buscar la obra asociada a la venta";
-                    }else{
-                        $acumuladorObra=$obra->getPrecio()+$acumuladorObra;
-                    }
+                    
+                        $acumuladorObra=$lista->get($i)->getPrecioCompra()+$acumuladorObra;
+                    
                 }
                 return $acumuladorObra;
             }
@@ -244,7 +240,7 @@ class controllerVentas{
         if($artista==false){
             echo "ERROR al buscar al artista";
         }else{
-            $ventas= new compra(null,null, null, null, null, null, null);
+            $ventas= new compra(null,null, null, null, null, null, null, null);
             $lista= $ventas->listarVentasIdArtista($artista->getIdArtista());
             if ($lista==false) {
                 echo "ERROR al buscar las ventas del artista";

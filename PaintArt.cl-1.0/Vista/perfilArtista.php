@@ -8,6 +8,13 @@ if( empty($_SESSION["online"]))
   header( 'location: iniciarSesion.php');
 }else{
   $online =  $_SESSION["online"];
+  $informacion = 'nada';
+  if(empty($_SESSION["informacion"])){
+
+  }else{
+    $informacion=$_SESSION["informacion"];
+  }
+
   
 }
 //revisar si esto sigue funcionando xd
@@ -123,42 +130,19 @@ $perfiUsuario= new perfilUusarioRegistrado();
       <h3 style="margin-top: 10px;margin-left: 10px;">Mi perfil</h3>
       <div class="container">
         <div style="margin-bottom: 20px;" class="inforArtista">
-            <!--<div class="imgArtista">
-              <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%;" src="imagenes/avatar.png" alt="">
-            </div>
-            <p></p>
-            <span><h4><?php //echo $controller->verArtista($idArtista)?></h4></span>
-            <p></p>
-            <span><a style="text-decoration: none;" href="listarPeticionesAprobar.php"><h6>Ver lista de nuevas peticiones</h6></a></span>
-            <p></p>
-            <span><a style="text-decoration: none;" href="listaTrabajosPerso.php"><h6>Lista de trabajo a pedido</h6></a></span>
-            <br>
             
-            <span class="bio" ><h5>BIOGRAFIA: </h5></span>
-          
-            <span style="margin-top: 5px;" class="bio" ><h6> <a href="">edita tu informacion</a></h6></span>
-            <br>
-            
-            
-            <span  class="biografia">
-              <div  class="contenidoBiografia">
-              <p>
-              <?php //echo $controller->verBiografiaArtista($idArtista)?>
-            </p>
-              </div></span>
--->
-
           <?php 
             $perfiUsuario->mostrarPerfilArtista($online);
           ?>
         </div>
         <div class= "histoObras" style="border: none;">
-          <button id="verObras" type="button" class="btn btn-warning disabled">Obras</button>
-          <button id="verSubasta" type="button" class="btn btn-warning"> Subastas</button>
+          <button id="verObras" data-id="false" type="button" class="btn btn-warning disabled">Obras</button>
+          <button id="verSubasta" data-id="true" type="button" class="btn btn-warning"> Subastas</button>
+          <button  style="float: right;" id="verArchivadas" data-id="true" type="button" class="btn btn-danger"> Obras archivadas</button>
 
         </div>
         <div class="histoObras">
-            <span style="width: 100%;" class="tituloObras"><h4>Obras disponibles</h4></span>
+            <span style="width: 100%;" class="tituloObras"><h4 id='titular'>Obras disponibles</h4></span>
             
             <div id='Cuadros' class="cuadrosArista">
                 <!--<div class="cuadroArtista">
@@ -166,40 +150,115 @@ $perfiUsuario= new perfilUusarioRegistrado();
                   <h6>Obra <a  href="">✏️</a>  </h6>
                 </div>-->
                 
-               <?php $perfiUsuario->listarObra($online)?>
                       
             </div>
         </div>
-       
       </div>
 
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+<?php include_once 'footer.php';?>
 </html>
 
 <script type="text/javascript">
-  
- 
-  $(document).ready(function(){
+  var contador=4;
+  function sacarContador(){
+    var elm= document.getElementById('cuenta');
+    var contador= elm.dataset.id;
+    return contador;
+  }
 
-  /*function obtener_datos(){
-    var parametros=1;
+  function sumar(){
+    contador= 4+contador;
+    var estado= document.getElementById('verObras');
+    var direccion= estado.dataset.id;
+    var subasta= 1000;
+    var idUser= <?php echo $online?> ;
+    if(direccion=='false'){
+      //alert('Estas en obras');
+      subasta=2;
+    }else{
+      //alert('Estas en subasta');
+      subasta=1;
+    }
+    //var subasta=
+   
+    
+      $.ajax({
+        url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+        method:'POST',
+        data:{subasta:subasta, contador:contador,idUser:idUser},
+        success:function(data){
+       
+          $('#Cuadros').html(data);
+        }
+      });
+    }
+    function sumarSub(){
+     
+      var subasta=5;
+      var idUser=<?php  echo $online?>;
+      var contador=4+ parseInt(sacarContador());
     $.ajax({
-      url:'../controlador/controllerListarPeticiones.php',
-      method:'POST',
-      data:{parametros:parametros,},
-      success:function(data){
-        $('#Inputs').html(data);
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:"POST",
+      data:{subasta:subasta, idUser:idUser, contador:contador},
+      success: function(data){
+        $('#Cuadros').html(data);
         
       }
     });
+    }
+ 
+  $(document).ready(function(){
+    var info= "<?php echo $informacion?>";
+    if(info=="nada"){
+
+    }else{
+      swal(info, {icon:"info",});
+      <?php unset($_SESSION["informacion"])?>
+    }    
+  function obtener_datos(contador){
+    $('#Cuadros').html('<img style="margin-left: 132%;" src="imagenes/carga.gif" alt="" srcset="">');
+    var subasta=2;
+    var idUser= <?php echo $online ?>;
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:'POST',
+      data:{subasta:subasta,idUser:idUser,contador:contador},
+      success:function(data){
+        $('#Cuadros').html(data);
+       
+      }
+    });
   }
-  obtener_datos();*/
-  $(document).on("click", "#eliminar",function(){
+  obtener_datos(contador);
+  function archivadas(contador){
+    $('#Cuadros').html('<img style="margin-left: 132%;" src="imagenes/carga.gif" alt="" srcset="">');
+    var subasta= 5;
+    var idUser=<?php  echo $online?>;
+    var contador= contador;
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:'POST',
+      data:{subasta:subasta, idUser:idUser, contador:contador},
+      success:function(data){
+        $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+              sub.className='btn btn-warning ';
+              sub.dataset.id=true;
+              let ob= document.getElementById('verObras');
+              ob.className= 'btn btn-warning ';
+              ob.dataset.id=true;
+      }
+    });
+  }
+
+  $(document).on("click", "#archivar",function(){
     swal({
-      title: "Esta seguro de querer eliminar?",
-      text: "En caso de querer eliminar se borrar todo los registros de visita y en su defecto las compras o pujas asociadas a la obra",
+      title: "Esta seguro de querer archivar?",
+      text: "La obra quedara archivado, es decir, fuera del ojo publico y tu lista de 'obras'",
       incon:"warning",
       buttons: true,
       dangermode:true,
@@ -208,22 +267,58 @@ $perfiUsuario= new perfilUusarioRegistrado();
         if (willDelete) {
           var parametros=<?php echo $online ?>;
           var id=$(this).data("id");
+          var contador=$(this).data("web");
           
           $.ajax({
             url:'../controlador/controllerPerfilUsuarioRegistrado.php',
             method:"POST",
-            data:{parametros:parametros,id:id, },
+            data:{parametros:parametros,id:id,contador:contador },
             success: function(data){
               $('#Cuadros').html(data);
-              swal("Ha sido eliminado con exito", {icon:"info",});
+             
+              swal("Ha sido archivado con exito", {icon:"info",});
+              obtener_datos(contador);
           }
           });
             
         }else{
-          swal("No se ha eliminado nada");
+          swal("No se ha archivado nada");
         }
-    });
+    });  
+        
+
+    })
+    $(document).on("click", "#desarchivar",function(){
+    swal({
+      title: "Esta seguro de querer archivar?",
+      text: "La obra saldra al ojo publico, es decir, se vera para el publico en tu lista de 'obras'",
+      incon:"warning",
+      buttons: true,
+      dangermode:true,
       
+    }).then((willDelete)=>{
+        if (willDelete) {
+          subasta=6;
+          var parametros=<?php echo $online ?>;
+          var id=$(this).data("id");
+          var contador=$(this).data("web");
+          
+          $.ajax({
+            url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+            method:"POST",
+            data:{subasta:subasta,parametros:parametros,id:id,contador:contador },
+            success: function(data){
+              $('#Cuadros').html(data);
+              swal("Ha sido archivado con exito", {icon:"info",});
+              archivadas(contador);
+             
+          }
+          });
+            
+        }else{
+          swal("No se ha editado nada");
+        }
+    });  
         
 
     })
@@ -231,18 +326,20 @@ $perfiUsuario= new perfilUusarioRegistrado();
   $(document).on("click", "#verSubasta",function(){
     var subasta= 1;
     var idUser=<?php echo $online ?>;
-    
-    
+    var contador= sacarContador();
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',
       method:"POST",
-      data:{subasta:subasta, idUser:idUser},
+      data:{subasta:subasta, idUser:idUser, contador:contador},
       success: function(data){
         $('#Cuadros').html(data);
+        $('#titular').html("Subastas disponibles");
         let sub= document.getElementById('verSubasta');
         sub.className='btn btn-warning disabled';
+        sub.dataset.id=false;
         let ob= document.getElementById('verObras');
         ob.className= 'btn btn-warning';
+        ob.dataset.id=true;
       }
     });
 
@@ -250,20 +347,48 @@ $perfiUsuario= new perfilUusarioRegistrado();
   $(document).on("click", "#verObras",function(){
     var subasta= 2;
     var idUser=<?php echo $online ?>;
-    
-    
+    var contador= sacarContador();
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',
       method:"POST",
-      data:{subasta:subasta, idUser:idUser},
+      data:{subasta:subasta, idUser:idUser, contador:contador},
       success: function(data){
         $('#Cuadros').html(data);
+        $('#titular').html("Obras disponibles");
+
         let sub= document.getElementById('verSubasta');
         sub.className='btn btn-warning ';
+        sub.dataset.id=true;
         let ob= document.getElementById('verObras');
         ob.className= 'btn btn-warning disabled';
+        ob.dataset.id=false;
       }
     });
+
+  })
+
+  $(document).on("click", "#verArchivadas", function(){
+    var subasta=5;
+    var idUser=<?php  echo $online?>;
+    var contador= 4;
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:"POST",
+      data:{subasta:subasta, idUser:idUser, contador:contador},
+      success: function(data){
+        $('#Cuadros').html(data);
+        $('#titular').html("Obras archivadas");
+
+        let sub= document.getElementById('verSubasta');
+        sub.className='btn btn-warning ';
+        sub.dataset.id=true;
+        let ob= document.getElementById('verObras');
+        ob.className= 'btn btn-warning ';
+        ob.dataset.id=true;
+      }
+    });
+
+
 
   })
 

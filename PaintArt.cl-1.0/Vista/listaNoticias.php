@@ -1,7 +1,6 @@
 <?php 
 session_start();
-include_once '../controlador/controllerListaNota.php';
-$controller= new listaNotas();
+
 
 ?>
 <?php ;
@@ -22,6 +21,8 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssListaObras.css">
     <link rel="stylesheet" href="Css/cssindexL.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
@@ -129,112 +130,50 @@ if( empty($_SESSION["online"]))
           </table>
         </div>
        
-        <div class="cuadros">
-        <?php 
-        $controller->listarNoticias();
-       
-       
-       ?>
-         <!-- <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>-->
-
-      </div>
+        <div id="cuadros" style="min-height: 100vh;" class="cuadros">
+          <img src="imagenes/carga.gif" alt="">
+        </div>
+        </div>  
 
 </body>
+<?php include_once 'footer.php';?>
 </html>
+
+<script type="text/javascript">
+ 
+ 
+ var contador=12;
+  
+ function sumar(){
+   
+   contador= 12+contador;
+   
+   
+     $.ajax({
+       url:'../controlador/controllerListaNota.php',
+       method:'POST',
+       data:{ suma:contador,},
+       success:function(data){
+       
+         $('#cuadros').html(data);
+       }
+     });
+ }
+ $(document).ready(function(){
+  function obtener_datos(contador){
+    suma=contador;
+      
+    $.ajax({
+      url:'../controlador/controllerListaNota.php',
+      method:'POST',
+      data:{ suma:suma,},
+      success:function(data){
+        
+        $('#cuadros').html(data);
+      }
+    });       
+  }
+  obtener_datos(contador);
+ });
+   
+</script>

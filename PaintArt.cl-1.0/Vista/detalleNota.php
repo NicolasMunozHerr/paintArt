@@ -133,4 +133,5 @@ if( empty($_SESSION["online"]))
             -->
         <?php $controller->mostrarNota($idNota); ?>           
     </body>
+    <?php include_once 'footer.php';?>
 </html>

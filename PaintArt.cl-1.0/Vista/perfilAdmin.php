@@ -25,6 +25,8 @@ $controller= new perfilUusarioRegistrado();
     <link rel="stylesheet" href="Css/cssMain.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>Document</title>
@@ -147,7 +149,7 @@ $controller= new perfilUusarioRegistrado();
             <span class="tituloObras"><h4>Aca apareceran las notas Informativas Obras</h4></span>
             <br>
             <div id="Cuadros" class="cuadrosArista">
-            <?php $controller->listarNotas()?>
+              
             </div>
           
           
@@ -161,37 +163,70 @@ $controller= new perfilUusarioRegistrado();
 
     
 </body>
+<?php include_once 'footer.php';?>
 </html>
 <script type="text/javascript">
+  var contador=4;
+  
+  function sumar(){
+    contador= 4+contador;
+    var listNota=1;
+      $.ajax({
+        url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+        method:'POST',
+        data:{listNota:listNota, contador:contador,},
+        success:function(data){
+       
+          $('#Cuadros').html(data);
+        }
+      });
+  }
+
   $(document).ready(function(){
 
-  function obtener_datos(){
-    var param=1;
+  function obtener_datos(contador){
+    $('#Cuadros').html('<img style="margin-left: 132%;" src="imagenes/carga.gif" alt="" srcset="">');
+    var listNota=1;
+    
     $.ajax({
-      url:'../controlador/controllerListarPeticiones.php',
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
       method:'POST',
-      data:{param:param,},
+      data:{listNota:listNota,contador:contador},
       success:function(data){
-        $('#Inputs').html(data);
+        $('#Cuadros').html(data);
         
       }
     });
   }
-  obtener_datos();
+  obtener_datos(contador);
   $(document).on("click", "#eliminar",function(){
-     
-        
-        var idNotas=$(this).data("id");
-        
-        $.ajax({
-        url:'../controlador/controllerPerfilUsuarioRegistrado.php',
-        method:"POST",
-        data:{idNotas:idNotas, },
-        success: function(data){
-          $('#Cuadros').html(data);
-           // alert(data);
-    }
-    });
+   
+    var idNotas=$(this).data("id");
+    var contador=$(this).data("web");
+    swal({
+      title: "Esta seguro de querer eliminar?",
+      text: "Esta seguro de querer eliminar esta nota informativa?",
+      incon:"warning",
+      buttons: true,
+      dangermode:true,
+      
+    }).then((willDelete)=>{
+        if (willDelete) {
+    
+          $.ajax({
+            url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+            method:"POST",
+            data:{idNotas:idNotas,contador:contador, },
+            success: function(data){
+            $('#Cuadros').html(data);
+            obtener_datos(contador);
+            swal("Ha sido eliminado con exito", {icon:"info",});
+          }
+          });
+        }else{
+          swal("No se ha eliminado nada");
+        }
+    });  
     
     })
 

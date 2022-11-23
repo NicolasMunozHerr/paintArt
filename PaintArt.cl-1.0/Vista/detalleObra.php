@@ -253,6 +253,7 @@ if($resp==false){
     ?>
     
     </body>
+    <?php include_once 'footer.php';?>
 </html>
 <script type="text/javascript">
   $(document).ready(function(){

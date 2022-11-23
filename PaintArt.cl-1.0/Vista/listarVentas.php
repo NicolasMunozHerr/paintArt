@@ -137,7 +137,7 @@ if( empty($_SESSION["online"]))
         //$controller->listarReporte();
         
         ?>
-        <div class="contenedorPetcion">
+        <div class="contenedorPetcion" style="height: auto;">
           <div style="width: 100%; height: auto;" class="listaPeticiones">
           <h3>Resumen de popularidad del mes de <b id= "mes2"></b></h3>
 
@@ -224,13 +224,19 @@ if( empty($_SESSION["online"]))
             
             
           </div>
+          <br>
+          <a href="perfilArtista.php"><button type="button"  id="cuenta" data-id="4" class="btn btn-warning btn-lg">volver</button></a>
         </div> 
+        </div> 
+
+      
       
         
          
 
        
 </body>
+<?php include_once 'footer.php';?>
 </html>
 <script type="text/javascript">
 

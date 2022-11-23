@@ -120,52 +120,19 @@ if( empty($_SESSION["online"]))
         </ul>
       </nav>
       <h3 style="margin-top: 10px;margin-left: 10px;">Lista de trabajo a pedido</h3>
-      <div id="Inputs" class="container">
+      <div id="Inputs" class="container" style="height: auto; min-height: 80vh;">
         
         <?php 
         //$controller->listarReporte();
         
         ?>
-         <div class="contenedorPetcion">
-          <div style="width: 100%; height: auto;" class="listaPeticiones">
-              <div style="text-align:left " class="peticionAprobado">
-                  <h5>Peticion de:</h6>
-                  <p></p><p></p>
-                  <h6>asunto: xxx</h6>
-                  <b>precio:</b>
-                  <p>descripcion: xxxxxxxxx</p>
-                  
-              </div>
-              <div style="float: right; " class="botoneraEstado">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button"  class="btn btn-warning btn-sm">Iniciando</button>
-                  <button type="button" class="btn btn-dark btn-sm">terminado</button>
-                  <button type="button"  class="btn btn-dark btn-sm">enviado</button>
-                </div>
-              </div>
-          </div>
-        </div> 
-        <div class="contenedorPetcion">
-          <div style="width: 100%; height: auto;" class="listaPeticiones">
-            <div style="text-align:left " class="peticionAprobado">
-                <h5>Peticion de:</h6>
-                <p></p><p></p>
-                <h6>asunto: xxx</h6>
-                <b>precio:</b>
-                <p>descripcion: xxxxxxxxx</p>
-                
-            </div>
-            <div style="float: right; " class="botoneraEstado">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button"  class="btn btn-warning btn-sm">Iniciando</button>
-                <button type="button" class="btn btn-dark btn-sm">terminado</button>
-                <button type="button"  class="btn btn-dark btn-sm">enviado</button>
-              </div>
-            </div>
-          </div>
-        </div> 
+         
+          
+      </div> 
+       
         
 </body>
+<?php include_once 'footer.php';?>
 </html>
 <script type="text/javascript">
   

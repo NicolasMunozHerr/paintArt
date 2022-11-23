@@ -20,6 +20,7 @@ if( empty($_SESSION["online"]))
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="Css/cssListaObras.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,8 +28,13 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/cssListaObras.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      
+      <title>Document</title>
 </head>
+
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -173,142 +179,54 @@ if( empty($_SESSION["online"]))
         
         </div>
        
-        <div id= "cuadros"class="cuadros">
-        <?php 
-       
-        /*if( empty($_SESSION["obra"])){
-          $listaObra->listarObrasCat($cat,0);
-        }else{
-          
-          $busqueda= $_SESSION["obra"];
-          if($busqueda==""){
-            $listaObra->listarObrasCat($cat,0);
-          }else{
-            
-            $listaObra->listarObrasBusqueda($busqueda);
-            unset($_SESSION["obra"]);
-          }
-         
-        }  */     
-       ?>
-         <!-- <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>
-          <div class="cajaArtista">
-            <div style="text-align: center;" class="cuadro">
-              <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
-                <br>
-                <div class="cuadroTexto">
-                    <span><h6>Titulo</h6></span>
-                    <div class="detalles">
-                        <span>  Autor</span>
-                        <br>
-                        <span>  categoria</span>    
-                    </div>
-                    <div class="precio"><h6>$Precio</h6></span></div>
-                </div>
-              </div>
-              
-          </div>-->
+        <div id= "cuadros" style="min-height: 100vh;" class="cuadros">
+        <img src="imagenes/carga.gif" alt="" srcset="">
 
       </div>
 
-      
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      </div>
+     
 </body>
+
+<?php include_once 'footer.php';?>
 </html>
 
 <script type="text/javascript">
-  
-  function sumar(){
+ 
+  /*function sumar(){
     var btnElm= document.getElementById('Suma');
     var suma=0;
     btnElm.onclick= function(){
-      suma++;
-      alert(suma);
+      suma= suma+12;
+      $.ajax({
+          url:'../controlador/listarObra.php',
+          method:'POST',
+          data:{reacciones :reacciones,cat:cat,busqueda:busqueda, suma:suma,},
+          success:function(data){
+            $('#cuadros').html(data);
+             alet(data);
+          }
+        });
     }
+  };*/
+  var contador=12;
+  function sumar(){
+    var reacciones=<?php echo $reacciones?>;
+    var cat= <?php  echo $cat?>;
+    var busqueda='';
+    contador= 12+contador;
+    var busqueda="";
+    
+      $.ajax({
+        url:'../controlador/listarObra.php',
+        method:'POST',
+        data:{reacciones :reacciones,cat:cat,busqueda:busqueda, suma:contador,},
+        success:function(data){
+        
+          $('#cuadros').html(data);
+        }
+      });
   }
-  
   $(document).ready(function(){
    
     var reacciones=<?php echo $reacciones?>;
@@ -321,21 +239,24 @@ if( empty($_SESSION["online"]))
 
       } 
       function obtener_datos(reacciones,cat){
+        var suma=contador;
         var busqueda="";
+        
         $.ajax({
           url:'../controlador/listarObra.php',
           method:'POST',
-          data:{reacciones :reacciones,cat:cat,busqueda:busqueda},
+          data:{reacciones :reacciones,cat:cat,busqueda:busqueda, suma:suma,},
           success:function(data){
             $('#cuadros').html(data);
-             
           }
         });
           
         }
     
       obtener_datos(reacciones,cat);
+      
       $(document).on("click", "#subasta",function(){
+        $('#cuadros').html('<img src="imagenes/carga.gif" alt="" srcset="">');
           var reacciones= 2;
           var cat=  <?php echo $_GET["cat"]?>  ;
             obtener_datos(reacciones, cat);
@@ -344,6 +265,8 @@ if( empty($_SESSION["online"]))
         })
         
         $(document).on("click", "#ventas",function(){
+          $('#cuadros').html('<img src="imagenes/carga.gif" alt="" srcset="">');
+          
           var reacciones= 0;
           var cat=  <?php echo $_GET["cat"]?>  ;
             obtener_datos(reacciones, cat);
@@ -365,10 +288,12 @@ if( empty($_SESSION["online"]))
           document.getElementById('subasta').style.float="none";
           document.getElementById('ventas').style.display="none";
         }
-       
+        suma=0;
+        
 
       
     }else{
+      
       
       function obtener_datos(reacciones,cat){
         var busqueda=valor;  

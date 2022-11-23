@@ -24,6 +24,8 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/csspestañaArtista.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
     <title>Document</title>
 </head>
 <body>
@@ -129,24 +131,9 @@ if( empty($_SESSION["online"]))
           </table>
         </div>
        
-        <div class="cuadros">
-          <?php 
-
-            
-            if(empty($_SESSION['artista'])){
-              echo $controller->listar();
-            }else{
-              $busqueda= $_SESSION['artista'];
-              if ($busqueda=="") {
-              echo $controller->listar();
-              }else{
-                echo $controller->listarArtistaNombre($busqueda);
-                unset($_SESSION["artista"]);
-              }
-            }
-
-
-          ?>
+        <div id="cuadros" class="cuadros" style="min-height: 100vh;" >
+          <img src="imagenes/carga.gif" alt="">
+         
           <!--<div class="cajaArtista">
             <div style="text-align: center;" class="cuadro">
               <div class="fotoArtista"> <img src="imagenes/Vangogh-1024x829.jpg" alt=""></div>
@@ -166,4 +153,71 @@ if( empty($_SESSION["online"]))
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+<?php include_once 'footer.php';?>
 </html>
+<script>
+var contador=12;
+  function sumar(){
+    param= "nada";
+      var suma=contador;
+    
+    contador= 12+contador;
+    var busqueda="";
+    
+      $.ajax({
+        url:'../controlador/controllerPestañaArtistas.php',
+        method:'POST',
+        data:{param:param, contador:contador,},
+        success:function(data){
+        
+          $('#cuadros').html(data);
+        }
+      });
+  }
+
+$(document).ready(function(){
+  <?php 
+    $accion= 0;            
+    if(empty($_SESSION['artista'])){
+      //echo $controller->listar();
+      $accion= "nada";
+    }else{
+      $busqueda= $_SESSION['artista'];
+
+      if ($busqueda=="") {
+      //echo $controller->listar();
+        $accion= "nada";
+      }else{
+        //echo $controller->listarArtistaNombre($busqueda);
+        $accion= $busqueda;
+        unset($_SESSION["artista"]);
+      }
+    }
+  ?>
+ var parametros = "<?php echo $accion ?>";
+  
+    function obtener_datos(parametros){
+      param= parametros;
+      var contador=12;
+   
+      $.ajax({
+        url:'../controlador/controllerPestañaArtistas.php',
+        method:'POST',
+        data:{param:param, contador:contador,},
+        success:function(data){
+          $("#cuadros").html(data);
+        }
+      });
+         
+    }
+   
+    obtener_datos(parametros);
+     
+     
+   
+       
+
+     
+
+ });
+</script>

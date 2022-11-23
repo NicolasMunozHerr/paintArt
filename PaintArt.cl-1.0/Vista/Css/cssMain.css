@@ -30,12 +30,15 @@
     float: left;
     width: 100%;
     margin-top: 35px;
+    min-height: calc(100vh -370 );
 }
 
 .cuadro {
     margin-bottom: 25px;
 }
-
+.container{
+    min-height: calc(100vh -370 );
+}
 
 
 @media only screen and  (min-width: 375px) {
@@ -894,6 +897,7 @@
 }
 
 @media only screen and  (min-width: 1410px) {
+   
     .inforArtista{
         width: 450px;
         float: left;

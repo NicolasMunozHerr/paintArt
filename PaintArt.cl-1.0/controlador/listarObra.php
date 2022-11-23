@@ -8,8 +8,10 @@
  include_once '../modelo/compra.php';
  include_once '../modelo/subastas.php';
  class listObra{
-    function listarObrasDefault($reacciones){
-        
+    function listarObrasDefault($reacciones, $contador){
+        if ($contador==0) {
+            $contador=12;
+        }
         $listaObras= new obra(null, null,null, null,null, null,null, null,null);
         $a=0;
         $ar= new artista(null, null ,null);
@@ -17,46 +19,74 @@
         $lista= $listaObras->listarObras($reacciones);
         $img=new imagen(null);
         for ($i=0; $i <$listaObras->listarObras($reacciones)->size() ; $i++) { 
-            $idImg=$lista->get($i)->getIdImagen();
-            $precio=0;
-            if($reacciones==2){
-                $subasta= new subasta();
-                $subasta= $subasta->validaAsociacionObra($lista->get($i)->getIdObra());
-                if($subasta==false){
-                    echo 'error';
-                }else{
-                     $precio= '$'.$subasta->__getPrecioPuja();
+            if($i<$contador){
+                $idImg=$lista->get($i)->getIdImagen();
+                $precio=0;
+                if($reacciones==2){
+                    $subasta= new subasta();
+                    $subasta= $subasta->validaAsociacionObra($lista->get($i)->getIdObra());
+                    if($subasta==false){
+                        echo 'error';
+                    }else{
+                        $precio= '$'.$subasta->__getPrecioPuja();
+                    }
+                }else {
+                    $precio='$'.$lista->get($i)->getPrecio();
                 }
-            }else {
-                $precio='$'.$lista->get($i)->getPrecio();
+            
+                $artista= $ar->buscarIdArtista($lista->get($i)->getIdArtista());
+                $usuario= $us->buscarUusuarioId($artista->getIdUsuarioRegistrado());
+            
+                $imagen=$img->buscarImagenID($idImg);
+                $url=$imagen->getUrlImagen();
+                echo '
+                <div class="cajaArtista">
+                <div style="text-align: center;" class="cuadro">
+                    <div class="fotoArtista"> <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%; object-fit: cover; object-position: center center; " src="'.$url.'" alt=""></div>
+                    <br>
+                    <div class="cuadroTexto">
+                        <a style="text-decoration:none " href="detalleObra.php?id='. $lista->get($i)->getIdObra().'">
+                            <span><h6>'.$lista->get($i)->getTitulo().'</h6></span>
+                            <div class="detalles">
+                                <span style="color:black" >  Autor:'.$usuario->getNombre().' '.$usuario->getApellido().'</span>
+                                <br>
+                                <span style="color:black"> categoria: '.$lista->get($i)->getCategoria().'</span>    
+                            </div>
+                            <div class="precio" ><h6>'.$precio.'</h6></span></div>
+                        </div>
+                        </a>
+                    </div>
+                    </div>
+                ';    
+                //$lista->get($a)->__toString().'<br>';
+                $a++;
+            }
+            
+        }
+        if( $a<$lista->size()){
+            echo '
+            <table style="width:100%"> 
+                <td>      
+                    <button type="button" onClick="sumar()"   id="cuenta" data-id="'.$contador.'" class="btn btn-warning btn-lg">Cargar mas obras</button>
+                </td> 
+            </table>';
+        }else{
+            if($reacciones==0){
+                echo'
+                <table style="width:100%;">
+                    <td>   
+                        <p><h4> No hay mas obras por mostrar </h4></p>
+                    </td> 
+                </table>';
+            }else{
+                echo'
+                <table style="width:100%;">
+                    <td>   
+                        <p><h4> No hay mas subastas por mostrar </h4></p>
+                    </td> 
+                </table>';
             }
            
-            $artista= $ar->buscarIdArtista($lista->get($i)->getIdArtista());
-           $usuario= $us->buscarUusuarioId($artista->getIdUsuarioRegistrado());
-          
-            $imagen=$img->buscarImagenID($idImg);
-            $url=$imagen->getUrlImagen();
-            echo '
-            <div class="cajaArtista">
-              <div style="text-align: center;" class="cuadro">
-                <div class="fotoArtista"> <img src="'.$url.'" alt=""></div>
-                  <br>
-                  <div class="cuadroTexto">
-                    <a style="text-decoration:none " href="detalleObra.php?id='. $lista->get($i)->getIdObra().'">
-                        <span><h6>'.$lista->get($i)->getTitulo().'</h6></span>
-                        <div class="detalles">
-                            <span style="color:black" >  Autor:'.$usuario->getNombre().' '.$usuario->getApellido().'</span>
-                            <br>
-                            <span style="color:black"> categoria: '.$lista->get($i)->getCategoria().'</span>    
-                        </div>
-                        <div class="precio" ><h6>'.$precio.'</h6></span></div>
-                    </div>
-                    </a>
-                </div>
-                </div>
-            ';    
-            //$lista->get($a)->__toString().'<br>';
-            $a++;
         }
     }
     function mostraCate($categoria){
@@ -109,11 +139,11 @@
         }    
     }
 
-    function listarObrasCat($categoria,$reacciones){
+    function listarObCat($categoria,$reacciones, $contador){
         if ($categoria==0) {
             $lista= new listObra();
             
-            echo $lista->listarObrasDefault($reacciones);
+            echo $lista->listarObrasDefault($reacciones,$contador);
         }else{
             if ($categoria==100) {
                 $listaObras= new obra(null, null,null, null,null, null,null, null,null);
@@ -132,56 +162,77 @@
                     }
                     
                 }else{
+                    $a=0;
                     for ($i=0; $i < $size; $i++) { 
-                       
-                        //echo ' idObra'.$listaObra->get($i)->getIdObra().' total'.$listaObra->get($i)->getStock();
-                        $infoObra=$obra->buscarObraId( $listaObra->get($i)->getIdObra());
-                        if($infoObra==false)
-                        {
-                            echo "<h6> Obra no encontrada<h6>";
-                        }else{
-                            if($infoObra->getReacciones()==0){
-                            $idImg=$infoObra->getIdImagen();
-                            $precio=0;
-                            if($reacciones==2){
-                                $subasta= new subasta();
-                                $subasta= $subasta->validaAsociacionObra($listaObra->get($i)->getIdObra());
-                                if($subasta==false){
-                                    echo 'error';
-                                }else{
-                                     $precio= '$'.$subasta->__getPrecioPuja();
-                                }
-                            }else {
-                                $precio='$'.$listaObra->get($i)->getPrecio();
-                            }
-                    
-                            $artista= $ar->buscarIdArtista($infoObra->getIdArtista());
-                            $usuario= $us->buscarUusuarioId($artista->getIdUsuarioRegistrado());
-                            
-                                $imagen=$img->buscarImagenID($idImg);
-                                $url=$imagen->getUrlImagen();
-                                echo '
-                                <div class="cajaArtista">
-                                <div style="text-align: center;" class="cuadro">
-                                    <div class="fotoArtista"> <img src="'.$url.'" alt=""></div>
-                                    <br>
-                                    <div class="cuadroTexto">
-                                        <a style="text-decoration:none " href="detalleObra.php?id='. $listaObra->get($i)->getIdObra().'">
-                                            <span><h6>'.$infoObra->getTitulo().'</h6></span>
-                                            <div class="detalles">
-                                                <span style="color:black" >  Autor:'.$usuario->getNombreYApellido().'</span>
-                                                <br>
-                                                <span style="color:black">  categoria: '.$infoObra->getCategoria().'</span>    
+                        if($i<$contador){
+                            //echo ' idObra'.$listaObra->get($i)->getIdObra().' total'.$listaObra->get($i)->getStock();
+                            $infoObra=$obra->buscarObraId( $listaObra->get($i)->getIdObra());
+                            if($infoObra==false)
+                            {
+                                echo "<h6> Obra no encontrada<h6>";
+                            }else{
+                                if($infoObra->getReacciones()==0){
+                                    $idImg=$infoObra->getIdImagen();
+                                    $precio=0;
+                                    if($reacciones==2){
+                                        $subasta= new subasta();
+                                        $subasta= $subasta->validaAsociacionObra($listaObra->get($i)->getIdObra());
+                                        if($subasta==false){
+                                            echo 'error';
+                                        }else{
+                                            $precio= '$'.$subasta->__getPrecioPuja();
+                                        }
+                                    }else {
+                                        $precio='$'.$listaObra->get($i)->getPrecio();
+                                    }
+                        
+                                    $artista= $ar->buscarIdArtista($infoObra->getIdArtista());
+                                    $usuario= $us->buscarUusuarioId($artista->getIdUsuarioRegistrado());
+                                
+                                    $imagen=$img->buscarImagenID($idImg);
+                                    $url=$imagen->getUrlImagen();
+                                    echo '
+                                    <div class="cajaArtista">
+                                    <div style="text-align: center;" class="cuadro">
+                                        <div class="fotoArtista"> <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%; object-fit: cover; object-position: center center; " src="'.$url.'" alt=""></div>
+                                        <br>
+                                        <div class="cuadroTexto">
+                                            <a style="text-decoration:none " href="detalleObra.php?id='. $listaObra->get($i)->getIdObra().'">
+                                                <span><h6>'.$infoObra->getTitulo().'</h6></span>
+                                                <div class="detalles">
+                                                    <span style="color:black" >  Autor:'.$usuario->getNombreYApellido().'</span>
+                                                    <br>
+                                                    <span style="color:black">  categoria: '.$infoObra->getCategoria().'</span>    
+                                                </div>
+                                                <div class="precio"><h6>'.$precio.'</h6></span></div>
                                             </div>
-                                            <div class="precio"><h6>'.$precio.'</h6></span></div>
+                                            </a>
                                         </div>
-                                        </a>
-                                    </div>
-                                    </div>
-                                ';    
+                                        </div>
+                                    ';    
+                                }
+                            
+                            }
                         }
                         
-                        }
+                        $a++;
+                    }
+                    if( $a<$size){
+                        echo '
+                        <table style="width:100%"> 
+                            <td>      
+                                <button type="button" onClick="sumar()"   id="cuenta" data-id="'.$contador.'" class="btn btn-warning btn-lg">Cargar mas obras</button>
+                            </td> 
+                        </table>';
+                    }else{
+                        echo'
+                       
+                        <table style="width:100%;">
+                            <td>   
+
+                                <p><h4> No hay mas Obras por mostrar</h4></p>
+                            </td> 
+                        </table>';
                     }
                     
                 }
@@ -230,7 +281,9 @@
                 $a=0;
                 $ar= new artista(null, null ,null);
                 $us= new usuarioRegistrado();
-                $lista= $listaObras->listarObrasCat($reacciones,$cat);
+               
+                $lista= $listaObras->listarObrasCat( $reacciones,$cat);
+                
                 $img=new imagen(null);
                 $size= $lista->size();
                 if($size==0){
@@ -243,48 +296,70 @@
                     
                 }else{
                     for ($i=0; $i <$size ; $i++) { 
-                        $idImg=$lista->get($i)->getIdImagen();
-                        $precio=0;
-                        if($reacciones==2){
-                            $subasta= new subasta();
-                            $subasta= $subasta->validaAsociacionObra($lista->get($i)->getIdObra());
-                            if($subasta==false){
-                                echo 'error';
-                            }else{
-                                $precio= '$'.$subasta->__getPrecioPuja();
+                        if($i<$contador){
+                            $idImg=$lista->get($i)->getIdImagen();
+                            $precio=0;
+                            if($reacciones==2){
+                                $subasta= new subasta();
+                                $subasta= $subasta->validaAsociacionObra($lista->get($i)->getIdObra());
+                                if($subasta==false){
+                                    echo 'error';
+                                }else{
+                                    $precio= '$'.$subasta->__getPrecioPuja();
+                                }
+                            }else {
+                                $precio='$'.$lista->get($i)->getPrecio();
                             }
-                        }else {
-                            $precio='$'.$lista->get($i)->getPrecio();
-                        }
-                    
-                        $artista= $ar->buscarIdArtista($lista->get($i)->getIdArtista());
-                        $usuario= $us->buscarUusuarioId($artista->getIdUsuarioRegistrado());
-                    
-                        $imagen=$img->buscarImagenID($idImg);
-                        $url=$imagen->getUrlImagen();
                         
-                        echo '
-                        <div class="cajaArtista">
-                        <div style="text-align: center;" class="cuadro">
-                            <div class="fotoArtista"> <img src="'.$url.'" alt=""></div>
-                            <br>
-                            <div class="cuadroTexto">
-                                <a style="text-decoration:none " href="detalleObra.php?id='. $lista->get($i)->getIdObra().'">
-                                    <span><h6>'.$lista->get($i)->getTitulo().'</h6></span>
-                                    <div class="detalles">
-                                        <span style="color:black" >Autor:'.$usuario->getNombre().' '.$usuario->getApellido().'</span>
-                                        <br>
-                                        <span style="color:black">  categoria'.$lista->get($i)->getCategoria().'</span>    
+                            $artista= $ar->buscarIdArtista($lista->get($i)->getIdArtista());
+                            $usuario= $us->buscarUusuarioId($artista->getIdUsuarioRegistrado());
+                        
+                            $imagen=$img->buscarImagenID($idImg);
+                            $url=$imagen->getUrlImagen();
+                            
+                            echo '
+                            <div class="cajaArtista">
+                            <div style="text-align: center;" class="cuadro">
+                                <div class="fotoArtista"> <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%; object-fit: cover; object-position: center center; " src="'.$url.'" alt=""></div>
+                                <br>
+                                <div class="cuadroTexto">
+                                    <a style="text-decoration:none " href="detalleObra.php?id='. $lista->get($i)->getIdObra().'">
+                                        <span><h6>'.$lista->get($i)->getTitulo().'</h6></span>
+                                        <div class="detalles">
+                                            <span style="color:black" >Autor: '.$usuario->getNombre().' '.$usuario->getApellido().'</span>
+                                            <br>
+                                            <span style="color:black">  Categoria: '.$lista->get($i)->getCategoria().'</span>    
+                                        </div>
+                                        <div class="precio"><h6>'.$precio.'</h6></span></div>
                                     </div>
-                                    <div class="precio"><h6>'.$precio.'</h6></span></div>
+                                    </a>
                                 </div>
-                                </a>
-                            </div>
-                            </div>
-                        ';    
-                        //$lista->get($a)->__toString().'<br>';
-                        $a++;
+                                </div>
+                            ';    
+                            //$lista->get($a)->__toString().'<br>';
+                            $a++;
+                        }
+                        
                     }
+                   
+                    if( $a<$size){
+                        echo '
+                        <table style="width:100%"> 
+                            <td>      
+                                <button type="button" onClick="sumar()"   id="cuenta" data-id="'.$contador.'" class="btn btn-warning btn-lg">Cargar mas obras</button>
+                            </td> 
+                        </table>';
+                    }else{
+                        echo'
+                       
+                        <table style="width:100%;">
+                            <td>   
+
+                                <p><h4> ha llegado al final de la lista de obras tipo '.$cat.' </h4></p>
+                            </td> 
+                        </table>';
+                    }
+                    
                 }
             }
             
@@ -326,7 +401,7 @@
                             echo'
                             <div class="cajaArtista">
                                 <div style="text-align: center;" class="cuadro">
-                                    <div class="fotoArtista"> <img src="'.$url.'" alt=""></div>
+                                    <div class="fotoArtista"> <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%; object-fit: cover; object-position: center center; " src="'.$url.'" alt=""></div>
                                     <br>
                                     <div class="cuadroTexto">
                                         <a style="text-decoration:none " href="detalleObra.php?id='. $listaObras->get($i)->getIdObra().'">
@@ -346,6 +421,7 @@
                 }
 
             }
+            
         }
     }
 
@@ -355,15 +431,11 @@ $reacciones= $_POST['reacciones'];
 $cat=$_POST['cat'];
 $busqueda=$_POST['busqueda'];
 if($busqueda==""){
+    $contador= $_POST['suma'];
     $lista= new listObra();
-//echo 'categoria: '.$cat." reacciones: ".$reacciones;
-echo $lista->listarObrasCat($cat,$reacciones);
-echo '
-
-<button type="button"  id="Suma" onclick=sumar() class="btn btn-warning btn-lg">Default button</button>
-
-
-';
+    //echo 'categoria: '.$cat." reacciones: ".$reacciones;
+    echo $lista->listarObCat($cat,$reacciones, $contador);
+    
 }else{
     $lista=new listObra();
     

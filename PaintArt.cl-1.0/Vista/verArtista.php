@@ -26,6 +26,8 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/cssMain.css">
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <link rel="stylesheet" href="Css/listaPeticiones.css">
+  <link rel="stylesheet" href="Css/cssListaObras.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
@@ -121,46 +123,61 @@ if( empty($_SESSION["online"]))
           </div>
         </ul>
       </nav>
-      <div class="container">
-        <div class="inforArtista">
-            <div class="imgArtista">
-              <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%; object-fit: cover; object-position: center center; " src="<?php $controller->mostrarFotoPerfil($idArtista) ?>" alt="">
-            </div>
-            <p></p>
-            <span><h4><?php echo $controller->verArtista($idArtista)?></h4></span>
-            <p></p>
+      <div class="container" >
+        <div class="contenedorPetcion" style="height: auto;" >
+          <div class="listaPeticiones" style="width: 90%; height: auto; margin: auto;">
+              <br>
+              <div class="peticionAprobado" style="margin: auto; text-align: center;">
+                <div class="imgArtista" style="text-align: left;">
+                  <img style="width: 100%;max-width: 100%;height: 100%;max-height: 100%; object-fit: cover; object-position: center center; " src="<?php $controller->mostrarFotoPerfil($idArtista) ?>" alt="">
+                </div>
+                <p></p>
+                <span><h4><?php echo $controller->verArtista($idArtista)?></h4></span>
+                <p></p>
+              
+                <span><a style="text-decoration: none;" href="subirPeticion.php?idArtista=<?php echo $idArtista?>"><button style="border-radius:0px ;" type="button" class="btn btn-success" _msthash="1334281" _msttexthash="74009">peticion a pedido</button></a></span>
+                <br>
+              
+                <span class="bio" style="margin: auto; text-align: center;"></span>
+                
+              
+                <span  class="biografia" style="float: none;">
+                <h6>Biografia</h6>
+                  <div style="text-align: center; margin: auto;" class="contenidoBiografia">
+                    <p  style="text-align: center; margin: auto;">
+                    <?php echo $controller->verBiografiaArtista($idArtista)?>
+                    </p>
+                    <br>
+                  </div>
             
-            <span><a style="text-decoration: none;" href="subirPeticion.php?idArtista=<?php echo $idArtista?>"><button style="border-radius:0px ;" type="button" class="btn btn-success" _msthash="1334281" _msttexthash="74009">peticion a pedido</button></a></span>
-            <br>
-            
-            <span class="bio" ><h6>Biografia</h6></span>
-            <br>
-            <p></p>
-            
-            <span  class="biografia">
-              <div style="margin-left: 20px;" class="contenidoBiografia">
-              <p>
-              <?php echo $controller->verBiografiaArtista($idArtista)?>
-            </p>
               </div></span>
 
+            <br>
+          </div>
+            
         </div>
-        <div class= "histoObras" style="border: none;">
+        <div class= "histoObras" style="border: none;width:100%; float: none;">
           <button id="verObras" type="button" class="btn btn-warning disabled">Obras</button>
           <button id="verSubasta" type="button" class="btn btn-warning"> Subastas</button>
 
         </div>
-        <div class="histoObras">
-            <span style="width: 100%;" class="tituloObras"><h4>Obras disponibles</h4></span>
+        <br>
+        <div class="listaPeticiones" style="width:100% ;">
+            <span style="width: 100%;" class="tituloObras"><h4 id="titular">Obras disponibles</h4></span>
             
-            <div id='Cuadros' class="cuadrosArista">
-                <?php echo $listarObra->listarObrasArtista($idArtista)?>
+            <div id='Cuadros' class="cuadros"  style="margin: auto; text-align: center; ">
+              
+              <img src="imagenes/carga.gif" alt="">
+             
+        
+              
                 <!--<div class="cuadroArtista">
                   <img  class="imagenObraArista" src="imagenes/Vangogh-1024x829.jpg" alt="">
                   <br>
                   <h6>Obra</h6>
                 </div>-->                      
-              </div>
+              
+        </div>
         </div>
        
       </div>
@@ -168,21 +185,79 @@ if( empty($_SESSION["online"]))
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+<?php include_once 'footer.php';?>
 </html>
-<script>
-$(document).ready(function(){
-
-  $(document).on("click", "#verSubasta",function(){
-    var subasta= 4;
-    var idUser=<?php echo $idArtista?>;
+<script type="text/javascript">
+  var contador=12;
+  function sumar(){
+    var subasta= 3;
+    var idUser=<?php echo $idArtista ?>;
+    contador= 12+contador;
     
+      $.ajax({
+        url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+        method:'POST',
+        data:{subasta:subasta, idUser:idUser, contador:contador},
+        success:function(data){
+          $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+        sub.className='btn btn-warning ';
+        let ob= document.getElementById('verObras');
+        ob.className= 'btn btn-warning disabled';
+        }
+      });
+  }
+  var contaSub= 12;
+  function sumarSub(){
+    var subasta= 4;
+    var idUser=<?php echo $idArtista ?>;
+    contador= 12+contaSub;
     
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',
       method:"POST",
-      data:{subasta:subasta, idUser:idUser},
+      data:{subasta:subasta, idUser:idUser, contador:contador,},
       success: function(data){
         $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+        sub.className='btn btn-warning disabled';
+        let ob= document.getElementById('verObras');
+        ob.className= 'btn btn-warning';
+      }
+    });
+  }
+$(document).ready(function(){
+  function obtenerDatos(){
+    var subasta= 3;
+    var idUser=<?php echo $idArtista ?>;
+    var contador= 12;
+    
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:"POST",
+      data:{subasta:subasta, idUser:idUser, contador:contador},
+      success: function(data){
+        $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+        sub.className='btn btn-warning ';
+        let ob= document.getElementById('verObras');
+        ob.className= 'btn btn-warning disabled';
+      }
+    });
+  }
+  obtenerDatos();
+  $(document).on("click", "#verSubasta",function(){
+    var subasta= 4;
+    var idUser=<?php echo $idArtista?>;
+    var contador= 12;
+    
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:"POST",
+      data:{subasta:subasta, idUser:idUser, contador:contador,},
+      success: function(data){
+        $('#Cuadros').html(data);
+        $('#titular').html('subastas disponibles');
         let sub= document.getElementById('verSubasta');
         sub.className='btn btn-warning disabled';
         let ob= document.getElementById('verObras');
@@ -194,14 +269,15 @@ $(document).ready(function(){
   $(document).on("click", "#verObras",function(){
     var subasta= 3;
     var idUser=<?php echo $idArtista ?>;
-    
+    var contador= 12;
     
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',
       method:"POST",
-      data:{subasta:subasta, idUser:idUser},
+      data:{subasta:subasta, idUser:idUser, contador:contador},
       success: function(data){
         $('#Cuadros').html(data);
+        $('#titular').html('obras disponibles');
         let sub= document.getElementById('verSubasta');
         sub.className='btn btn-warning ';
         let ob= document.getElementById('verObras');

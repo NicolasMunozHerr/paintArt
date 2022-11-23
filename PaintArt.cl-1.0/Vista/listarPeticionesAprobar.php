@@ -121,45 +121,17 @@ if( empty($_SESSION["online"]))
         </ul>
       </nav>
       <h3 style="margin-top: 10px;margin-left: 10px;">Lista de Peticiones</h3>
-      <div id="Inputs" class="container">
-        <h5>Lista de Peticiones</h5>
+      <div id="Inputs" class="container" style="height: auto; min-height: 80vh;">
+        <img src="imagenes/carga.gif" alt="">
         <?php 
         //$controller->listarReporte();
         
         ?>
-         <div class="contenedorPetcion">
-          <div style="width: 100%; height: auto;" class="listaPeticiones">
-            <div style="text-align:left " class="peticion">
-                <h5>Peticion de:</h6>
-                <p></p><p></p>
-                <h6>asunto: xxx</h6>
-                <b>precio:</b>
-                <p>descripcion: xxxxxxxxx</p>
-                
-            </div>
-            <div style="float: right; " class="botoneraApruebaRechazo">
-                <div class="apruebo"><button style="width: 100% ; height: 100%; border: none;" type="submit"><img style="width: 100% ;max-width: 100%; height: 100%; max-height: 100%;" src="../Vista/imagenes/like.png" alt=""></button></div>
-                <div class="rechazo"><button style="width: 100% ; height: 100%; border: none;" type="submit"><img style="width: 100% ;max-width: 100%; height: 100%; max-height: 100%;" src="../Vista/imagenes/dislike.png" alt=""></button></div>
-            </div>
-          </div>
-        </div> 
-        <div class="contenedorPetcion">
-          <div style="width: 100%; height: auto;" class="listaPeticiones">
-            <div style="text-align:left " class="peticion">
-                <h5>Peticion de:</h6>
-                <p></p><p></p>
-                <h6>asunto: xxx</h6>
-                <b>precio:</b>
-                <p>descripcion: xxxxxxxxx</p>
-                
-            </div>
-            <div style="float: right; " class="botoneraApruebaRechazo">
-                <div class="apruebo"><button style="width: 100% ; height: 100%; border: none;" type="submit"><img style="width: 100% ;max-width: 100%; height: 100%; max-height: 100%;" src="../Vista/imagenes/like.png" alt=""></button></div>
-                <div class="rechazo"><button style="width: 100% ; height: 100%; border: none;" type="submit"><img style="width: 100% ;max-width: 100%; height: 100%; max-height: 100%;" src="../Vista/imagenes/dislike.png" alt=""></button></div>
-            </div>
-          </div>
-        </div> 
+         
+      </div> 
+        
 </body>
+<?php include_once 'footer.php';?>
 </html>
 <script type="text/javascript">
   $(document).ready(function(){

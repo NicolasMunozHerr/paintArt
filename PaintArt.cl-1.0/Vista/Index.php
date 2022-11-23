@@ -1,5 +1,6 @@
 <?php 
 session_start();
+
 ?>
 <?php ;
 $online= false;
@@ -19,6 +20,10 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssMain.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
+  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>Document</title>
@@ -172,153 +177,32 @@ if( empty($_SESSION["online"]))
         </div>
         <br>
        
-           <div style="color: white;">a a <br> sd <br> as <br> <br> <br> <br> dasd <br> asd <br> as</div>
+          
       </div>
 
       
       
      
     </body>
-    <footer >
-    <div style="background-color:black; width: 100%; float: left; color: white;" >
-    <footer class="text-center text-lg-start bg-light text-muted">
-  <!-- Section: Social media -->
-  
-    <!-- Left -->
-   
-    <!-- Left -->
-
-    <!-- Right -->
-    <div>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-google"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <!-- Right -->
-  
-  <!-- Section: Social media -->
-
-  <!-- Section: Links  -->
-  <section class="">
-    <div class="container text-center text-md-start mt-5">
-      <!-- Grid row -->
-      <div class="row mt-3">
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-          <!-- Content -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>PaintArt
-          </h6>
-          <p>
-            Proyecto de seminario de grado en un estado base y sin animo de lucro
-          </p>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-          <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            Productos
-          </h6>
-          <p>
-            <a href="#!" class="text-reset">PHP</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Javascript</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Ajax</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">MySql</a>
-          </p>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-          <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            Atajos
-          </h6>
-          <p>
-            <a href="#!" class="text-reset">Obras </a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Subastas</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Artistas</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Noticias</a>
-          </p>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-          <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">Contacto</h6>
-          <p><i class="fas fa-home me-3"></i>Maipu, Av. Américo Vespucio 974</p>
-          <p>
-            <i class="fas fa-envelope me-3"></i>
-            paintartcl@gmail.com
-          </p>
-          <p><i class="fas fa-phone me-3"></i> + 56 9 1234 5678</p>
-          <p><i class="fas fa-phone me-3"></i> + 56 9 1234 5678</p>
-
-        </div>
-        <!-- Grid column -->
-      </div>
-      <!-- Grid row -->
-    </div>
-  </section>
-  <!-- Section: Links  -->
-
-  <!-- Copyright -->
-  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    © 2022 Copyright:
-    <a class="text-reset fw-bold" href="">PaintArt.cl</a>
-  </div>
-  <!-- Copyright -->
-</footer>
-<!-- Footer -->
+   <?php include_once 'footer.php';?>
               
 </html>
 <script>
   <?php 
+  $info = 'nada';
   if(empty($_SESSION['informacion'])){
 
   }else{
-   ?> 
-   alert("<?php echo $_SESSION['informacion']?>");
-   
-   <?php  
-   unset($_SESSION['informacion']);
-
+    $info= $_SESSION['informacion'];
+    unset($_SESSION['informacion']);
   }
   
   
   ?>
-
-
+  info = "<?php echo $info?>";
+  if (info!="nada") {
+    swal(info, {icon:"info",});
+  }
 
 
 </script>

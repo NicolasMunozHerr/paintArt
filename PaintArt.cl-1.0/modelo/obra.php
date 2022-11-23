@@ -208,12 +208,57 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=? and `categoria`=? order by `obra`.`idObra` DESC;");
-                $resul->execute([$reacciones,$categoria]);
+                $resul = $this->pdo->useConnection()->prepare("
+                select * 
+                from 
+                    obra
+                where
+                    Reacciones=? AND
+                    categoria= ?
+                ORDER by 
+                    idObra DESC 
+                    ");
+                $resul->execute([ $reacciones,$categoria]);
+                $contador= 0;
+                while($fila = $resul->fetch())
+                {
+                   
+                        $c = new obra($fila["idObra"],$fila["categoria"],$fila["detalles"],$fila["dimensiones"],$fila["precio"],$fila["SobreObra"],$fila["tecnica"],$fila["Titulo"],$fila["Imagen_idImagen"]);
+                        $c->setReacciones($fila["Reacciones"]);
+                        $c->setIdArtista($fila["Artista_idArtista"]);
+                        
+                        $lista->add($c);
+                   
+                    
+                    $contador++;
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+                return $e->getMessage();
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+        public function listarObrasArtistas($idArtista){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? and `Reacciones`=0 ORDER BY `obra`.`idObra` DESC");
+                $resul->execute([$idArtista]);
                 while($fila = $resul->fetch())
                 {
                     $c = new obra($fila["idObra"],$fila["categoria"],$fila["detalles"],$fila["dimensiones"],$fila["precio"],$fila["SobreObra"],$fila["tecnica"],$fila["Titulo"],$fila["Imagen_idImagen"]);
                     $c->setReacciones($fila["Reacciones"]);
+                    $c->setStock($fila["stock"]);
                     $c->setIdArtista($fila["Artista_idArtista"]);
                     
                     $lista->add($c);
@@ -232,13 +277,13 @@
             }
         }
 
-        public function listarObrasArtistas($idArtista){
+        public function listarObrasArtistaArchivadas($idArtista){
             $lista = new ArrayList();
             try
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? and `Reacciones`=0 ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? and `Reacciones`=1 ORDER BY `obra`.`idObra` DESC");
                 $resul->execute([$idArtista]);
                 while($fila = $resul->fetch())
                 {
@@ -384,6 +429,23 @@
 
 
         }
+        public function quitarShadowBan($idObra){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE obra SET Reacciones=0 WHERE idObra=?");
+                $res->execute([$idObra]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
 
         public function descontarStock($stock, $idObra){
             try{
@@ -526,6 +588,24 @@
                 //return FALSE;
                 return error_log($e->getMessage());
 
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+        public function modficarObra(obra $obra){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE obra SET categoria=?, detalles=?, dimensiones=?,fechaPublicacion=?, precio=?, Reacciones=?, SobreObra=?,tecnica=?, Titulo=?,stock=? WHERE idObra =?");
+                $res->execute([$obra->getCategoria(),$obra->getDetalles(), $obra->getDimensiones(), $obra->getFechaPublicacion(),$obra->getPrecio(), $obra->getReacciones(), $obra->getSobreObra(), $obra->getTecnica(), $obra->getTitulo(), $obra->getStock(), $obra->getIdObra()]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
             }
             finally{
                 $this->pdo->closeConnection();

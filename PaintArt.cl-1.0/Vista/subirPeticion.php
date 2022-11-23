@@ -222,6 +222,7 @@ if( empty($_SESSION["online"]))
               </form>
             </div>  
       </div> 
-</body> 
+</body>
+<?php include_once 'footer.php';?> 
 </html> 
 

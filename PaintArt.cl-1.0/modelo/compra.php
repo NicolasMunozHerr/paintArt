@@ -9,9 +9,9 @@
         private $idUsuarioRegistrado;
         private $idArtista;
         private $IdDireccion;
+        private $precioCompra;
 
-
-        public function __construct($idCompra, $fechaCompra, $metodoCompra, $idObra,$idUsuarioRegistrado,$idArtista,$IdDireccion)
+        public function __construct($idCompra, $fechaCompra, $metodoCompra, $idObra,$idUsuarioRegistrado,$idArtista,$IdDireccion, $precioCompra)
         {
             $this->idCompra= $idCompra;
             $this->fechaCompra= $fechaCompra;
@@ -20,7 +20,8 @@
             $this->idUsuarioRegistrado= $idUsuarioRegistrado;
             $this->idArtista=$idArtista;
             $this->IdDireccion=$IdDireccion;
-        }
+            $this->precioCompra= $precioCompra;
+        }   
 
         public function getIdCompra(){
             return $this->idCompra;
@@ -77,9 +78,18 @@
             return $this;
         }
 
+        public function getPrecioCompra(){
+            return $this->precioCompra;
+
+        }
+
+        public function setPrecioCompra($precioCompra){
+            $this->precioCompra= $precioCompra;
+            return $this;
+        }
 
         public function mostrarCompra(){
-            return 'idCompra '.$this->idCompra.'fechaCompra '.$this->fechaCompra.'metodoCompra '.$this->metodoCompra.'IdObra '.$this->idObra.'idUserRegistrado '.$this->idUsuarioRegistrado.'IdArtista '.$this->idArtista.'idDireccion '.$this->IdDireccion;
+            return 'idCompra '.$this->idCompra.'fechaCompra '.$this->fechaCompra.'metodoCompra '.$this->metodoCompra.'IdObra '.$this->idObra.'idUserRegistrado '.$this->idUsuarioRegistrado.'IdArtista '.$this->idArtista.'idDireccion '.$this->IdDireccion.' precio compra: '.$this->precioCompra;
 
 
         }
@@ -87,8 +97,8 @@
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("INSERT INTO `compra` ( `fechaCompra`, `metodoCompra`, `Obra_idObra`, `Usuario_Registrado_idUsuario_Registrado`, `Artista_idArtista`,Direccion_IdDireccion) VALUES  ( ?,?,?,?,?,?)"); //prepared Statement
-                $res->execute([$compra->getFechaCompra(),$compra->getMetodoCompra(),$compra->getIdObra(),$compra->getIdUsuarioRegistrado(),$compra->getIdArtista(),$compra->getIdDireccion()]);
+                $res = $this->pdo->useConnection()->prepare("INSERT INTO `compra` ( `fechaCompra`, `metodoCompra`, `Obra_idObra`, `Usuario_Registrado_idUsuario_Registrado`, `Artista_idArtista`,Direccion_IdDireccion, precioCompra) VALUES  ( ?,?,?,?,?,?,?)"); //prepared Statement
+                $res->execute([$compra->getFechaCompra(),$compra->getMetodoCompra(),$compra->getIdObra(),$compra->getIdUsuarioRegistrado(),$compra->getIdArtista(),$compra->getIdDireccion(),$compra->getPrecioCompra()]);
                 return true;
                  
             }
@@ -180,7 +190,7 @@
                     $resul->execute([$idObra]);
                     while($fila = $resul->fetch())
                     {
-                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"]);
+                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"], $fila["precioCompra"]);
                       
                         $lista->add($c);
                     }
@@ -208,7 +218,7 @@
                     $resul->execute([$idUsuarioRegistrado]);
                     while($fila = $resul->fetch())
                     {
-                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"]);
+                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"],$fila["precioCompra"]);
                       
                         $lista->add($c);
                     }
@@ -235,7 +245,7 @@
                     $resul->execute([$idAr]);
                     while($fila = $resul->fetch())
                     {
-                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"]);
+                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"],$fila["precioCompra"]);
                       
                         $lista->add($c);
                     }
@@ -259,7 +269,7 @@
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
                 $resul = $this->pdo->useConnection()->prepare("
-                SELECT  sum(obra.precio) as 'precio'
+                SELECT  sum(compra.precioCompra) as 'precio'
                 FROM 
                     compra, obra
                 WHERE 
@@ -297,7 +307,7 @@
                     $this->pdo = Conexion::getInstance();
                     $this->pdo->openConnection();
                     $resul = $this->pdo->useConnection()->prepare(
-                    "SELECT sum(obra.precio) as 'precio',date_format(compra.fechaCompra, '%m-%y') as 'fecha' 
+                    "SELECT sum(compra.precioCompra) as 'precio',date_format(compra.fechaCompra, '%m-%y') as 'fecha' 
                     FROM 
                         compra, 
                         obra 
@@ -310,7 +320,7 @@
                     $resul->execute([$idAr]);
                     while($fila = $resul->fetch())
                     {
-                        $c = new compra( $fila['precio'],$fila['fecha'],null, null, null, null, null);
+                        $c = new compra( $fila['precio'],$fila['fecha'],null, null, null, null, null, null);
                         $c->setIdArtista($fila['precio']);
                         $c->setFechaCompra($fila["fecha"]);
                         $lista->add($c);

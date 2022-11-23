@@ -12,7 +12,7 @@ include_once '../modelo/usuarioRegistrado.php';
 class historialCompras{
 
     public function listarComprasUser($idUsuario){
-        $compra = new compra(null, null, null, null, null, null, null);
+        $compra = new compra(null, null, null, null, null, null, null, null);
         $listaCompra= $compra->listarCompraIdUser($idUsuario);
 
         if($listaCompra== false){
@@ -62,7 +62,7 @@ class historialCompras{
                                 <button id="subasta" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
                                 <h6>No se  pudo encontrar a la obra asociada</h6>';
                             }else{
-                                $coste= $infoObra->getPrecio();
+                                $coste= $listaCompra->get($i)->getPrecioCompra();
                                 $infoImagen= $imagen->buscarImagenID($infoObra->getIdImagen());
                                 if($infoImagen==false){
                                     echo '

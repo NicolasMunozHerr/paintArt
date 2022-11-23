@@ -157,4 +157,5 @@ if(empty($_SESSION['online']))
             </div>  
       </div> 
 </body> 
+<?php include_once 'footer.php';?>
 </html> 
