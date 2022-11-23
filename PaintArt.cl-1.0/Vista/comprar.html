@@ -1,109 +1,52 @@
 <!DOCTYPE html> 
-
 <html lang="en"> 
-
 <head> 
-
     <meta charset="UTF-8"> 
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-
     <link rel="stylesheet" href="Css/bootstrap.min.css"> 
-
     <link rel="stylesheet" href="Css/registrar.css"> 
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> 
-
     <title>Document</title> 
-
 </head> 
-
 <body> 
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
-
         <div class="container-fluid"> 
-
           <a class="navbar-brand" href="#">PaintArt</a> 
-
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation"> 
-
             <span class="navbar-toggler-icon"></span> 
-
           </button> 
-
           <div class="barraBusqueda"> 
-
-             
-
               <thead> 
-
                 <form class="d-flex "> 
-
                   <input class=" form-control Search" type="text" placeholder="Buscar"> 
-
                   <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> 
-
                 </form> 
-
               </thead> 
-
             </div> 
-
             <div class="login"> 
-
               <table> 
-
                 <td> <a class="nav-link" href="">Registrar</a></td> 
-
                 <td>   <a class="nav-link" href="">Iniciar</a></td> 
-
               </table> 
-
-              
-
-            
-
             </div> 
-
         </div> 
-
       </nav> 
-
       <nav class="navbar navbar-expand-lg navbar-light bg-light"> 
-
       <ul class="navbar-nav me-auto barrita"> 
-
         <div class="collapse navbar-collapse" id="navbarColor03"> 
-
             <li class="nav-item"> 
-
               <a class="nav-link active" href="#">Inicio 
-
                 <span class="visually-hidden">(current)</span> 
-
               </a> 
-
             </li> 
-
             <li class="nav-item"> 
-
               <a class="nav-link" href="#">Noticias</a> 
-
             </li> 
-
             <li class="nav-item"> 
-
               <a class="nav-link" href="#">Populares de la semana</a> 
-
             </li> 
-
-             
-
             <li class="nav-item dropdown"> 
 
               <a class="nav-link dropdown-toggle show " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categoria</a> 
@@ -135,116 +78,114 @@
                 <a class="dropdown-item" href="#">Expresionismo</a> 
 
               </div> 
-
             </li> 
-
           </div> 
-
         </ul> 
-
       </nav> 
 
       <div class="container" style="background-color: #f8f9fa;
       border: 1px solid #dee2e6;"> 
-             <h2 style="margin-top: 20px;">Subir obra</h2>
+             <h2 style="margin-top: 20px;">Comprar</h2>
             <div class="form-group formulario" > 
                
                
-              <form action="../controlador/subirObra.php" method="post" enctype="multipart/form-data">
+              <form action="../controlador/controllerComprar.php" method="post" enctype="multipart/form-data">
                 <table class="formularioRegistrar"> 
-
+                    
+                  
                     <tr> 
-
-                      <td><h5>Titulo</h5></td> 
-
-                     
-
-                    </tr> 
-                    <tr>
-                        <td><input type="text" name="titulo" class="form-control" placeholder="Titulo" id="titulo"></td>
-                    </tr>
-
-                    <tr> 
-                      <td><h5>Categoria</h5></td> 
+                      <td><h5>metodo de compra</h5></td> 
                     </tr> 
 
                     <tr>
                         <td> 
-                            <select name="categoria" style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
-                                <option>Arte urbano</option>
-                                <option>Arte optico</option>
-                                <option>Arte cinetico</option>
-                                <option>Surrealismo</option>
-                                <option>Neoplasticismo</option>
-                                <option>Dadaismo </option>
-                                <option>Suprematismo</option>
-                                <option>Contructivismo</option>
-                                <option>Minimalismo</option>
-                                <option>Rayonismo</option>
-                                <option>Abstraccion lirica</option>
-                                <option>Expresionismo</option>
+                            <select name="metodoPago" style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
+                                <option>webpay</option>
+                                <option>paypal</option>
+                                <option>mercado pago</option>
+                                
                               </select>
                         </td> 
                     </tr>
                     <tr> 
-
-                      <td><h5>Detalles</h5></td> 
+                    <tr> 
+                         <td><h5>Region</h5></td> 
                     </tr> 
                     <tr>
-                        <td> <input name="detalles" type="text" class="form-control" placeholder="Detalles" id="inputDefault"></td> 
+                        <td>
+                          <select name="region" style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
+                            <option>Arica-Parinacota</option>
+                            <option>Tarapaca</option>
+                            <option>Antofagasta</option>
+                            <option>Atacama</option>
+                            <option>Coquimbo</option>
+                            <option>Valparaiso</option>
+                            <option>Metropolitana</option>
+                            <option>O'Higgins</option>
+                            <option>Maule</option>
+                            <option>Ñuble</option>
+                            <option>Bio Bio</option>
+                            <option>Araucania</option>
+                            <option>Los Rios</option>
+                            <option>Los Lagos</option>
+                            <option>Aysen</option>
+                            <option>Magallanes</option>
+                         
+                            
+                          </select>
+                        </td>
+                    </tr>
+                      <td><h5>Ciudad</h5></td> 
+                    </tr> 
+                    <tr>
+                        <td> <input name="Ciudad" type="text" class="form-control" placeholder="Ciudad..." id="inputDefault"></td> 
                     </tr>
                     <tr> 
 
-                        <td><h5>tecnica</h5></td> 
+                        <td><h5>Comuna</h5></td> 
                       </tr> 
                       <tr>
-                          <td> <input name="tecnica"type="text" class="form-control" placeholder="tecnica" id="inputDefault"></td> 
+                          <td> <input name="comuna"type="text" class="form-control" placeholder="Comuna..." id="inputDefault"></td> 
                       </tr>
                     <tr> 
-                      <td><h5>Dimensiones</h5></td> 
+                      <td><h5>Calle</h5></td> 
                     </tr> 
                     <tr>
-                        <td><input name="altura" style="width: 45%; float: left;" type="number" class="form-control" placeholder="Altura (cm)" id="inputDefault"> 
-                            <input name="ancho" style="width: 45%; float: right; margin-left: 20px;" type="number" type="text" class="form-control" placeholder="Ancho (cm)" id="inputDefault"></td> 
+                        <td>
+                            <input name="calle"  type="text" class="form-control" placeholder="Calle.." id="inputDefault"> 
+                        </td> 
                     </tr>
-                    <tr> 
-                      <td><h5>Precio</h5></td> 
-                    </tr> 
-                    <tr>
-                        <td><input name="precio"type="number" class="form-control" id="floatingInput" placeholder="Precio (CLP)"></td> 
-                    </tr>
-
-                    <tr> 
-                        <td><h5>Sobre obra</h5></td> 
-                      </tr> 
-                      <tr>
-                          <td><textarea name="sobreObra" style= "border: 0px; border-radius:0px ;" class="form-control" id="exampleTextarea" rows="3"></textarea></td> 
-                      </tr>
-
-                      <tr> 
-                        <td><h5>Imagen referencial</h5></td> 
-                      </tr> 
-                      <tr>
-                          <td><input name="imagenObra"class="form-control" type="file" id="formFile"></textarea></td> 
-                      </tr>  
                     
+                    <tr> 
+                        <td><h5>Numeracion</h5></td> 
+                      </tr> 
+                      <tr>
+                          <td>
+                              <input name="numeracion"  type="number" class="form-control" placeholder="Calle.." id="inputDefault"> 
+                          </td> 
+                      </tr>
+                      <tr> 
+                        <td><h5>Tipo de hogar</h5></td> 
+                      </tr> 
+  
+                      <tr>
+                          <td> 
+                              <select name="tipoHogar" style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
+                                  <option>casa</option>
+                                  <option>departamento</option>
+                                  
+                                </select>
+                          </td> 
+                      </tr>
+                      
                     <tr> 
                       <td style="text-align: right; "> 
-
                         <br>
-
-                        <input type="submit" name="subir" style="background-color: #212529; border-radius: 0px ; border-color: #212529; " class="btn btn-primary" value="subir obra">
-
+                        <input type="submit" name="subir" style="background-color: #212529; border-radius: 0px ; border-color: #212529; color: #dee2e6;" class="btn btn-primary" value="subir obra">
                       </td> 
-
                     </tr> 
-
-                    
-
                 </table> 
               </form>
- 
- 
 
             </div>  
       </div> 
