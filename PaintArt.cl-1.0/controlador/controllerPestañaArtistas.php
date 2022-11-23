@@ -5,9 +5,27 @@
  include_once '../modelo/imagen.php';
  include_once '../modelo/artista.php';
  include_once '../modelo/usuarioRegistrado.php';
-
+include_once '../modelo/click.php';
 class listaArtista{
-
+    public function __construct($idAr, $accion)
+    {
+      if($accion==0){
+        date_default_timezone_set('America/Santiago');
+        $fecha= date('Y-m-d');
+        $click = new click;
+        $resp= $click->agregarClick($fecha);
+        if ($resp== false) {
+            echo 'ta mal';
+        }else{
+            $idClick= $click->listarUltimoClick();
+            $resp = $click->agregarClickArtistaHasClick($idAr, $idClick->__getIdClick());
+            if ($resp==false) {
+                echo 'Error al tomar la cuenta de visita';
+            }
+        }
+      }
+      
+    }
     public function listar(){
         $listaAr= new artista(null, null, null);
         $lista= $listaAr->listarArtista();
@@ -97,7 +115,7 @@ class listaArtista{
           $ar= new artista(null, null, null);
           $idAr= $ar->buscarArtistaIdUser($listaUsuarios->get($i)->getId());
           if ($idAr==false) {
-            echo '<h6>No encontramos el artista en concreto</h6>';
+            //echo '<h6>No encontramos el artista en concreto</h6>';
           }else{
             $idAr= $idAr->getIdArtista();
             $idImagen= $listaUsuarios->get($i)->getIdImagen();

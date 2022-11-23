@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 include_once '../modelo/obra.php';
 include_once '../modelo/imagen.php';
@@ -8,7 +9,6 @@ include_once '../modelo/compra.php';
 include_once '../modelo/direccion.php';
 
 include_once '../modelo/usuarioRegistrado.php';
-session_start();
 if(empty($_SESSION['online'])){
     header("Location: ../Vista/iniciarSesion.php");
 }else{
@@ -22,7 +22,7 @@ if(empty($_SESSION['online'])){
     }else{
         if($user->getPermisos()==5){
             $_SESSION['informacion']="No puede acceder a su perfil por incumplir normas comunitarias, muchas gracias";
-            header("Location: ../Vista/index.php");
+            header("Location: ../Vista/Index.php");
         }else{
             $idUser= $_SESSION['online'];
             $metodo=$_POST['metodoPago'];
@@ -72,7 +72,7 @@ if(empty($_SESSION['online'])){
                         
                         }else{
                             $_SESSION['errorCompra']= 'compra exitosa';
-                            header("Location: ../Vista/index.php");   
+                            header("Location: ../Vista/Index.php");   
                         }
                     }
                 }

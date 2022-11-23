@@ -1,11 +1,10 @@
 <?php 
+session_start();
 include_once '../controlador/controllerPestañaArtistas.php';
-$controller= new listaArtista();
+$controller= new listaArtista(null, 1);
 
 ?>
-<?php 
-session_start();
-?>
+
 <?php ;
 $online= false;
 if( empty($_SESSION["online"]))
@@ -139,7 +138,7 @@ if( empty($_SESSION["online"]))
             }else{
               $busqueda= $_SESSION['artista'];
               if ($busqueda=="") {
-                echo $controller->listar();
+              echo $controller->listar();
               }else{
                 echo $controller->listarArtistaNombre($busqueda);
                 unset($_SESSION["artista"]);

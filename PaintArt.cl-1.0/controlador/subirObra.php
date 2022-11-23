@@ -1,10 +1,22 @@
 <?php 
+    session_start();
     include_once '../modelo/obra.php';
     include_once '../modelo/imagen.php';
     include_once '../modelo/usuarioRegistrado.php';
     include_once '../modelo/artista.php';
-  
-    if (isset($_POST['subir'])) {
+    $idUsuarioRegistrado= $_SESSION['online'];
+    $user= new usuarioRegistrado ();
+    $respUser= $user->buscarUusuarioId($idUsuarioRegistrado);
+    if($respUser==false){
+        header('Location: ../Vista/Index.php');
+
+    }else{
+        $per= $respUser->getPermisos();
+        if($per==5){
+            $_SESSION['informacion']="No puede subir la obra por que inclumpio las normas de la comunidad";
+            header('Location: ../Vista/Index.php');
+        }else{
+            if (isset($_POST['subir'])) {
         //Recogemos el archivo enviado por el formulario
         $archivo = $_FILES['imagenObra']['name'];
         //conseguimos la fecha y hora
@@ -22,8 +34,11 @@
            $temp = $_FILES['imagenObra']['tmp_name'];
            //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
           if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000000))) {
-             echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
-             - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+             /*echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+             - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';*/
+             $_SESSION["informacion"]= "Error. La extensión o el tamaño de los archivos no es correcta, Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.";
+                 header('Location: ../Vista/Index.php');
+
           }
           else {
              //Si la imagen es correcta en tamaño y tipo
@@ -43,7 +58,7 @@
                   if($respImg!=1){
                      echo 'Oopss problemas al subir su imagen';
                   }else{
-                     session_start();
+                    
                      $idUsuarioRegistrado= $_SESSION['online'];
                      $user= new usuarioRegistrado ();
                      $respUser= $user->buscarUusuarioId($idUsuarioRegistrado);
@@ -77,7 +92,9 @@
                             $ob =new obra(null,$categoria,$detalles,$dimensiones,$precio, $sobreObra,$tecnica,$titulo,$idImagen->getIdImagen());
                            $ob->setStock($stock);
                            $ob->setIdArtista($idArtista);
-                           if($ob->subirObra($ob)==true){
+                           //$resp= $ob->subirObra($ob);
+                          
+                          if($ob->subirObra($ob)==true){
                               header('Location: ../Vista/perfilArtista.php');
                                                       
                            }else{
@@ -104,6 +121,10 @@
            }
         }
      }
+        }
+    }
+    
+    
 
 
 

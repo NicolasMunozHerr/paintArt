@@ -25,7 +25,7 @@
   }else{
     if($user->getPermisos()==5){
       $_SESSION['informacion']= "Usted tiene bloqueado el acceso por incumplimiento de la norma";
-      header('Location: ../Vista/index.php');
+      header('Location: ../Vista/Index.php');
     }else{
       if(empty($_SESSION['idReporte'])){
         $_SESSION["informacion"]="Algo salio mal con la id de la obra";

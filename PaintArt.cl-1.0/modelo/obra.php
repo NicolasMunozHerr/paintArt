@@ -173,14 +173,14 @@
             }
         }
 
-        public function listarObras(){
+        public function listarObras($reacciones){
             $lista = new ArrayList();
             try
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=0 ORDER BY `obra`.`idObra` DESC");
-                $resul->execute([]);
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=? ORDER BY `obra`.`idObra` DESC");
+                $resul->execute([$reacciones]);
                 while($fila = $resul->fetch())
                 {
                     $c = new obra($fila["idObra"],$fila["categoria"],$fila["detalles"],$fila["dimensiones"],$fila["precio"],$fila["SobreObra"],$fila["tecnica"],$fila["Titulo"],$fila["Imagen_idImagen"]);
@@ -194,8 +194,7 @@
             catch(PDOException $e)
             {
                 error_log($e->getMessage());
-                //return FALSE;
-                return error_log($e->getMessage());
+                return $e->getMessage();
 
             }
             finally{
@@ -203,14 +202,14 @@
             }
         }
 
-        public function listarObrasCat($categoria){
+        public function listarObrasCat($reacciones,$categoria){
             $lista = new ArrayList();
             try
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=0 and `categoria`=? order by `obra`.`idObra` DESC;");
-                $resul->execute([$categoria]);
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=? and `categoria`=? order by `obra`.`idObra` DESC;");
+                $resul->execute([$reacciones,$categoria]);
                 while($fila = $resul->fetch())
                 {
                     $c = new obra($fila["idObra"],$fila["categoria"],$fila["detalles"],$fila["dimensiones"],$fila["precio"],$fila["SobreObra"],$fila["tecnica"],$fila["Titulo"],$fila["Imagen_idImagen"]);
@@ -239,7 +238,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? and `Reacciones`=0 ORDER BY `obra`.`idObra` DESC");
                 $resul->execute([$idArtista]);
                 while($fila = $resul->fetch())
                 {
@@ -419,6 +418,103 @@
                     $c = new obra($fila["Obra_idObra"],null, null, null, null, null, null,null, null);
                     
                     $c->setStock($fila["total"]);
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+                return error_log($e->getMessage());
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+
+        public function buscarUltimaObra(){
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM obra ORDER by idObra desc LIMIT 1;                ");
+                $resul->execute([]);
+                while($fila = $resul->fetch())
+                {
+                    $idUs = new obra(null,null,null,null,null,null,null,null.null,null);
+                    $idUs->setIdObra($fila["idObra"]);
+                    $idUs->setCategoria($fila["categoria"]);
+                    $idUs->setDetalles($fila["detalles"]);
+                    $idUs->setDimensiones($fila["dimensiones"]);
+                    $idUs->setFechaPublicacion($fila["fechaPublicacion"]);
+                    $idUs->setPrecio($fila["precio"]);
+                    $idUs->setReacciones($fila["Reacciones"]);
+                    $idUs->setSobreObra($fila["SobreObra"]);
+                    $idUs->setTecnica($fila["tecnica"]);
+                    $idUs->setTitulo($fila["Titulo"]);
+                    $idUs->setStock($fila["stock"]);
+                    $idUs->setIdArtista($fila["Artista_idArtista"]);
+                    $idUs->setIdImagen($fila["Imagen_idImagen"]);
+                    
+                    
+                }    
+                return $idUs;
+            }
+            catch(PDOException $e)
+            {
+                
+                return error_log($e->getMessage());
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+        public function listarSubasta(){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=2 ORDER BY `obra`.`idObra` DESC");
+                $resul->execute([]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new obra($fila["idObra"],$fila["categoria"],$fila["detalles"],$fila["dimensiones"],$fila["precio"],$fila["SobreObra"],$fila["tecnica"],$fila["Titulo"],$fila["Imagen_idImagen"]);
+                    $c->setReacciones($fila["Reacciones"]);
+                    $c->setIdArtista($fila["Artista_idArtista"]);
+                    
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+                return error_log($e->getMessage());
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function listarSubastaIdArtista($idArtista){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=2 and `Artista_idArtista`=? ORDER BY `obra`.`idObra` DESC");
+                $resul->execute([$idArtista]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new obra($fila["idObra"],$fila["categoria"],$fila["detalles"],$fila["dimensiones"],$fila["precio"],$fila["SobreObra"],$fila["tecnica"],$fila["Titulo"],$fila["Imagen_idImagen"]);
+                    $c->setReacciones($fila["Reacciones"]);
+                    $c->setIdArtista($fila["Artista_idArtista"]);
                     
                     $lista->add($c);
                 }

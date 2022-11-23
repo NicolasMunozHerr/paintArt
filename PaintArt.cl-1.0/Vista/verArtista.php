@@ -1,11 +1,12 @@
 <?php 
+session_start();
 include_once '../controlador/controllerPestañaArtistas.php';
 include_once '../controlador/controllerPerfilUsuarioRegistrado.php';
-session_start();
+
 $idArtista= $_GET['idArtista'];
 $_SESSION['idArtista']=$idArtista;
 $listarObra= new perfilUusarioRegistrado();
-$controller= new listaArtista();
+$controller= new listaArtista($idArtista,0);
 ?>
 <?php ;
 $online= false;
@@ -25,7 +26,9 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/cssMain.css">
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
   
     <title>Document</title>
 </head>
@@ -142,10 +145,15 @@ if( empty($_SESSION["online"]))
               </div></span>
 
         </div>
+        <div class= "histoObras" style="border: none;">
+          <button id="verObras" type="button" class="btn btn-warning disabled">Obras</button>
+          <button id="verSubasta" type="button" class="btn btn-warning"> Subastas</button>
+
+        </div>
         <div class="histoObras">
             <span style="width: 100%;" class="tituloObras"><h4>Obras disponibles</h4></span>
             
-            <div class="cuadrosArista">
+            <div id='Cuadros' class="cuadrosArista">
                 <?php echo $listarObra->listarObrasArtista($idArtista)?>
                 <!--<div class="cuadroArtista">
                   <img  class="imagenObraArista" src="imagenes/Vangogh-1024x829.jpg" alt="">
@@ -161,3 +169,56 @@ if( empty($_SESSION["online"]))
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
+<script>
+$(document).ready(function(){
+
+  $(document).on("click", "#verSubasta",function(){
+    var subasta= 4;
+    var idUser=<?php echo $idArtista?>;
+    
+    
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:"POST",
+      data:{subasta:subasta, idUser:idUser},
+      success: function(data){
+        $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+        sub.className='btn btn-warning disabled';
+        let ob= document.getElementById('verObras');
+        ob.className= 'btn btn-warning';
+      }
+    });
+
+  })
+  $(document).on("click", "#verObras",function(){
+    var subasta= 3;
+    var idUser=<?php echo $idArtista ?>;
+    
+    
+    $.ajax({
+      url:'../controlador/controllerPerfilUsuarioRegistrado.php',
+      method:"POST",
+      data:{subasta:subasta, idUser:idUser},
+      success: function(data){
+        $('#Cuadros').html(data);
+        let sub= document.getElementById('verSubasta');
+        sub.className='btn btn-warning ';
+        let ob= document.getElementById('verObras');
+        ob.className= 'btn btn-warning disabled';
+      }
+    });
+
+  })
+
+
+
+
+
+
+
+});
+
+
+
+</script>

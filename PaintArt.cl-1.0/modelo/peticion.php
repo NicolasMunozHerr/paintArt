@@ -218,12 +218,12 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
         }
 
 
-        public function rechazaPeticion($idpet){
+        public function rechazaPeticion($desc, $idpet ){
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("UPDATE  peticion SET estado=4 WHERE idpeticion=?");
-                $resul= $res->execute([$idpet]);
+                $res = $this->pdo->useConnection()->prepare("UPDATE  peticion SET estado=4 , descripcion=? WHERE idpeticion=?");
+                $resul= $res->execute([$desc, $idpet]);
                 return true;
                 
             }
@@ -292,6 +292,132 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
                 $this->pdo->closeConnection();
             }
         }
+
+        public function listarPeticionesEnviadas($idArtista){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `peticion` where `estado`=3 and EXTRACT(MONTH FROM fecha)= MONTH(CURRENT_DATE()) and `Artista_idArtista`=?  ");
+                $resul->execute([$idArtista]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new peticion($fila["idpeticion"],$fila["asunto"],$fila["descripcion"],$fila["estado"],$fila["fecha"],$fila["precio"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"],$fila["Direccion_IdDireccion"]);  
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+               // return error_log($e->getMessage());
+               return false;
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+        public function eliminarPeticion($idPeticion){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("DELETE FROM peticion WHERE `peticion`.`idpeticion` = ?");
+                $resul= $res->execute([$idPeticion]);
+                return true;
+                
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+
+        public function peticionesEnviadaUltimosSeisMeses($idArtista){
+         
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare(
+                    "SELECT SUM(peticion.precio) as 'cantidad'
+                    from 
+                        peticion, 
+                        artista 
+                    WHERE 
+                        peticion.Artista_idArtista= artista.idArtista AND 
+                        artista.idArtista= ? and 
+                        peticion.fecha>= CURRENT_DATE - INTERVAL 6 MONTH and
+                         peticion.fecha<= CURRENT_DATE;
+                ");
+                $resul->execute([$idArtista]);
+                while($fila = $resul->fetch())
+                {
+                    $c = $fila['cantidad'];  
+                   
+                }
+                return $c;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+               // return error_log($e->getMessage());
+               return false;
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function detallepeticionesEnviadaUltimosSeisMeses($idArtista){
+            $lista = new ArrayList();
+
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare(
+                "SELECT SUM(peticion.precio) as 'cantidad', 
+                    date_format(peticion.fecha, '%m-%y') as 'mes'
+                from 
+                    peticion, 
+                    artista 
+                WHERE 
+                    peticion.Artista_idArtista= artista.idArtista AND 
+                    artista.idArtista= ? and 
+                    peticion.fecha>= CURRENT_DATE - INTERVAL 6 MONTH and 
+                    peticion.fecha<= CURRENT_DATE GROUP BY `mes`;
+                ");
+                $resul->execute([$idArtista]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new peticion(null, null, null,null,$fila['mes'], $fila['cantidad'], null, null,null);
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+               // return error_log($e->getMessage());
+               return false;
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
 
 
 

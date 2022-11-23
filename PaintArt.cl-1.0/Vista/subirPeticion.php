@@ -1,5 +1,6 @@
 <?php 
 session_start();
+include_once '../controlador/controllerValidarTarjeta.php';
 ?>
 <?php ;
 $online= false;
@@ -21,6 +22,8 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/bootstrap.min.css"> 
     <link rel="stylesheet" href="Css/registrar.css"> 
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> 
     <title>Document</title> 
@@ -122,22 +125,22 @@ if( empty($_SESSION["online"]))
                       <td><h5>Asunto</h5></td> 
                     </tr> 
                     <tr>
-                        <td><input name="Asunto"type="text" class="form-control" id="floatingInput" placeholder="Decoracion de living..."></td> 
+                        <td><input name="Asunto"type="text" class="form-control" id="floatingInput" placeholder="Decoracion de living..." required></td> 
                     </tr>
                     <tr> 
                         <td><h5>Descripcion</h5></td> 
                     </tr> 
                     <tr>
-                        <td><textarea name="descripcion" style= "border: 0px; border-radius:0px ;" class="form-control" id="exampleTextarea" rows="3"></textarea></td> 
+                        <td><textarea name="descripcion" style= "border: 0px; border-radius:0px ;" class="form-control" id="exampleTextarea" rows="3" required ></textarea></td> 
                     </tr>
                     <tr> 
                       <td><h5>Precio</h5></td> 
                     </tr> 
                     <tr >
-                        <td><input name="precio" type="number" class="form-control" id="floatingInput" placeholder="Precio (CLP)"></td> 
+                        <td><input name="precio" type="number" class="form-control" id="floatingInput" placeholder="Precio (CLP)" required></td> 
                     </tr>
                     <tr> 
-                         <td style="text-align: center;"><br><h3>Direccion</h3></td> 
+                         <td style="text-align: center;" required><br><h3>Direccion</h3></td> 
                     </tr> 
                     <tr> 
                          <td><h5>Region</h5></td> 
@@ -167,41 +170,48 @@ if( empty($_SESSION["online"]))
                       <td><h5>Ciudad</h5></td> 
                     </tr> 
                     <tr>
-                        <td> <input name="Ciudad" type="text" class="form-control" placeholder="Ciudad..." id="inputDefault"></td> 
+                        <td> <input name="Ciudad" type="text" class="form-control" placeholder="Ciudad..." id="inputDefault" required></td> 
                     </tr>
                     <tr> 
                         <td><h5>Comuna</h5></td> 
                       </tr> 
                       <tr>
-                          <td> <input name="comuna"type="text" class="form-control" placeholder="Comuna..." id="inputDefault"></td> 
+                          <td> <input name="comuna"type="text" class="form-control" placeholder="Comuna..." id="inputDefault" required></td> 
                       </tr>
                     <tr> 
                       <td><h5>Calle</h5></td> 
                     </tr> 
                     <tr>
                         <td>
-                            <input name="calle"  type="text" class="form-control" placeholder="Calle.." id="inputDefault"> 
+                            <input name="calle"  type="text" class="form-control" placeholder="Calle.." id="inputDefault"required> 
                         </td> 
                     </tr>
                     <tr> 
-                        <td><h5>Numeracion</h5></td> 
-                      </tr> 
-                      <tr>
-                          <td>
-                              <input name="numeracion"  type="number" class="form-control" placeholder="" id="inputDefault"> 
-                          </td> 
-                      </tr>
-                      <tr> 
-                        <td><h5>Tipo de hogar</h5></td> 
-                      </tr> 
-                      <tr>
-                          <td> 
-                              <select name="tipoHogar" style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
-                                  <option>casa</option>
-                                  <option>departamento</option>       
-                                </select>
-                          </td> 
-                      </tr>
+                      <td><h5>Numeracion</h5></td> 
+                    </tr> 
+                    <tr>
+                      <td>
+                        <input name="numeracion"  type="number" class="form-control" placeholder="" id="inputDefault" required> 
+                      </td> 
+                    </tr>
+                    <tr> 
+                       <td><h5>Tipo de hogar</h5></td> 
+                    </tr> 
+                    <tr>
+                      <td> 
+                        <select name="tipoHogar" style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
+                          <option>casa</option>
+                          <option>departamento</option>       
+                        </select>
+                      </td> 
+                    </tr>
+                    
+                    
+                    <?php 
+                     $controller= new validarTarjeta();
+                     echo $controller->validarExistenciaTarjet($online) 
+                    ?>
+                    
                     <tr> 
                       <td style="text-align: right; "> 
                         <br>
@@ -214,3 +224,4 @@ if( empty($_SESSION["online"]))
       </div> 
 </body> 
 </html> 
+

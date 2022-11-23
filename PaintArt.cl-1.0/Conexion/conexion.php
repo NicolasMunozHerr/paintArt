@@ -13,7 +13,7 @@
             $this->host = "localhost:3307";// localhost->127.0.0.1 = Mi computador
             $this->user = "root";
             $this->pass = "";
-            $this->bd = "paintart";
+            $this->bd = "id19281454_paintart";
             $this->charset = "utf8mb4";
         }
         

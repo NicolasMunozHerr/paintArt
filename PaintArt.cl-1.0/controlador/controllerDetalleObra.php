@@ -5,9 +5,29 @@ include_once '../modelo/arraylist.php';
 include_once '../modelo/imagen.php';
 include_once '../modelo/artista.php';
 include_once '../modelo/usuarioRegistrado.php';
+include_once '../modelo/subastas.php';
+include_once '../modelo/click.php';
 $ob =new obra(null,null,null, null, null, null ,null,null,null);
 
 class mostrarObra{
+    public function __construct($idObra)
+    {
+        date_default_timezone_set('America/Santiago');
+        $fecha= date('Y-m-d');
+        $click = new click;
+        $resp= $click->agregarClick($fecha);
+        if ($resp== false) {
+            echo 'ta mal';
+        }else{
+            $idClick= $click->listarUltimoClick();
+            $resp = $click->agregarClickObraHasClick($idObra, $idClick->__getIdClick());
+            if ($resp==false) {
+                echo 'Error al tomar la cuenta de visita';
+            }
+        }
+    }
+
+
     public function mostraObra($id){
         $ob =new obra(null,null,null, null, null, null ,null,null,null);
        $titulo= $ob->buscarObraId($id);    
@@ -48,6 +68,17 @@ class mostrarObra{
                 }
             }
         }
+    }
+
+    public function validarSubasta($id){
+        $subasta= new subasta();
+        $resp= $subasta->validaAsociacionObra($id);
+        if($resp==false){
+            return $resp;
+        }else{
+            return $resp;
+        }
+
     }
 
 }

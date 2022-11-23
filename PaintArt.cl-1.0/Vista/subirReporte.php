@@ -1,6 +1,7 @@
 <?php 
-$id=$_GET['idObra'];
 session_start();
+$id=$_GET['idObra'];
+
 $_SESSION['idReporte']= $id;
 if(empty($_SESSION['online']))
 {

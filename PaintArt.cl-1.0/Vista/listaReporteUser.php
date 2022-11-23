@@ -1,11 +1,10 @@
 <?php 
+session_start();
+
   //include_once '../controlador/controllerReporte.php';
   //$controller= new controllerReporte();
 ?>
 
-<?php 
-session_start();
-?>
 <?php ;
 $online= false;
 if( empty($_SESSION["online"]))

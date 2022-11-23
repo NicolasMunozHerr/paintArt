@@ -87,6 +87,14 @@
         text-align: left;
         justify-content: center;
     }
+    .subasta{
+        width: 100%;
+        height: 1300px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        justify-content: center;
+    }
     
     .big-Image{
         float: left;
@@ -155,6 +163,12 @@
     .detalleCompra table{
         margin: auto;
     }
+
+    .valorPuja{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
 }
 
 @media only screen and  (min-width: 576px) {
@@ -197,6 +211,14 @@
     }
 
     .anuncio{
+        width: 100%;
+        height: 1300px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        justify-content: center;
+    }
+    .subasta{
         width: 100%;
         height: 1300px;
         background-color: #f8f9fa!important;
@@ -317,7 +339,11 @@
         margin: auto;
     }
     
-
+    .valorPuja{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
     
    
 }
@@ -364,6 +390,14 @@
     }
     
     .anuncio{
+        width: 100%;
+        height: 1300px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        justify-content: center;
+    }
+    .subasta{
         width: 100%;
         height: 1300px;
         background-color: #f8f9fa!important;
@@ -493,7 +527,11 @@
         margin: auto;
     }
     
-
+    .valorPuja{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
 }
 
 @media only screen and  (min-width: 992px) {
@@ -545,6 +583,13 @@
     }
 
     .anuncio{
+        width: 100%;
+        height: 684px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+    }
+    .subasta{
         width: 100%;
         height: 684px;
         background-color: #f8f9fa!important;
@@ -665,6 +710,11 @@
     .detalleCompra table{
         margin: auto;
     }
+    .valorPuja{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
 }
 
 @media only screen and  (min-width: 1200px) {
@@ -715,7 +765,14 @@
         border: 1px solid #dee2e6;
         text-align: left;
     }
-    
+    .subasta{
+        width: 100%;
+        height: 800px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        margin-bottom: 20px;
+    }
     .big-Image{
         float: left;
         border:1px solid black;
@@ -828,6 +885,12 @@
     .detalleCompra table{
         margin: auto;
     }
+
+    .valorPuja{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
 }
 
 @media only screen and  (min-width: 1410px) {
@@ -915,6 +978,10 @@
        width: 100%;
     
     }
-    
+    .valorPuja{
+        display: flex;
+        justify-content: left;
+        margin-bottom: 5px;
+    }
 }
 

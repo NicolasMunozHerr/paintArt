@@ -111,7 +111,7 @@ class imagen
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("DELETE FROM imagen WHERE idImagen=?");
+            $res = $this->pdo->useConnection()->prepare("DELETE FROM imagen WHERE `imagen`.`idImagen` = ?");
             $resul= $res->execute([$id]);
             return true;
             

@@ -1,11 +1,11 @@
-<?php 
+<?php session_start();
 include_once '../modelo/obra.php';
 include_once '../modelo/critica.php';
 include_once '../modelo/arraylist.php';
 include_once '../modelo/usuarioRegistrado.php';
 
 $parametros = $_POST['parametros'];
-session_start();
+
 $idObra= $_SESSION['idCompra'];
 class controllerCritica{
 
@@ -115,11 +115,17 @@ if($parametros==1){
             # code...
             break;
     }
-    $idUsuarioRegistrdo= $_SESSION["online"];
-    $controller= new controllerCritica();
- 
-    $idObra= $_SESSION['idCompra'];
-    echo $controller->criticar($idObra, $criticas,$estrellitas, $idUsuarioRegistrdo );
+    if(empty($_SESSION["online"]))
+    {
+       echo 'No puede opinar, inicie sesion primeramente';
+    }else{
+         $idUsuarioRegistrdo= $_SESSION["online"];
+        $controller= new controllerCritica();
+     
+        $idObra= $_SESSION['idCompra'];
+        echo $controller->criticar($idObra, $criticas,$estrellitas, $idUsuarioRegistrdo );
+    }
+   
 
 }
 

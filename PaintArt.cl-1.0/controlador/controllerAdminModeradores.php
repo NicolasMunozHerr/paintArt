@@ -37,7 +37,8 @@ class controllerAdm{
             echo '<h6>Actualmente no hay usuario</h6>';
         }else{
             for ($i=0; $i < $size; $i++) { 
-                echo'
+                
+                    echo'
                 <div style="text-align:left " class="peticion">
                     <div class="foto"><img src="imagenes/usuario.png" alt=""></div>
                     <div class="nombreYapellido">
@@ -49,6 +50,8 @@ class controllerAdm{
                     <div class="apruebo"  ><button type="submit"  style="width: 100%; height:100% ; border: none;" id="apruebo" data-id="'.$lista->get($i)->getId().' "><img src="imagenes/aceptar.png" alt=""></button></div>
                 </div>
                 ';
+               
+                
             }
         }
     }
@@ -85,7 +88,7 @@ class controllerAdm{
         }else{
 
             for ($i=0; $i < $size; $i++) { 
-                if($lista->get($i)->getPermisos()==2){
+                if($lista->get($i)->getPermisos()==2||$lista->get($i)->getPermisos()==5 ||$lista->get($i)->getPermisos()==3){
                    
                 }else{
                     echo'
@@ -116,7 +119,7 @@ class controllerAdm{
         }else{
 
             for ($i=0; $i < $size; $i++) { 
-                if($lista->get($i)->getPermisos()==2){
+                if($lista->get($i)->getPermisos()==4){
                     echo'
                     <div style="text-align:left " class="peticion">
                         <div class="foto"><img src="imagenes/usuario.png" alt=""></div>

@@ -143,7 +143,9 @@ if( empty($_SESSION["online"]))
         <br>
         
         <div style="width: 250px;margin: auto;" class="d-grid gap-2">
+            <a style="" href="Index.php">
             <button class="btn btn-lg btn-dark" type="button">Volver al inicio</button>
+            </a>
         </div>
         <br>
 

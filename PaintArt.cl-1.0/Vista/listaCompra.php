@@ -114,8 +114,9 @@ if( empty($_SESSION["online"]))
           </div>
         </ul>
       </nav>
-      <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+      
       <div id="Inputs" class="container">
+        <h1>cargando</h1>
         
         <?php 
         //$controller->listarReporte();
@@ -173,6 +174,24 @@ if( empty($_SESSION["online"]))
     });
   }
   obtener_datos();
+
+  $(document).on("click", "#subasta",function(){
+    var parametros=2;
+    var idUser=<?php echo $online  ?>;
+    $.ajax({
+      url:'../controlador/controllerlistaCompra.php',
+      method:"POST",
+      data:{parametros:parametros, idUser:idUser,},
+      success: function(data){
+        $('#Inputs').html(data);
+      }
+    });
+  }) 
+  $(document).on("click", "#comprasobras",function(){
+    obtener_datos();
+  }) 
+
+
   
 
   });

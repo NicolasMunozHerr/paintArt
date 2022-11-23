@@ -27,8 +27,7 @@ if($resp== false){
             header('Location: ../Vista/perfilAdmin.php');
             break;
         case 5: 
-            header('Location: ../Vista/index.php');
-            $_SESSION['informacion']="No puede acceder a su perfil por incumplir normas comunitarias, muchas gracias";
+            header('Location: ../Vista/perfilUsuario.php');
             break;      
                 
        

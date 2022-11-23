@@ -1,8 +1,9 @@
 <?php 
+session_start();
+
 include_once '../controlador/controlleDetalleNota.php';
 $controller= new detalleNota();
 $idNota= $_GET['id'];
-session_start();
 ?>
 <?php ;
 $online= false;

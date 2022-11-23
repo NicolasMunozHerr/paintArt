@@ -117,7 +117,7 @@ if( empty($_SESSION["online"]))
              <h2 style="margin-top: 20px;">Comprar</h2>
             <div class="form-group formulario" > 
               <form action="../controlador/controllerComprar.php" method="post" enctype="multipart/form-data">
-                <table class="formularioRegistrar"> 
+                <table class="formularioRegistrar" > 
                     <tr> 
                       <td><h5>metodo de compra</h5></td> 
                     </tr> 
@@ -159,20 +159,20 @@ if( empty($_SESSION["online"]))
                       <td><h5>Ciudad</h5></td> 
                     </tr> 
                     <tr>
-                        <td> <input name="Ciudad" type="text" class="form-control" placeholder="Ciudad..." id="inputDefault"></td> 
+                        <td> <input name="Ciudad" type="text" class="form-control" placeholder="Ciudad..." id="inputDefault" required></td> 
                     </tr>
                     <tr> 
                         <td><h5>Comuna</h5></td> 
                       </tr> 
                       <tr>
-                          <td> <input name="comuna"type="text" class="form-control" placeholder="Comuna..." id="inputDefault"></td> 
+                          <td> <input name="comuna"type="text" class="form-control" placeholder="Comuna..." id="inputDefault" required></td> 
                       </tr>
                     <tr> 
                       <td><h5>Calle</h5></td> 
                     </tr> 
                     <tr>
                         <td>
-                            <input name="calle"  type="text" class="form-control" placeholder="Calle.." id="inputDefault"> 
+                            <input name="calle"  type="text" class="form-control" placeholder="Calle.." id="inputDefault" required> 
                         </td> 
                     </tr>
                     
@@ -181,7 +181,7 @@ if( empty($_SESSION["online"]))
                       </tr> 
                       <tr>
                           <td>
-                              <input name="numeracion"  type="number" class="form-control" placeholder="600.." id="inputDefault"> 
+                              <input name="numeracion"  type="number" class="form-control" placeholder="600.." id="inputDefault" required> 
                           </td> 
                       </tr>
                       <tr> 

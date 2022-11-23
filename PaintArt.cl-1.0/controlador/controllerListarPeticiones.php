@@ -150,13 +150,23 @@ class mostrarPeticion{
             }
             
     }
-    public function rechazarPeticion($id){
+    public function quitarPeticion($id){
         $peticiones=  new peticion(null, null, null, null, null, null, null, null ,null);
-        $resp= $peticiones->rechazaPeticion($id);
+        $resp= $peticiones->eliminarPeticion($id);
+        if ($resp==false) {
+           echo 'No se ha podido eliminar la peticion';
+        }else{
+            echo 'Se ha elimando exitosamente';
+        }
+
+    }
+    public function rechazarPeticion($desc,$id){
+        $peticiones=  new peticion(null, null, null, null, null, null, null, null ,null);
+        $resp= $peticiones->rechazaPeticion($desc,$id);
         if ($resp== false) {
             echo 'No se pudo rechazar la peticion';
         }else{
-            echo 'Rechazado exitosamente';
+            echo 'Fue rechazado exitosamente';
         }
 
     }
@@ -212,44 +222,74 @@ class mostrarPeticion{
             }else{
 
                 for ($i=0; $i < $size; $i++) { 
-                    $user= new usuarioRegistrado();
-                    $infoUser= $user->buscarUusuarioId($listaPeticiones->get($i)->getIdUsuarioRegistrado())  ; 
-                    $estado = $listaPeticiones->get($i)->getEstado();
-                    $resultado='';
-                    switch ($estado){
-                        case 0:
-                            $resultado = 'Por revisar';
-                            break;
-                        case 1:
-                            $resultado= 'iniciando';
-                            break;
-                        case 2:
-                            $resultado = 'terminando';
-                            break;
-                        case 3:
-                            $resultado = 'enviado';
-                            break;
-                        case 4:
-                            $resultado = 'no fue aceptado';
-                            break;            
+                    $artista= new artista(null,null, null);
+                    $infoArtista= $artista->buscarIdArtista($listaPeticiones->get($i)->getIdArtista());
+                    if($infoArtista==false){
+                        echo '<h6> No se encontro al artista en el momento </h6>';
+                    }else{
+                        $user= new usuarioRegistrado();
+                        $infoUser= $user->buscarUusuarioId($infoArtista->getIdUsuarioRegistrado())  ; 
+                        $estado = $listaPeticiones->get($i)->getEstado();
+                        $resultado='';
+                        switch ($estado){
+                            case 0:
+                                $resultado = 'Por revisar';
+                                break;
+                            case 1:
+                                $resultado= 'iniciando';
+                                break;
+                            case 2:
+                                $resultado = 'terminando';
+                                break;
+                            case 3:
+                                $resultado = 'enviado';
+                                break;
+                            case 4:
+                                $resultado = 'no fue aceptado';
+                                break;            
+                        }
+                        if($estado==4){
+                            echo'
+                                <div class="contenedorPetcion">
+                                    <div style="width: 100%; height: auto;" class="listaPeticiones">
+                                        <div style="text-align:left " class="peticionAprobado">
+                                            <h4>Peticion para:'.$infoUser->getNombreYApellido().'</h4>
+                                            <p></p><p></p>
+                                            <h6>Razon de rechazo: </h6>
+                                            <b> " '.$listaPeticiones->get($i)->getDescripcion().' " </b>
+                                            <div style="text-align: right; width:90%; margin:auto;"> <button    id="rechazo" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" type="button" class="btn btn-warning">Eliminar </button></div>
+                                            <p></p>
+
+                                        </div>
+                                        <div style="float: right; " class="botoneraEstado">
+                                            <h6>Estado: '.$resultado.'
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div> ';
+                        }else{
+                            
+                            echo'
+                                <div class="contenedorPetcion">
+                                    <div style="width: 100%; height: auto;" class="listaPeticiones">
+                                        <div style="text-align:left " class="peticionAprobado">
+                                            <h4>Peticion para:'.$infoUser->getNombreYApellido().'</h4>
+                                            <p></p><p></p>
+                                            <h6>asunto: '.$listaPeticiones->get($i)->getAsunto().'</h6>
+                                            <b>precio:'.$listaPeticiones->get($i)->getPrecio().'</b>
+                                            <p>descripcion:'.$listaPeticiones->get($i)->getDescripcion().'</p>
+                                            
+                                        </div>
+                                        <div style="float: right; " class="botoneraEstado">
+                                            <h6>Estado: '.$resultado.'
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div> ';
+                        }
                     }
-                    echo'
-                            <div class="contenedorPetcion">
-                                <div style="width: 100%; height: auto;" class="listaPeticiones">
-                                    <div style="text-align:left " class="peticionAprobado">
-                                        <h5>Peticion de:'.$infoUser->getNombreYApellido().'</h6>
-                                        <p></p><p></p>
-                                        <h6>asunto: '.$listaPeticiones->get($i)->getAsunto().'</h6>
-                                        <b>precio:'.$listaPeticiones->get($i)->getPrecio().'</b>
-                                        <p>descripcion:'.$listaPeticiones->get($i)->getDescripcion().'</p>
-                                        
-                                    </div>
-                                    <div style="float: right; " class="botoneraEstado">
-                                        <h6>Estado: '.$resultado.'
-                                    </div>
-                                    </div>
-                                </div>
-                            </div> ';
+                    
+                    
                 }
             }
     }
@@ -269,8 +309,9 @@ if ($parametros==1) {
     echo $lista->aprobaraPeticion($id);
 }elseif($parametros==3){
     $id= $_POST['id'];
+    $desc= $_POST['descripcion'];
     $lista= new mostrarPeticion();
-    echo $lista->rechazarPeticion($id);
+    echo $lista->rechazarPeticion($desc,$id);
 
 }elseif ($parametros==4) {
     $lista= new mostrarPeticion();
@@ -294,6 +335,10 @@ if ($parametros==1) {
     $idUsuario=$_SESSION['online'];
     $lista = new mostrarPeticion();
     echo $lista->mostrarPeticionUser($idUsuario);
+}elseif ($parametros==9) {
+    $id=$_POST['id'];
+    $lista= new mostrarPeticion();
+    echo $lista->quitarPeticion($id);
 }
 
 

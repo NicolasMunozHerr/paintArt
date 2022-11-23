@@ -25,7 +25,7 @@ if(empty($_SESSION['idUserReporte'])||empty($_SESSION['idCritica']) ){
       unset($_SESSION['idUserReporte']);
       unset($_SESSION['idCritica']);
      
-      header('Location: ../Vista/index.php');
+      header('Location: ../Vista/Index.php');
 
 
    }

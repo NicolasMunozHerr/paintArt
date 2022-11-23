@@ -23,8 +23,11 @@ if (isset($_POST['subir'])) {
        $temp = $_FILES['imagenUser']['tmp_name'];
        //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
         if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000000))) {
-            echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
-            - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+            /*echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+            - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';*/
+            $_SESSION['informacion']= "Error. La extensión o el tamaño de los archivos no es correcta, Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.";
+            header('Location: ../Vista/Index.php');
+
         }
         else {
          //Si la imagen es correcta en tamaño y tipo

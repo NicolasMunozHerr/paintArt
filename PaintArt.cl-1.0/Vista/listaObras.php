@@ -1,10 +1,12 @@
 <?php 
-include_once '../controlador/listarObra.php';
-$listaObra= new listObra;
+//include_once '../controlador/listarObra.php';
+//$listaObra= new listObra;
 $cat= $_GET["cat"];
 ?>
 <?php 
 session_start();
+$reacciones=0
+;
 ?>
 <?php ;
 $online= false;
@@ -24,6 +26,7 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssListaObras.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
     <title>Document</title>
 </head>
 <body>
@@ -38,7 +41,7 @@ if( empty($_SESSION["online"]))
               <thead>
                 <form class="d-flex " style="height: 40px;" action="../controlador/controllerBusqueda.php" method="POST">
                   <input name="buscador" class=" form-control Search"  style=" margin-right:3px;margin-top: 2px; " type="text" placeholder="Buscar">
-                  <select name="modo" class="form-select " style="width: 120px; margin-right:2px ;background-color: #f0ad4e; border-color: #f0ad4e; color:black" name="" id="">
+                  <select name="modo" class="form-select " style="width: 120px; margin-right:2px ;background-color: #f0ad4e; border-color: #f0ad4e; color:black" name="" id="buscador">
                     <option value="artista"><h6>Artista</h6> </option>
                     <option value="obra">Obra</option>
                   </select>
@@ -124,31 +127,69 @@ if( empty($_SESSION["online"]))
           
           <table class="table ">
             <tr>
-              <td ><h2>Obras <?php echo $listaObra->mostraCate($cat)?></h2><td>
+              <td >
+                <?php
+                  $valor= "";
+                  if( empty($_SESSION["obra"])){
+                    $valor="nada";
+                  }else{
+                    
+                    $busqueda= $_SESSION["obra"];
+                    if($busqueda==""){
+                      $valor="nada";
+                    }else{
+                      
+                      $valor=$busqueda;
+                      unset($_SESSION["obra"]);
+                    }
+                  
+                  } 
+                ?>
+                <?php 
+                  if(($valor=="nada")){
+                    echo  '
+                      <h2 id="busqueda" >Obras  <h2>
+                      <br>';
+                  }else{
+                    echo'
+                      <h2 id="busqueda">Busqueda: '.$valor.' </h2>
+                      <br>'; 
+                  }
+                ?>
+                  
+                    
+              <td>
+              <td> 
+                <?php 
+                  if($valor=="nada"){
+                    echo '<button id="subasta" value="2" style="position:relative; left:25% "type="button" class="btn btn-warning">Subastas</button>
+                    <button id="ventas" style="display:none" value="2" style="float:left"type="button" class="btn btn-warning">Ventas</button>';
+                  }               
+                ?>
+                
+              </td>
+            </tr>
           </table>
+        
         </div>
        
-        <div class="cuadros">
+        <div id= "cuadros"class="cuadros">
         <?php 
        
-        if( empty($_SESSION["obra"])){
-          $listaObra->listarObrasCat($cat);
+        /*if( empty($_SESSION["obra"])){
+          $listaObra->listarObrasCat($cat,0);
         }else{
           
           $busqueda= $_SESSION["obra"];
           if($busqueda==""){
-            $listaObra->listarObrasCat($cat);
+            $listaObra->listarObrasCat($cat,0);
           }else{
             
             $listaObra->listarObrasBusqueda($busqueda);
             unset($_SESSION["obra"]);
           }
          
-        }
-
-       
-       
-       
+        }  */     
        ?>
          <!-- <div class="cajaArtista">
             <div style="text-align: center;" class="cuadro">
@@ -251,8 +292,101 @@ if( empty($_SESSION["online"]))
 
       </div>
 
-
+      
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<script type="text/javascript">
+  
+  function sumar(){
+    var btnElm= document.getElementById('Suma');
+    var suma=0;
+    btnElm.onclick= function(){
+      suma++;
+      alert(suma);
+    }
+  }
+  
+  $(document).ready(function(){
+   
+    var reacciones=<?php echo $reacciones?>;
+    var cat= <?php  echo $cat?>;
+    var valor= '<?php echo $valor?>';
+    if(valor=="nada"){
+      if (cat==100) {
+        document.getElementById('busqueda').innerHTML="Mas populares";
+        document.getElementById('subasta').style.display="none";
+
+      } 
+      function obtener_datos(reacciones,cat){
+        var busqueda="";
+        $.ajax({
+          url:'../controlador/listarObra.php',
+          method:'POST',
+          data:{reacciones :reacciones,cat:cat,busqueda:busqueda},
+          success:function(data){
+            $('#cuadros').html(data);
+             
+          }
+        });
+          
+        }
+    
+      obtener_datos(reacciones,cat);
+      $(document).on("click", "#subasta",function(){
+          var reacciones= 2;
+          var cat=  <?php echo $_GET["cat"]?>  ;
+            obtener_datos(reacciones, cat);
+
+        
+        })
+        
+        $(document).on("click", "#ventas",function(){
+          var reacciones= 0;
+          var cat=  <?php echo $_GET["cat"]?>  ;
+            obtener_datos(reacciones, cat);
+
+        
+        })
+        document.getElementById('subasta').onclick=function(){
+          document.getElementById('busqueda').innerHTML="Subastas";
+          document.getElementById('subasta').style.display="none";
+          document.getElementById('subasta').style.float="left";
+          document.getElementById('ventas').style.display="";
+          document.getElementById('ventas').style.float="right";
+          document.getElementById('ventas').style.marginRight="23%";
+        }
+        document.getElementById('ventas').onclick=function(){
+          document.getElementById('busqueda').innerHTML="Obras";
+
+          document.getElementById('subasta').style.display="";
+          document.getElementById('subasta').style.float="none";
+          document.getElementById('ventas').style.display="none";
+        }
+       
+
+      
+    }else{
+      
+      function obtener_datos(reacciones,cat){
+        var busqueda=valor;  
+         
+        $.ajax({
+          url:'../controlador/listarObra.php',
+          method:'POST',
+          data:{reacciones:reacciones,cat:cat, busqueda:busqueda,},
+          success:function(data){
+            
+            $('#cuadros').html(data);
+
+            }
+        });
+                
+      }
+      obtener_datos(0,0);
+    }
+  });
+    
+</script>

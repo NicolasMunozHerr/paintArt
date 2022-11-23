@@ -1,10 +1,11 @@
 <?php 
-$id=$_GET['id'];
 session_start();
+$id=$_GET['id'];
+
 $_SESSION['idCompra']= $id;
 
 include_once '../controlador/controllerDetalleObra.php';
-$ob= new mostrarObra;
+$ob= new mostrarObra($id);
 ?>
 <?php ;
 $online= false;
@@ -14,7 +15,22 @@ if( empty($_SESSION["online"]))
 }else{
   $online =  $_SESSION["online"];
   
-}?>
+}
+
+$resp= $ob->validarSubasta($id);
+
+if($resp==false){
+ 
+  echo $resp;
+}else{
+  
+  unset($_SESSION['idCompra']);
+  header("Location: subasta.php?id=".$id."");
+}
+
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

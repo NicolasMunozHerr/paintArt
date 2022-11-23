@@ -116,7 +116,7 @@ if( empty($_SESSION["online"]))
              <h2 style="margin-top: 20px;">Iniciar sesion</h2>
             <div class="form-group formulario" > 
                 <table class="formularioRegistrar"> 
-                <form action="../controlador/controlleriniciarSesion.php" method="post" >
+                <form action="../controlador/controllerIniciarSesion.php" method="post" >
                   <tr> 
                     <td><h5>Correo electronico</h5></td> 
                   </tr> 
@@ -130,7 +130,9 @@ if( empty($_SESSION["online"]))
                       <td><input type="password" name="PASSWORD"  class="form-control" id="floatingPassword" placeholder="Contraseña"></td> 
                   </tr>          
                   <tr> 
-                    <td style="text-align: right; "> 
+                    
+                    <td style="text-align: right; ">
+                      <a href="formularioCorreo.php" style="float: left; margin-top: 30px; margin-left: 20px; margin-bottom: 20px;">Olvide mi Contraseña</a> 
                       <br>
                       <button type="submit" style="background-color: #212529; border-radius: 0px ; border-color: #212529; " class="btn btn-primary">Iniciar sesion</button> 
                     </td> 

@@ -1,6 +1,7 @@
 <?php 
-include_once '../controlador/controllerPerfilUsuarioRegistrado.php';
 session_start();
+
+include_once '../controlador/controllerPerfilUsuarioRegistrado.php';
 $online= false;
 if( empty($_SESSION["online"]))
 {

@@ -1,9 +1,4 @@
 <?php 
-  //include_once '../controlador/controllerReporte.php';
-  //$controller= new controllerReporte();
-?>
-
-<?php 
 session_start();
 ?>
 <?php ;

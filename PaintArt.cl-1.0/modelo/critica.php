@@ -208,6 +208,50 @@ class critica {
         }
     }
 
+
+    public function buscarElMasComentado($idAr){
+        $crit = FALSE;
+        try
+        {
+            $this->pdo = Conexion::getInstance();
+            $this->pdo->openConnection();
+            $resul = $this->pdo->useConnection()->prepare(
+            "SELECT count(crititica.idCrititica) as 'Cantidad',
+            obra.idObra 
+            from
+                crititica,
+                obra,
+                artista
+            WHERE 
+                crititica.Obra_idObra =obra.idObra and 
+                obra.Artista_idArtista= artista.idArtista AND 
+                artista.idArtista= ?
+            group BY 
+                obra.idObra 
+            ORDER BY 
+                `Cantidad` DESC
+            LIMIT 
+                1");
+            $resul->execute([$idAr]);
+            while($fila = $resul->fetch())
+            {
+                $crit = new critica(NULL,NULL, NULL, $fila["idObra"],NULL);
+              
+                
+                
+            }    
+            return $crit;
+        }
+        catch(PDOException $e)
+        {
+            error_log($e->getMessage());
+            return FALSE;
+        }
+        finally{
+            $this->pdo->closeConnection();
+        }
+    }
+
     
 
 }

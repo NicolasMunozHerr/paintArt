@@ -1,8 +1,8 @@
-
 <?php 
+session_start();
 include_once '../controlador/controllerListaNota.php';
 $controller= new listaNotas();
-session_start();
+
 ?>
 <?php ;
 $online= false;

@@ -27,6 +27,7 @@ if( empty($_SESSION["online"]))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <title>Document</title>
 </head>
@@ -195,17 +196,31 @@ if( empty($_SESSION["online"]))
 
     $(document).on("click", "#rechazo",function(){
       var parametros=3;
-        var id=$(this).data("id");
+      var id=$(this).data("id");
+      swal({
+        text: 'Escriba la razon por la cual rechaza',
+        content: "input",
+        button: {
+          text: "rechazar",
+          closeModal: false,
+        },
+      })
+      .then(name => {
+        if (!name) throw null;
+        var descripcion= name;
         
         $.ajax({
-        url:'../controlador/controllerListarPeticiones.php',
-        method:"POST",
-        data:{parametros:parametros,id:id, },
-        success: function(data){
-            obtener_datos();
-            alert(data);
-    }
-    });
+            url:'../controlador/controllerListarPeticiones.php',
+            method:"POST",
+            data:{parametros:parametros,id:id,descripcion:descripcion },
+            success: function(data){
+                obtener_datos();
+                swal('Rechazado',data, 'success');
+            }
+        });
+        
+      })
+      ;
 
     }) 
 

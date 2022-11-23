@@ -93,7 +93,9 @@
             catch(PDOException $e)
             {
                 error_log($e->getMessage());
-                return false;
+                return  "error";
+;
+
             }
             finally{
                 $this->pdo->closeConnection();

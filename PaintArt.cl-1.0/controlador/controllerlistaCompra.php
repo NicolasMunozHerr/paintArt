@@ -5,7 +5,8 @@ include_once '../modelo/imagen.php';
 include_once '../modelo/artista.php';
 include_once '../modelo/reportes.php';
 include_once '../modelo/compra.php';
-
+include_once '../modelo/subastas.php';
+include_once '../modelo/registroPujadores.php';
 include_once '../modelo/usuarioRegistrado.php';
 
 class historialCompras{
@@ -24,31 +25,54 @@ class historialCompras{
             $obra = new obra(null, null, null, null, null, null, null, null, null, null);
             $imagen= new imagen(null);
             if($size==0){
-                echo '<h6>El usuario todavia no tiene compras</h6>';
+                echo '
+                <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                <button id="subasta" type="button" style= "width:200px; "class="btn btn-warning ">ver Subasta</button> 
+                <p>
+                <p>
+                <h6>El usuario todavia no tiene compras en este momento</h6>';
             }else{
+                echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                <button id="subasta" type="button" style= "width:200px; "class="btn btn-warning ">ver subastas</button> 
+                <div class="contenedorPetcion">
+                <div style="width: 100%; height: auto;" class="listaPeticiones">
+                ';
                 for ($i=0; $i <$size ; $i++) { 
                     $infoArtista= $artista->buscarIdArtista($listaCompra->get($i)->getIdArtista());
                     if ($infoArtista==false) {
-                        echo '<h6>No se  pudo encontrar al artista</h6>';
+                        echo '
+                        <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                        <button id="subasta" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                        <h6>No se  pudo encontrar al artista</h6>';
                     }else{
                         $idUsuarioArtista= $infoArtista->getIdUsuarioRegistrado();
                         $infoUsuario= $usuario->buscarUusuarioId($idUsuarioArtista);
                         if($infoUsuario==false ){
-                            echo '<h6>No se  pudo encontrar el usuario asociado al artista</h6>';
-                        }else{
+                            echo '
+                            <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                            <button id="subasta" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                            <h6>No se  pudo encontrar el usuario asociado al artista</h6>';
+                        }else{ 
     
                             $nombre= $infoUsuario->getNombreYApellido();
                             $infoObra= $obra->buscarObraId($listaCompra->get($i)->getIdObra());
                             if ($infoObra==false) {
-                                echo '<h6>No se  pudo encontrar a la obra asociada</h6>';
+                                echo '
+                                <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                <button id="subasta" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                                <h6>No se  pudo encontrar a la obra asociada</h6>';
                             }else{
                                 $coste= $infoObra->getPrecio();
                                 $infoImagen= $imagen->buscarImagenID($infoObra->getIdImagen());
                                 if($infoImagen==false){
-                                    echo '<h6>No se  pudo encontrar la imagen asociada</h6>';
+                                    echo '
+                                    <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                    <button id="subasta" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                                    <h6>No se  pudo encontrar la imagen asociada</h6>';
                                 }else{
-                                    echo'<div class="contenedorPetcion">
-                                            <div style="width: 100%; height: auto;" class="listaPeticiones">
+                                    echo'
+                                    
+                                  
                                             
                                                 <div style="text-align:left; width:95% " class="peticion">
                                                     <h5>Obra de: '.$nombre.'</h5>
@@ -60,34 +84,139 @@ class historialCompras{
                                                     <P>
                                                     <label>Monto de la compra: '.$coste.'</label>
                                                     <P>
-                                                    <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$listaCompra->get($i)->getIdArtista().'">CLICK AQUI PARA VER LA OBRA</a>
+                                                    <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$listaCompra->get($i)->getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a>
                                                     <p>
-                                                    <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$listaCompra->get($i)->getidObra().'">CLICK AQUI PARA VER AL ARTISTA</a>
+                                                    <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$listaCompra->get($i)->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>
                                                     <img style="float:right;width: 120px;; max-width: 120px;height: 120px;max-height: 120px;margin-top:-110px; margin-right:10px" src="'.$infoImagen->getUrlImagen().'" alt="">
-                                                </div>
+                                                </div> <br>'                                                 
                                                
-                                                    
-                                               
-                                            </div>
-                                        </div>';
+                                           ;
                                 }
                                 
                             }
                            
                         }
-                      
-    
+                        
                     }
-                   
-    
-                }
+                }echo ' </div>
+                </div> ';
             }
             
-
         }
 
+    }
 
 
+    public function mostrarSubastaParticipante($idUsuario){
+        $registro = new registroPujadores();
+        $registro = $registro->listarRegistroIdUser($idUsuario);
+        if ($registro==false) {
+            echo '
+            <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+            <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-warning ">ver Compras Obras</button> 
+            <br><br>
+            <h6>El usuario todavia no tiene subastas en este momento</h6';
+        }else{
+            
+            $largo=$registro->size() ;
+            if($largo<=0){
+                echo '
+                <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-warning ">ver Compras Obras</button> 
+                <br><br>
+                <h6>El usuario todavia no tiene subastas en este momento</h6>';
+            }else{
+                echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Pujas  subasta</h3>
+                <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-warning ">ver obras </button>
+                <div class="contenedorPetcion">
+                <div style="width: 100%; height: auto;" class="listaPeticiones">';
+                for ($i=0; $i <$largo; $i++) { 
+                
+                    $idSubasta=$registro->get($i)->__getSubasta_idSubasta();
+                    $maximoRegistro= new registroPujadores();
+                    $maximoRegistro= $maximoRegistro->maximoPujador($registro->get($i)->__getSubasta_idSubasta());
+                    if($maximoRegistro==false){
+                        echo '
+                        <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                        <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                        <br><br>
+                        No se puede ver el maximo pujador de subastas hasta el momento';
+                    }else{
+                        $subasta= new subasta();
+                        $resp=$subasta->buscarSubasta($idSubasta);
+                        $idUserMaxPujador= $maximoRegistro->__getIdUser();
+                        $usuarioRegistraod= new usuarioRegistrado();
+                        $UserMaxPujador =$usuarioRegistraod->buscarUusuarioId($idUserMaxPujador);
+                        if($resp==false){
+                            echo '
+                                <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                                <br><br>
+                                No hay algun registro de subastas hasta el momento ';
+                        }else{
+                            $subasta= $resp;
+                            $idObra= $subasta->__getIdObra();
+                            $obra= new obra(null, null ,null ,null, null, null, null, null, null);
+                            $resp= $obra->buscarObraId($idObra);
+                            if($resp==false){
+                                echo '
+                                <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                                <br><br>
+                                No se obtuvo la obra en este momento';
+                            }else{
+                                $obra= $resp;
+                                $imagen= new imagen(null);
+                                $resp= $imagen ->buscarImagenID($obra->getIdImagen());
+                                if($resp == false){
+                                    echo '
+                                    <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                    <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-primary btn-lg">ver Subasta</button> 
+                                    <br><br>
+                                    No se obtuvo la imagen en este momento';
+                                }else{
+                                    $imagen= $resp;
+                                    $estado= "";
+                                    if($idUsuario== $UserMaxPujador->getId()){
+                                        $estado= '<b class= "text-success">Eres el pujador maximo </b>';
+                                    }else{
+                                        $estado= '<b class= "text-warning">Puja nuevamente para ganar la subasta  </b>';
+                                    }
+                                    echo'
+                                            
+                                           
+                                                    
+                                                        <div style="text-align:left; width:95% " class="peticion">
+                                                            <h5>Estado: '.$estado.'</h5>
+                                                            
+                                                            <H6>Titulo de la Obra: '.$obra->getTitulo().'</H6>
+                                                            <P>
+                                                            <P>
+                                                            <label>Fecha de finalizacion: '.$subasta->__getFechaLimite().'</label>
+                                                            <P>
+                                                            <label>Monto de la puja suya: '.$registro->get($i)->__getValor().'</label>
+                                                            <p>
+                                                            <label>Usuario con la puja Mayor: '.$UserMaxPujador->getNombreYApellido().'</label>
+                                                            <p>
+                                                            <label>Monto de la puja Mayor: '.$subasta->__getPrecioPuja().'</label>
+                                                            <P>
+                                                            <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$subasta->__getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a>
+                                                            <p>
+                                                            <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$obra->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>
+                                                            <img style="float:right;width: 120px;; max-width: 120px;height: 120px;max-height: 120px;margin-top:-110px; margin-right:10px" src="'.$imagen->getUrlImagen().'" alt="">
+                                                        </div> <br>
+                                                    ';
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                echo '</div>
+                </div>';
+            }
+            
+        }
     }
 
 
@@ -101,6 +230,10 @@ if($parametros==1){
     
     echo $lista->listarComprasUser($idUsuario);
     
+}elseif ($parametros== 2) {
+    $lista = new historialCompras();
+    $idUsuario= $_POST["idUser"];
+    echo $lista->mostrarSubastaParticipante($idUsuario);
 }
 ?>
 

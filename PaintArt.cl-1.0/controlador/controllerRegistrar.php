@@ -34,8 +34,8 @@ if($password==$password2){
    if ($nuevo==true) {
       # code...
       session_start();
-      $_SESSION["online"]=true;
-      header("Location: ../Vista/index.php");
+      
+      header("Location: ../Vista/iniciarSesion.php");
    }
    else {
       echo "fallo";

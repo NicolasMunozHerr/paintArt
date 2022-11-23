@@ -176,7 +176,7 @@
                 {
                     $this->pdo = Conexion::getInstance();
                     $this->pdo->openConnection();
-                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `compra` where `Obra_idObra`=? ");
+                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `compra` where `Obra_idObra`=? ORDER by idCompra DESC  ");
                     $resul->execute([$idObra]);
                     while($fila = $resul->fetch())
                     {
@@ -204,7 +204,7 @@
                 {
                     $this->pdo = Conexion::getInstance();
                     $this->pdo->openConnection();
-                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `compra` where `Usuario_Registrado_idUsuario_Registrado`=? ");
+                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `compra` where `Usuario_Registrado_idUsuario_Registrado`=? ORDER by idCompra DESC ");
                     $resul->execute([$idUsuarioRegistrado]);
                     while($fila = $resul->fetch())
                     {
@@ -225,7 +225,110 @@
                     $this->pdo->closeConnection();
                 }
         }
+        public function listarVentasIdArtista($idAr){
+            $lista = new ArrayList();
+                try
+                {
+                    $this->pdo = Conexion::getInstance();
+                    $this->pdo->openConnection();
+                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM compra WHERE `Artista_idArtista`=? and EXTRACT(MONTH FROM fechaCompra)= MONTH(CURRENT_DATE());");
+                    $resul->execute([$idAr]);
+                    while($fila = $resul->fetch())
+                    {
+                        $c = new compra($fila["idCompra"],$fila["fechaCompra"],$fila["metodoCompra"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"], $fila["Direccion_IdDireccion"]);
+                      
+                        $lista->add($c);
+                    }
+                    return $lista;
+                }
+                catch(PDOException $e)
+                {
+                    error_log($e->getMessage());
+                    //return FALSE;
+                    return false;
     
+                }
+                finally{
+                    $this->pdo->closeConnection();
+                }
+        }
+
+        public function montoVentasUltimosSeisMese($idAr){
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("
+                SELECT  sum(obra.precio) as 'precio'
+                FROM 
+                    compra, obra
+                WHERE 
+                    compra.Obra_idObra= obra.idObra and
+                    compra.Artista_idArtista=? and
+                    compra.fechaCompra>= CURRENT_DATE - INTERVAL 6 MONTH and 
+                    compra.fechaCompra<= CURRENT_DATE
+                
+                
+                ");
+                $resul->execute([$idAr]);
+                while($fila = $resul->fetch())
+                {
+                    $c = $fila["precio"];
+                   
+                }
+                return $c;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+                return error_log($e->getMessage());
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        
+        public function listarVentasObrasSeisMeses($idAr){
+            $lista = new ArrayList();
+                try
+                {
+                    $this->pdo = Conexion::getInstance();
+                    $this->pdo->openConnection();
+                    $resul = $this->pdo->useConnection()->prepare(
+                    "SELECT sum(obra.precio) as 'precio',date_format(compra.fechaCompra, '%m-%y') as 'fecha' 
+                    FROM 
+                        compra, 
+                        obra 
+                    WHERE 
+                        compra.Obra_idObra= obra.idObra and 
+                        compra.Artista_idArtista=? and 
+                        compra.fechaCompra>= CURRENT_DATE - INTERVAL 6 MONTH and
+                         compra.fechaCompra<= CURRENT_DATE 
+                    GROUP BY compra.fechaCompra;");
+                    $resul->execute([$idAr]);
+                    while($fila = $resul->fetch())
+                    {
+                        $c = new compra( $fila['precio'],$fila['fecha'],null, null, null, null, null);
+                        $c->setIdArtista($fila['precio']);
+                        $c->setFechaCompra($fila["fecha"]);
+                        $lista->add($c);
+                    }
+                    return $lista;
+                }
+                catch(PDOException $e)
+                {
+                    error_log($e->getMessage());
+                    //return FALSE;
+                    return false;
+    
+                }
+                finally{
+                    $this->pdo->closeConnection();
+                }
+        }
+        
 
     }
 

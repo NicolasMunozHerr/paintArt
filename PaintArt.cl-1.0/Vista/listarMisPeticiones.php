@@ -25,6 +25,8 @@ if( empty($_SESSION["online"]))
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <title>Document</title>
 </head>
 <body>
@@ -196,18 +198,41 @@ if( empty($_SESSION["online"]))
     })
 
     $(document).on("click", "#rechazo",function(){
-      var parametros=3;
+      var parametros=9;
         var id=$(this).data("id");
+       
+        swal({
+        text: 'Si borra esta solicitud se quitara de su lista de peticiones',
+        icon:'warning',
+        buttons: {
+          cancel:'cancelar',
+          catch:{text: "aceptar",value:true},
+          closeModal: false,
+        },
+      })
+      .then(value => {
+        if(value== true){
+          $.ajax({
+            url:'../controlador/controllerListarPeticiones.php',
+            method:"POST",
+            data:{parametros:parametros,id:id, },
+            success: function(data){
+              swal(data,{icon:"info",});
+              obtener_datos();
+               
+                
+                
+               
+                
+            }
+          });
+        }
         
-        $.ajax({
-        url:'../controlador/controllerListarPeticiones.php',
-        method:"POST",
-        data:{parametros:parametros,id:id, },
-        success: function(data){
-            obtener_datos();
-            alert(data);
-    }
-    });
+        
+        
+      })
+      ;  
+        
 
     }) 
 

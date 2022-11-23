@@ -1,7 +1,15 @@
 <?php 
+session_start();
 $id=$_GET['idUserReporte'];
 $idCritica= $_GET['idReporte'];
-session_start();
+if(empty($_SESSION['online']))
+{
+  header("Location: iniciarSesion.php");
+
+}else{
+  $online= $_SESSION['online'];
+}
+
 $_SESSION['idUserReporte']= $id;
 $_SESSION['idCritica']= $idCritica;
 

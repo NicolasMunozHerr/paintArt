@@ -51,7 +51,7 @@
                    
                  }else{
                     $permiso= $respUser->getPermisos();
-                    if ($permiso!=3){
+                    if ($permiso<3 ||$permiso >4){
                         echo 'No debieras estar aca jeje';
                     }else{
                        

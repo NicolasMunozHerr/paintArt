@@ -24,7 +24,7 @@ if ($email=="" && $password=="") {
         session_start();
         
       $_SESSION["online"]=$resp->getId();
-      header("Location: ../Vista/index.php");
+      header("Location:../Vista/Index.php");
     }
 }
 ?>

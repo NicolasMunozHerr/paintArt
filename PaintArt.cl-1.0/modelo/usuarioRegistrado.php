@@ -185,6 +185,24 @@
             }
         
         }
+        public function cambiarContra($contra, $correo){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE usuario_registrado SET contraseña=? WHERE correo=?");
+                $res->execute([$contra,$correo]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        
+        }
 
         PUBLIC function iniciarSesion(usuarioRegistrado $user){
             $idUs = FALSE;
@@ -216,6 +234,37 @@
                 $this->pdo->closeConnection();
             }
         }
+        PUBLIC function buscarCorreo( $correo){
+            $idUs = FALSE;
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM usuario_registrado WHERE correo=? " );
+                $resul->execute([$correo]);
+                while($fila = $resul->fetch())
+                {
+                    $idUs = new usuarioRegistrado();
+                    $idUs->setId($fila["idUsuario_Registrado"]);
+                    $idUs->setNombre($fila["nombre"]);
+                    $idUs->setApellido($fila["apellido"]);
+                    $idUs->setPermisos($fila["permisos"]);
+                    $idUs->setCorreo($fila['correo']);
+                    
+                }    
+                return $idUs;
+            }
+            catch(PDOException $e)
+            {
+                
+               // return error_log($e->getMessage());
+               return false;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
 
         public function listarUsuarioRegistrado(){
             $lista = new ArrayList();
@@ -329,7 +378,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM usuario_registrado WHERE  nombre like '%".$nombre."%' or apellido like '%".$nombre."%' ");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM usuario_registrado WHERE  nombre like '%".$nombre."%' or apellido like '%".$nombre."%'  ");
                 $resul->execute([]);
                 while($fila = $resul->fetch())
                 {
