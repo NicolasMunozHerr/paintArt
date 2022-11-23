@@ -1,0 +1,171 @@
+<?php 
+ include_once '../modelo/obra.php';
+ include_once '../modelo/imagen.php';
+ include_once '../modelo/arraylist.php';
+ include_once '../modelo/imagen.php';
+ include_once '../modelo/artista.php';
+ include_once '../modelo/usuarioRegistrado.php';
+
+class listaArtista{
+
+    public function listar(){
+        $listaAr= new artista(null, null, null);
+        $lista= $listaAr->listarArtista();
+        $size= $lista->size();
+        if($size==0){
+          echo "<h6>No hay artistas en la plataforma todavia</h6>";
+        }else{
+          for ($i=0; $i <$size ; $i++) {
+            $user= new usuarioRegistrado();
+            $inforUser= $user->buscarUusuarioId($lista->get($i)->getIdUsuarioRegistrado());
+            //echo '<h1>'.$lista->get($i)->__toString().'</h1>';
+            $nombreUsuario= $inforUser->getNombreYApellido();
+            $obra=new obra(null, null, null, null , null , null, null, null, null);
+            $numObra=$obra->listarObrasArtistas($lista->get($i)->getIdArtista());
+            $idImagen= $inforUser->getIdImagen();
+            $imagen= new imagen(null);
+            $imagen= $imagen->buscarImagenID($idImagen);
+            if ($imagen==false) {
+              echo '<h6>No se pudo ver la imagen asociada</h6>';
+            }else{
+              $url =$imagen->getUrlImagen();
+              echo '
+                <div class="cajaArtista">
+                <a href="../Vista/verArtista.php?idArtista='.$lista->get($i)->getIdArtista().'">
+                    <div style="text-align: center;" class="cuadro">
+                    <div class="fotoArtista"> <img src="'.$url.'" alt="" style="height: 100%;
+                    object-fit: cover;
+                    object-position: center center; "></div>
+                      <br>
+                      <div class="cuadroTexto">
+                        <span><h6>'.$nombreUsuario.'</h6></span>
+                      <span><h6>obras Disponible:'.$numObra->size().' </h6></span>
+                      </div> 
+                    </div>
+                </a>
+                </div>
+              '; 
+            }
+           
+           
+          }
+        }
+        
+    }
+
+    public function verArtista($idArtista){
+      $artista= new artista(null, null,null,null,null);
+      $inforArtista= $artista->buscarIdArtista($idArtista);
+      if($inforArtista==false){
+        echo 'Upsss, no encontramos al artista';
+      }else{
+        $user= new usuarioRegistrado();
+        $inforUser=$user->buscarUusuarioId($inforArtista->getIdUsuarioRegistrado());
+        if ($inforUser==false) {
+          echo 'Upsss, no encontramos al artista';
+        }else{
+          echo $inforUser->getNombreYApellido();
+        }
+      }
+    }
+
+    public function verBiografiaArtista($idArtista){
+      $artista= new artista(null, null,null,null,null);
+      $inforArtista= $artista->buscarIdArtista($idArtista);
+      if($inforArtista==false){
+        echo 'Upsss, no encontramos al artista';
+      }else{
+        $biografia= $inforArtista->getBiografia();
+        if($biografia==''|| $biografia==null){
+          echo 'No se a registrado una biografia aun';
+        }else{
+
+          echo $biografia;
+        }
+      }
+    }
+
+    public function listarArtistaNombre($busqueda){
+      $usuario= new usuarioRegistrado();
+      $listaUsuarios= $usuario->buscarArtistas($busqueda);
+      if ($listaUsuarios==false) {
+        echo '<h6>No hay artistas bajo ese nombre</h6>';
+      }else{
+        $size= $listaUsuarios->size();
+        for ($i=0; $i <$size ; $i++) {
+          
+          $ar= new artista(null, null, null);
+          $idAr= $ar->buscarArtistaIdUser($listaUsuarios->get($i)->getId());
+          if ($idAr==false) {
+            echo '<h6>No encontramos el artista en concreto</h6>';
+          }else{
+            $idAr= $idAr->getIdArtista();
+            $idImagen= $listaUsuarios->get($i)->getIdImagen();
+            $imagen= new imagen(null);
+            $imagen= $imagen->buscarImagenID($idImagen);
+            if ($imagen== false) {
+              echo '<h6>No encontramos a la imagen asociada</h6>';
+            }else{
+              $url = $imagen->getUrlImagen();
+              $obra=new obra(null, null, null, null , null , null, null, null, null);
+              $numObra=$obra->listarObrasArtistas($idAr);
+              echo '
+              <div class="cajaArtista">
+              <a href="../Vista/verArtista.php?idArtista='.$idAr.'">
+                  <div style="text-align: center;" class="cuadro">
+                  <div class="fotoArtista"> <img src="'.$url.'" alt="" style="height: 100%;
+                  object-fit: cover;
+                  object-position: center center; "></div>
+                    <br>
+                    <div class="cuadroTexto">
+                      <span><h6>'.$listaUsuarios->get($i)->getNombreYApellido().'</h6></span>
+                    <span><h6>obras Disponible:'.$numObra->size().' </h6></span>
+                    </div> 
+                  </div>
+              </a>
+              </div>
+              '; 
+            
+            }
+          }
+
+         
+      }
+      }
+
+    }
+
+    public function mostrarFotoPerfil($idArtista){
+      $artista= new artista(null, null,null);
+      $artista= $artista->buscarIdArtista($idArtista);
+      if ($artista==false) {
+          echo '<h6>No hay una artista asociado</h6>';
+
+      }else{
+          $idUser= $artista->getIdUsuarioRegistrado();
+          $user= new usuarioRegistrado();
+          $user= $user->buscarUusuarioId($idUser);
+          if($user==false){
+              echo '<h6>No hay usuarios asociados</h6>';
+          }else{
+              $idImagen= $user->getIdImagen();
+              $imagen= new imagen(null);
+              $imagen = $imagen->buscarImagenID($idImagen);
+              if ($imagen==false) {
+                  echo '<h6>No hay imagen asociados</h6>';
+              }else{
+                  $url= $imagen->getUrlImagen();
+                  echo $url;
+              }
+          }
+      }
+  }
+
+
+
+
+}
+
+
+
+?>

@@ -1,0 +1,484 @@
+
+@media only screen and  (min-width: 375px) {
+    .cajaComentar
+    {
+        margin: auto;
+        border: 1px solid black;
+        width: 100%;
+        height: 225px;
+        margin-top:30px;
+        margin-bottom: 30px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        
+    }
+
+
+    .textoComentar 
+    {
+        float:left;
+        margin:auto;
+        margin-top: 5px;
+        margin-left: 2%;
+        width: 96%;
+        height: 120px;
+        border: 1px solid black;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+    }
+
+    .comentario
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ced4da;
+
+    }
+
+    .botoneraComentar{
+
+        width: 20px;
+        height: auto;
+        float: right;
+        margin-top: 10px;
+        margin-right: 115px;
+    }
+    .botonEstrella
+    {
+        width:120px;
+        float:left;
+        margin-top: 10px;
+        margin-left: 2%;
+        border: 1px solid #ced4da;
+    }
+    
+
+    .listaCometarios{
+        width: 100%;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        height: auto;
+        margin-bottom: 40px;
+
+    }
+
+    .itemComentario{
+        width: 96%;
+        height: auto;
+        margin-top: 20px;
+        
+        margin-left: 20px;
+        
+        
+    }
+    .valoracion{
+        margin-top: -10px;
+
+    }
+    .reportar{
+        float: right;
+        margin-top: -22px;
+    }
+}
+@media only screen and  (min-width: 576px) {
+    .cajaComentar
+    {
+        margin: auto;
+        border: 1px solid black;
+        width: 100%;
+        height: 225px;
+        margin-top:30px;
+        margin-bottom: 30px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        
+    }
+
+
+    .textoComentar 
+    {
+        float:left;
+        margin:auto;
+        margin-top: 5px;
+        margin-left: 2%;
+        width: 96%;
+        height: 120px;
+        border: 1px solid black;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+    }
+
+    .comentario
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ced4da;
+    }
+
+    .botoneraComentar{
+
+        width: 20px;
+        height: auto;
+        float: right;
+        margin-top: 10px;
+        margin-right: 115px;
+    }
+    .botonEstrella
+    {
+        width:120px;
+        float:left;
+        margin-top: 10px;
+        margin-left: 2%;
+        border: 1px solid #ced4da;
+    }
+
+    .listaCometarios{
+        width: 100%;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        height: auto;
+        margin-bottom: 40px;
+
+    }
+
+    .itemComentario{
+        width: 96%;
+        height: auto;
+        margin-top: 10px;
+        
+        margin-left: 20px;
+        
+        
+    }
+    .valoracion{
+        margin-top: -10px;
+
+    }
+    .reportar{
+        float: right;
+        margin-top: -22px;
+    }
+    
+}
+
+@media only screen and  (min-width: 768px) {
+    .cajaComentar
+    {
+        margin: auto;
+        border: 1px solid black;
+        width: 100%;
+        height: 225px;
+        margin-top:30px;
+        margin-bottom: 20px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        
+    }
+
+
+    .textoComentar 
+    {
+        float:left;
+        margin:auto;
+        margin-top: 5px;
+        margin-left: 2%;
+        width: 96%;
+        height: 120px;
+        border: 1px solid black;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+    }
+
+    .comentario
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ced4da;
+    }
+
+    .botoneraComentar{
+
+        width: 20px;
+        height: auto;
+        float: right;
+        margin-top: 10px;
+        margin-right: 115px;
+    }
+    .botonEstrella
+    {
+        width:120px;
+        float:left;
+        margin-top: 10px;
+        margin-left: 2%;
+        border: 1px solid #ced4da;
+    }
+
+    .listaCometarios{
+        width: 100%;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        height: auto;
+        margin-bottom: 40px;
+
+    }
+
+    .itemComentario{
+        width: 96%;
+        height: auto;
+        margin-top: 10px;
+        
+        margin-left: 20px;
+        
+        
+    }
+    .valoracion{
+        margin-top: -10px;
+
+    }
+    .reportar{
+        float: right;
+        margin-top: -22px;
+    }
+    
+}
+
+@media only screen and  (min-width: 992px) {
+    .cajaComentar
+    {
+        margin: auto;
+        border: 1px solid black;
+        width: 100%;
+        height: 225px;
+        margin-top:30px;
+        margin-bottom: 30px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        
+    }
+
+
+    .textoComentar 
+    {
+        float:left;
+        margin:auto;
+        margin-top: 5px;
+        margin-left: 2%;
+        width: 96%;
+        height: 120px;
+        border: 1px solid black;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+    }
+
+    .comentario
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ced4da;
+    }
+
+    .botoneraComentar{
+
+        width: 20px;
+        height: auto;
+        float: right;
+        margin-top: 10px;
+        margin-right: 115px;
+    }
+    .botonEstrella
+    {
+        width:120px;
+        float:left;
+        margin-top: 10px;
+        margin-left: 2%;
+        border: 1px solid #ced4da;
+    }
+    .listaCometarios{
+        width: 100%;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        height: auto;
+        margin-bottom: 40px;
+
+    }
+
+    .itemComentario{
+        width: 96%;
+        height: auto;
+        margin-top: 10px;
+        
+        margin-left: 20px;
+        
+        
+    }
+    .valoracion{
+        margin-top: -10px;
+
+    }
+    .reportar{
+        float: right;
+        margin-top: -22px;
+    }
+}
+@media only screen and  (min-width: 1200px) {
+    .cajaComentar
+    {
+        margin: auto;
+        border: 1px solid black;
+        width: 100%;
+        height: 225px;
+        margin-top:30px;
+        margin-bottom: 30px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        
+    }
+    .textoComentar 
+    {
+        float:left;
+        margin:auto;
+        margin-top: 5px;
+        margin-left: 2%;
+        width: 96%;
+        height: 120px;
+        border: 1px solid black;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+    }
+
+    .comentario
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ced4da;
+    }
+
+    .botoneraComentar{
+
+        width: 20px;
+        height: auto;
+        float: right;
+        margin-top: 10px;
+        margin-right: 115px;
+    }
+    .botonEstrella
+    {
+        width:120px;
+        float:left;
+        margin-top: 10px;
+        margin-left: 2%;
+        border: 1px solid #ced4da;
+    }
+
+    .listaCometarios{
+        width: 100%;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        height: auto;
+        margin-bottom: 40px;
+
+    }
+
+    .itemComentario{
+        width: 96%;
+        height: auto;
+        margin-top: 10px;
+        
+        margin-left: 20px;
+        
+        
+    }
+    .valoracion{
+        margin-top: -10px;
+
+    }
+    .reportar{
+        float: right;
+        margin-top: -22px;
+    }
+    
+}
+
+
+@media only screen and  (min-width: 1410px) {
+    .cajaComentar
+    {
+        margin: auto;
+        border: 1px solid black;
+        width: 100%;
+        height: 225px;
+        margin-top:30px;
+        margin-bottom: 20px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        
+    }
+
+
+    .textoComentar 
+    {
+        float:left;
+        margin:auto;
+        margin-top: 5px;
+        margin-left: 2%;
+        width: 96%;
+        height: 120px;
+        border: 1px solid black;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+    }
+
+    .comentario
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ced4da;
+    }
+
+    .botoneraComentar{
+
+        width: 20px;
+        height: auto;
+        float: right;
+        margin-top: 10px;
+        margin-right: 115px;
+    }
+    .botonEstrella
+    {
+        width:120px;
+        float:left;
+        margin-top: 10px;
+        margin-left: 2%;
+        border: 1px solid #ced4da;
+    }
+    
+
+    .listaCometarios{
+        width: 100%;
+        background-color: #f8f9fa!important;
+        border: 1px solid #ced4da;
+        height: auto;
+        margin-bottom: 40px;
+
+    }
+
+    .itemComentario{
+        width: 96%;
+        height: auto;
+        margin-top: 10px;
+        
+        margin-left: 20px;
+        
+        
+    }
+    .valoracion{
+        margin-top: -10px;
+
+    }
+    .reportar{
+        float: right;
+        margin-top: -22px;
+    }
+}
+
+    

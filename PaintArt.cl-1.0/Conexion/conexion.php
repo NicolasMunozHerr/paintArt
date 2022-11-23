@@ -10,7 +10,7 @@
         private $charset;
 
         private function __construct(){
-            $this->host = "localhost";// localhost->127.0.0.1 = Mi computador
+            $this->host = "localhost:3307";// localhost->127.0.0.1 = Mi computador
             $this->user = "root";
             $this->pass = "";
             $this->bd = "paintart";

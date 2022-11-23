@@ -11,16 +11,20 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">PaintArt</a>
+          <a class="navbar-brand" href="Index.php">PaintArt</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="barraBusqueda">
             
               <thead>
-                <form class="d-flex ">
-                  <input class=" form-control Search" type="text" placeholder="Buscar">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <form class="d-flex " style="height: 40px;" action="../controlador/controllerBusqueda.php" method="POST">
+                  <input name="buscador" class=" form-control Search"  style=" margin-right:3px;margin-top: 2px; " type="text" placeholder="Buscar">
+                  <select name="modo" class="form-select " style="width: 120px; margin-right:2px ;background-color: #f0ad4e; border-color: #f0ad4e; color:black" name="" id="">
+                    <option value="artista"><h6>Artista</h6> </option>
+                    <option value="obra">Obra</option>
+                  </select>
+                  <button class="btn btn-secondary my-2 my-sm-0" style="height:40px ;" type="submit">Buscar</button>
                 </form>
               </thead>
             </div>
@@ -43,27 +47,26 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Noticias</a>
+              <a class="nav-link" href="listaNoticias.php">Noticias</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Populares de la semana</a>
             </li>
             
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle show " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categoria</a>
-              <div class="dropdown-menu show" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
-                <a class="dropdown-item" href="#">Urbano</a>
-                <a class="dropdown-item" href="#">Optico</a>
-                <a class="dropdown-item" href="#">Cinetico</a>
-                <a class="dropdown-item" href="#">Surrealismo</a>
-                <a class="dropdown-item" href="#">Neoplasticismo</a>
-                <a class="dropdown-item" href="#">Dadaismo</a>
-                <a class="dropdown-item" href="#">Suprematismo</a>
-                <a class="dropdown-item" href="#">Constructivismo</a>
-                <a class="dropdown-item" href="#">Minimalismo</a>
-                <a class="dropdown-item" href="#">Rayonismo</a>
-                <a class="dropdown-item" href="#">Abastraccion lirica</a>
-                <a class="dropdown-item" href="#">Expresionismo</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categorias</a>
+              <div class="dropdown-menu" > 
+                <a class="dropdown-item" href="listaObras.php?cat=1">Urbano</a>
+                <a class="dropdown-item" href="listaObras.php?cat=2">Optico</a>
+                <a class="dropdown-item" href="listaObras.php?cat=4">Surrealismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=5">Neoplasticismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=6">Dadaismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=7">Suprematismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=8">Constructivismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=9">Minimalismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=10">Rayonismo</a>
+                <a class="dropdown-item" href="listaObras.php?cat=11">Abastraccion lirica</a>
+                <a class="dropdown-item" href="listaObras.php?cat=12">Expresionismo</a>
               </div>
             </li>
           </div>

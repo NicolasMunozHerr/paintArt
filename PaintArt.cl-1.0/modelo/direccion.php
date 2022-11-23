@@ -9,10 +9,9 @@
         private $calle;
         private $tipoHogar;
         private $numeracion;
-        private $idCompra;
 
 
-        public function __construct($idDireccion, $region, $ciudad, $comuna, $calle, $tipoHogar, $numeracion, $idCompra)
+        public function __construct($idDireccion, $region, $ciudad, $comuna, $calle, $tipoHogar, $numeracion)
         {
             $this->idDireccion= $idDireccion;
             $this->region= $region;
@@ -21,7 +20,7 @@
             $this->calle= $calle;
             $this->tipoHogar= $tipoHogar;
             $this->numeracion= $numeracion;
-            $this->idCompra= $idCompra;
+          
         }
 
         public function getIdDireccion(){
@@ -82,20 +81,12 @@
         }
 
 
-        public function getIdCompra(){
-            return $this->idCompra;
-        }
-        public function setIdCompra($idCompra){
-            $this->idCompra= $idCompra;
-            return $this;
-        }
-
         public function crearDireccion(direccion $direccion){
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("INSERT INTO `direccion` ( `region`, `ciudad`, `comuna`, `calle`, `tipoHogar`,`numeracion`,`Compra_idCompra`) VALUES  ( ?,?,?,?,?,?,?)"); //prepared Statement
-                $res->execute([$direccion->getRegion(),$direccion->getCiudad(),$direccion->getComuna(),$direccion->getCalle(),$direccion->getTipoHogar(), $direccion->getNumeracion(),$direccion->getIdCompra()]);
+                $res = $this->pdo->useConnection()->prepare("INSERT INTO `direccion` ( `region`, `ciudad`, `comuna`, `calle`, `tipoHogar`,`numeracion`) VALUES  ( ?,?,?,?,?,?)"); //prepared Statement
+                $res->execute([$direccion->getRegion(),$direccion->getCiudad(),$direccion->getComuna(),$direccion->getCalle(),$direccion->getTipoHogar(), $direccion->getNumeracion()]);
                 return true;
                  
             }
@@ -108,6 +99,50 @@
                 $this->pdo->closeConnection();
             }
         }
+        public function ultimaDireccion(){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("SELECT * FROM `direccion` ORDER BY `IdDireccion` DESC LIMIT 1"); //prepared Statement
+                $res->execute([]);
+                while($fila = $res->fetch())
+                {
+                    $dire = new direccion($fila["IdDireccion"],$fila["region"],$fila["ciudad"],$fila["comuna"],$fila["calle"],$fila["tipoHogar"],$fila["numeracion"]);
+                   
+                    
+                }    
+               
+                return $dire;
+                 
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return false;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function eliminarDireccion($idDireccion){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("DELETE FROM crititica WHERE IdDireccion=?");
+                $resul= $res->execute([$idDireccion]);
+                return true;
+                
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return false;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        
 
     }
 

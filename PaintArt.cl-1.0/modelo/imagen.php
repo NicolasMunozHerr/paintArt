@@ -107,6 +107,75 @@ class imagen
             $this->pdo->closeConnection();
         }
     }  
+    public function eliminarImagen($id){
+        try{
+            $this->pdo = Conexion::getInstance();
+            $this->pdo->openConnection();
+            $res = $this->pdo->useConnection()->prepare("DELETE FROM imagen WHERE idImagen=?");
+            $resul= $res->execute([$id]);
+            return true;
+            
+        }
+        catch(PDOException $e)
+        {
+            error_log($e->getMessage());
+            return FALSE;
+        }
+        finally{
+            $this->pdo->closeConnection();
+        }
+    }
+
+     public function ulltimaIdImagen()
+    {
+        $img = FALSE;
+        try
+        {
+            $this->pdo = Conexion::getInstance();
+            $this->pdo->openConnection();
+            $resul = $this->pdo->useConnection()->prepare("SELECT MAX(`idImagen`) AS id FROM imagen");
+            $resul->execute([]);
+            while($fila = $resul->fetch())
+            {
+                $img = new imagen("a");
+                $img->setIdImagen($fila["id"]);
+                
+                
+            }    
+            return $img;
+        }
+        catch(PDOException $e)
+        {
+            error_log($e->getMessage());
+            return FALSE;
+        }
+        finally{
+            $this->pdo->closeConnection();
+        }
+    }
+
+    public function cambiarUrl(imagen $imagen){
+        
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE imagen SET UrlImagen=? WHERE idImagen=?");
+                $res->execute([$imagen->getUrlImagen(),$imagen->getIdImagen()]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+
+
+
+
+    }
     
 }
 

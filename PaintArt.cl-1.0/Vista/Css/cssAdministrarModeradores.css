@@ -1,0 +1,1206 @@
+.barraBusqueda{
+    text-align: center;
+    width:100%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-right:75px;
+}
+.Search{
+    
+    margin-right: 20px;
+    border-radius: 5px;
+    background-color: #f8f9fa!important;
+    border: 1px solid rgba(0,0,0,.1);
+    outline: none;
+    color: gray;
+    text-align: justify;
+    height: 40px;
+
+}
+
+.login{
+    float: right;
+    
+}
+.login a {
+    color:#f8f9fa ;;
+}
+.cuadros {
+    float: left;
+    width: 100%;
+    margin-top: 35px;
+}
+
+.cuadro {
+    margin-bottom: 25px;
+}
+
+
+
+
+
+
+
+@media only screen and  (min-width: 375px) {
+    .container{
+        margin-top: 25px ;
+        text-align: center;
+        width: 100%;
+       
+    }
+    .noticia{
+        
+        float: right;
+        width: 100%;
+        margin:auto;
+        
+    }
+    .noticia img{
+        max-width: 100%;
+    }
+    .noticia h2 {
+        float: left;
+        margin-left: 25px;
+  
+        
+    }
+    .noticia h6 {
+        float: left;
+        margin-left: 25px;
+        text-align: justify;
+        
+    }
+
+    .cuadro {
+        width: 100%;
+        height: auto;
+    }
+
+    .cuadro img{
+        max-width: 100%;
+        height: 100%;
+    }
+
+    .anuncio{
+        width: 100%;
+        height: 1300px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        justify-content: center;
+    }
+    
+    .big-Image{
+        float: left;
+        border:1px solid black;
+        width: 310px;
+        height: 310px;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+
+    .titulares{
+        float: left;
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .compra{
+        float: left;
+        border: 1px solid black;
+        width: 250px;
+        height: 100%;
+        text-align: center;
+        
+    }
+    .titulares button{
+        background-color: #1a1a1a;     
+        border: 0px   
+    }
+
+    .detalleCompra{
+        width: 100%;
+        margin-bottom: 30px;
+     
+    }
+    .reporte{
+        width: 25px;
+        height: 25px;
+        float: right;
+        margin-top: 10px;
+        margin-right: 10px;
+
+    }
+    .listaPeticiones {
+        border: 1px solid #eceeef;
+        
+       
+    }
+    .peticion{
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+        margin-top: 20px;
+        width: 65%;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .botoneraApruebaRechazo{
+        float: right;
+        border: 1px solid #eceeef;
+        width: 22%;
+        height: 15%;
+        margin-right: 4%;
+        margin-top: -14%;
+    }
+    .apruebo {
+        float: left;
+        margin-left: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .apruebo img
+    {
+        float:left;
+        width: 100%;
+    }
+    
+    .rechazo {
+
+        float: right;
+        margin-right: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .rechazo img
+    {
+        float:left;
+        width: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    } 
+    .foto img{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        width:17%;
+        height:17%;
+    
+    }
+    
+}
+
+@media only screen and  (min-width: 576px) {
+    .container{
+        text-align: center;
+        width: 540px;
+        
+        text-align: center;
+    }
+    .noticia{
+        float: right;
+        width: 100%;
+        margin:auto;
+        
+    }
+    .noticia img{
+        max-width: 100%;
+    }
+    .noticia h2 {
+        float: left;
+        margin-left: 25px;
+  
+        
+    }
+    .noticia h6 {
+        float: left;
+        margin-left: 25px;
+        text-align: justify;
+        
+    }
+
+    .cuadro {
+        width: 100%;
+        height: auto;
+    }
+
+    .cuadro img{
+        max-width: 100%;
+        height: 100%;
+    }
+
+    .anuncio{
+        width: 100%;
+        height: 1300px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        justify-content: center;
+    }
+    
+    .big-Image{
+        float: left;
+        border:1px solid black;
+        width: 400px;
+        height: 400px;
+        margin-left: 60px;
+        margin-top: 20px;
+    }
+
+    .titulares{
+        float: left;
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .compra{
+        float: left;
+        border: 1px solid black;
+        width: 250px;
+        height: 100%;
+        text-align: center;
+        
+    }
+    .titulares button{
+        background-color: #1a1a1a;     
+        border: 0px   
+    }
+
+    .detalleCompra{
+        width: 100%;
+        margin-bottom: 30px;
+     
+    }
+    .reporte{
+        width: 25px;
+        height: 25px;
+        float: right;
+        margin-top: 20px;
+        margin-right: 20px;
+
+    }
+
+    .listaPeticiones {
+        border: 1px solid #eceeef;
+        
+       
+    }
+    .peticion{
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+        margin-top: 20px;
+        width: 70%;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .botoneraApruebaRechazo{
+        border: 1px solid #eceeef;
+        width: 22%;
+        height: 15%;
+        margin-right: 2%;
+    }
+    .apruebo {
+        float: left;
+        margin-left: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .apruebo img
+    {
+        float:left;
+        width: 100%;
+    }
+    
+    .rechazo {
+
+        float: right;
+        margin-right: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .rechazo img
+    {
+        float:left;
+        width: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    } 
+    .foto img{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        width:18%;
+        height:18%;
+    
+    }
+
+    
+}
+
+
+@media only screen and  (min-width: 768px) {
+    .container{
+        text-align: center;
+        width: 720px;
+               
+    }
+    .noticia{
+        float: right;
+        width: 100%;
+        margin:auto;
+        
+    }
+    .noticia img{
+        max-width: 100%;
+    }
+    .noticia h2 {
+        float: left;
+        margin-left: 25px;
+  
+        
+    }
+    .noticia h6 {
+        float: left;
+        margin-left: 25px;
+        text-align: justify;
+        
+    }
+    
+    .cuadro {
+        width: 50%;
+        max-width: 50%;
+        float: left;
+    }
+        
+    
+    .cuadro img{
+        max-width: 85%;
+        width: 85%;
+    }
+    
+    .anuncio{
+        width: 100%;
+        height: 1300px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        justify-content: center;
+    }
+    
+    .big-Image{
+        float: left;
+        border:1px solid black;
+        width: 550px;
+        height: 550px;
+        margin-left: 65px;
+        margin-top: 20px;
+    }
+
+    .titulares{
+        float: left;
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .compra{
+        float: left;
+        border: 1px solid black;
+        width: 250px;
+        height: 100%;
+        text-align: center;
+        
+    }
+    .titulares button{
+        background-color: #1a1a1a;     
+        border: 0px   
+    }
+
+    .detalleCompra{
+        width: 100%;
+        margin-bottom: 30px;
+     
+    }
+    .reporte{
+        width: 25px;
+        height: 25px;
+        float: right;
+        margin-top: 20px;
+        margin-right: 30px;
+
+    }
+
+    .reporte{
+        width: 20px;
+        height: 20px;
+        float: right;
+        margin-top: 10px;
+        margin-right: 30px;
+
+    }
+
+    .inforArtista{
+        width: 100%;
+        float: left;
+        height: auto;
+        border: 1px solid black;
+       
+        margin-top: 20px;
+        
+    }
+    .imgArtista{
+        width: 500px;
+        height: 500px;
+        margin: auto;
+        margin-top:20px;
+        border: 1px solid black;
+
+    }
+    .histoObras{
+        width: 100%;
+        float: left;
+        height: auto;
+        border: 1px solid black;
+        margin-top: 20px;
+       
+
+    }
+
+    .bio{
+        float: left;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+    .biografia{
+        float: left;
+        
+    }
+    .tituloObras{
+        float: left;
+        margin-top: 20px;
+        margin-left:20px;
+    }
+
+    .cuadrosArista{
+        float: left;
+ 
+        margin: auto;
+        width: auto;
+        height: auto;
+       
+    }
+    .cuadroArtista{
+        float: left;
+        margin-left: 30px;
+        width: 300px;
+        height: 300px;
+        margin-top: 20px;
+        text-align: center;
+
+
+    }
+
+    .cuadroArtista img{
+        max-width: 85%;
+        width: 85%;
+    }
+
+    .listaPeticiones {
+        border: 1px solid #eceeef;
+       
+    }
+    .peticion{
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+        margin-top: 20px;
+        width: 70%;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .botoneraApruebaRechazo{
+        border: 1px solid #eceeef;
+        width: 18%;
+        height: 20%;
+        margin-right: 6%;
+    }
+    .apruebo {
+        float: left;
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .apruebo img
+    {
+        float:left;
+        width: 100%;
+    }
+    
+    .rechazo {
+
+        float: right;
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .rechazo img
+    {
+        float:left;
+        width: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    } 
+    .foto img{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        width:13%;
+        height:13%;
+    
+    }
+
+   
+   
+
+}
+
+@media only screen and  (min-width: 992px) {
+    .container{
+        text-align: center;
+        width: 960px;
+        
+    }
+    .noticia{
+        float: right;
+        width: 100%;
+        margin:auto;
+        
+    }
+    .noticia img{
+        max-width: 100%;
+    }
+    .noticia h2 {
+        float: left;
+        margin-left: 25px;
+  
+        
+    }
+    .noticia h6 {
+        float: left;
+        margin-left: 25px;
+        text-align: justify;
+        
+    }
+
+    .cuadro {
+        width: 100%;
+        height: auto;
+    }
+
+    .cuadro img{
+        max-width: 85%;
+    }
+    .cuadro {
+        width: 25%;
+        max-width: 25%;
+        float: left;
+    }
+        
+    
+    .cuadro img{
+        max-width: 85%;
+        width: 85%;
+    }
+
+    .anuncio{
+        width: 100%;
+        height: 684px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+    }
+    
+    .big-Image{
+        float: left;
+        border:1px solid black;
+        width: 450px;
+        height: 450px;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+
+    .titulares{
+        float: left;
+        margin-left: 20px;
+        margin-top: 20px;
+        width: 350px;
+    }
+
+    .compra{
+        float: left;
+        border: 1px solid black;
+        width: 100%;
+        
+        text-align: center;
+        
+    }
+    .titulares button{
+        background-color: #1a1a1a;     
+        border: 0px   
+    }
+
+    .detalleCompra{
+        width: 100%;
+        margin-bottom: 30px;
+     
+    }
+    .reporte{
+        width: 20px;
+        height: 20px;
+        float: right;
+        margin-top: 10px;
+        margin-right: 30px;
+
+    }
+
+    .inforArtista{
+        width: 300px;
+        float: left;
+        height: auto;
+        border: 1px solid black;
+        margin-left: 20px;
+        margin-top: 20px;
+        
+    }
+    .imgArtista{
+        width: 280px;
+        height: 280px;
+        margin: auto;
+        margin-top:20px;
+        border: 1px solid black;
+
+    }
+    .histoObras{
+        width: 550px;
+        float: right;
+        height: auto;
+        margin-right: 20px;
+        margin-top: 20px;
+        border: 1px solid black;
+        text-align: left;
+
+    }
+
+    .bio{
+        float: left;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+    .biografia{
+        float: left;
+        
+    }
+    .tituloObras{
+        float: left;
+        margin-top: 20px;
+        margin-left:20px;
+    }
+
+    .cuadrosArista{
+        float: left;
+ 
+        margin: auto;
+        width: auto;
+        height: auto;
+       
+    }
+    .cuadroArtista{
+        float: left;
+        margin-left: 15px;
+        width: 250px;
+        height: 250px;
+        margin-top: 20px;
+        text-align: center;
+
+
+    }
+
+    .cuadroArtista img{
+        max-width: 85%;
+        width: 85%;
+    }
+
+    .listaPeticiones {
+        border: 1px solid #eceeef;
+        
+       
+    }
+    .peticion{
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+        margin-top: 20px;
+        width: 75%;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .botoneraApruebaRechazo{
+        border: 1px solid #eceeef;
+        width: 15%;
+        height: 20%;
+        margin-top: -80px;
+        margin-right: 6%;
+    }
+    .apruebo {
+        float: left;
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .apruebo img
+    {
+        float:left;
+        width: 100%;
+    }
+    
+    .rechazo {
+
+        float: right;
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .rechazo img
+    {
+        float:left;
+        width: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    } 
+    
+    .foto img{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        width:10%;
+        height:10%;
+    
+    }
+
+}
+
+@media only screen and  (min-width: 1200px) {
+    .container{
+        text-align: center;
+        width: 1140px;
+        
+    }
+    .noticia{
+        float: right;
+        width: 100%;
+        margin:auto;
+        
+        
+    }
+    .noticia img{
+        max-width: 100%;
+        width: 100%;
+    }
+    .noticia h2 {
+        float: left;
+        margin-left: 25px;
+  
+        
+    }
+    .noticia h6 {
+        float: left;
+        margin-left: 25px;
+        text-align: justify;
+        
+    }
+    .cuadro {
+        width: 25%;
+        max-width: 25%;
+        float: left;
+    }
+        
+    
+    .cuadro img{
+        max-width: 85%;
+        width: 85%;
+    }
+
+    .anuncio{
+        width: 100%;
+        height: 684px;
+        background-color: #f8f9fa!important;
+        border: 1px solid #dee2e6;
+        text-align: left;
+    }
+    
+    .big-Image{
+        float: left;
+        border:1px solid black;
+        width: 550px;
+        height: 550px;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+
+    .titulares{
+        float: left;
+        margin-left: 20px;
+        margin-top: 20px;
+        width: 450px;
+    }
+
+    .compra{
+        float: left;
+        border: 1px solid black;
+        width: 250px;
+        height: 100%;
+        text-align: center;
+        
+    }
+    .titulares button{
+        background-color: #1a1a1a;     
+        border: 0px   
+    }
+
+    .detalleCompra{
+        width: 100%;
+        margin-bottom: 30px;
+     
+    }
+    .reporte{
+        width: 20px;
+        height: 20px;
+        float: right;
+        margin-top: 10px;
+        margin-right: 30px;
+
+    }
+    
+    .inforArtista{
+        width: 350px;
+        float: left;
+        height: auto;
+        border: 1px solid black;
+        margin-left: 20px;
+        margin-top: 20px;
+        
+    }
+    .imgArtista{
+        width: 320px;
+        height: 320px;
+        margin: auto;
+        margin-top:20px;
+        border: 1px solid black;
+
+    }
+    .histoObras{
+        width: 700px;
+        float: right;
+        height: auto;
+        margin-right: 20px;
+        margin-top: 20px;
+        border: 1px solid black;
+        text-align: left;
+
+    }
+
+    .bio{
+        float: left;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+    .biografia{
+        float: left;
+        
+    }
+    .tituloObras{
+        float: left;
+        margin-top: 20px;
+        margin-left:20px;
+    }
+
+    .cuadrosArista{
+        float: left;
+ 
+        margin: auto;
+        width: auto;
+        height: auto;
+       
+    }
+    .cuadroArtista{
+        float: left;
+        margin-left: 35px;
+        width: 300px;
+        height: 300px;
+        margin-top: 20px;
+        text-align: center;
+
+
+    }
+
+    .cuadroArtista img{
+        max-width: 85%;
+        width: 85%;
+    }
+
+    .listaPeticiones {
+        border: 1px solid #eceeef;
+        
+    }
+    .peticion{
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+        margin-top: 20px;
+        width: 75%;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .botoneraApruebaRechazo{
+        border: 1px solid #eceeef;
+        width: 12%;
+        height: 20%;
+        margin-top: -85px;
+        margin-right: 6%;
+    }
+    .apruebo {
+        float: left;
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .apruebo img
+    {
+        float:left;
+        width: 100%;
+    }
+    
+    .rechazo {
+
+        float: right;
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .rechazo img
+    {
+        float:left;
+        width: 100%;
+    }
+    .foto img{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        width:8%;
+        height:7%;
+    
+    }
+    .buscarUser{
+        margin-right: 20px;
+        border-radius: 5px;
+        background-color: #f8f9fa!important;
+        border: 1px solid rgba(0,0,0,.1);
+        outline: none;
+        color: gray;
+        text-align: justify;
+        height: 40px;
+      
+    }
+   
+}
+
+
+@media only screen and  (min-width: 1410px) {
+    .inforArtista{
+        width: 450px;
+        float: left;
+        height: auto;
+        border: 1px solid black;
+        margin-left: 20px;
+        margin-top: 20px;
+        
+    }
+    .imgArtista{
+        width: 400px;
+        height: 400px;
+        margin: auto;
+        margin-top:20px;
+        border: 1px solid black;
+
+    }
+    .histoObras{
+        width: 750px;
+        float: right;
+        height: auto;
+        margin-right: 20px;
+        margin-top: 20px;
+        border: 1px solid black;
+        text-align: left;
+
+    }
+
+    .bio{
+        float: left;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+    .biografia{
+        float: left;
+        
+    }
+    .tituloObras{
+        float: left;
+        margin-top: 20px;
+        margin-left:20px;
+    }
+
+    .cuadrosArista{
+        float: left;
+ 
+        margin: auto;
+        width: auto;
+        height: auto;
+       
+    }
+    .cuadroArtista{
+        float: left;
+        margin-left: 50px;
+        width: 300px;
+        height: 300px;
+        margin-top: 20px;
+        text-align: center;
+
+
+    }
+
+    .cuadroArtista img{
+        max-width: 85%;
+        width: 85%;
+    }
+    .listaPeticiones {
+        
+        width: auto;
+        float: left;
+        
+        border: 1px solid #eceeef;
+       
+    }
+    .peticion{
+        float:left;
+        border: 1px solid black;
+        margin-top: 20px;
+        width: 75%;
+        height: auto;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .botoneraApruebaRechazo{
+        border: 1px solid #eceeef;
+        width: 11%;
+        height: 20%;
+        margin-top: 35px;
+        margin-right: 6%;
+    }
+    .apruebo {
+        float: left;
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .apruebo img
+    {
+        float:left;
+        width: 100%;
+    }
+    
+    .rechazo {
+
+        float: right;
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 1px solid #eceeef;
+    }
+    .rechazo img
+    {
+        float:left;
+        width: 100%;
+    }
+    .foto img{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        width:7%;
+        height:7%;
+    }
+
+    .nombreYapellido
+    {
+        float:left;
+        margin-left: 5px;
+        width:auto;
+        height: auto;
+        
+    }
+
+    .barraBusquedaModerador{
+        text-align: center;
+        width:100%;
+        margin: auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        margin-right:75px;
+        
+        
+    }
+    .botonBuscar{
+        float: right;
+    }
+
+    
+
+   
+
+}
+

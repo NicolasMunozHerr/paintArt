@@ -1,5 +1,6 @@
 <?php
-
+ include_once dirname(__FILE__)."/../Conexion/conexion.php";
+ include_once dirname(__FILE__)."/../modelo/arraylist.php";
 use JetBrains\PhpStorm\Internal\ReturnTypeContract;
 
     class peticion{
@@ -13,9 +14,17 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
         private $idArtista;
         private $idDireccion;
 
-        public function __construct()
+        public function __construct($idPeticion, $asunto, $descripcion, $estado, $fecha, $precio, $idUsuarioRegistrado, $idArtista, $idDireccion)
         {
-            
+            $this->idPeticion= $idPeticion;
+            $this->asunto= $asunto;
+            $this->descripcion= $descripcion;
+            $this->estado= $estado;
+            $this->fecha= $fecha;
+            $this->precio= $precio;
+            $this->idUsuarioRegistrado=$idUsuarioRegistrado;
+            $this->idArtista= $idArtista;
+            $this->idDireccion= $idDireccion;
         }
 
         public function getIdPeticion()
@@ -99,10 +108,193 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
 
         public function __toString()
         {
-            return ' id peticion: '+$this->idPeticion+ ' asunto: '+$this->asunto+' descripcion: '+$this->descripcion+
-            ' estado: '+$this->estado+' fecha: '+$this->fecha+' precio: '+$this->precio+' id usuario registrado:'+$this->idUsuarioRegistrado+
-            ' id artista: '+$this->idArtista+' id direccion:'+ $this->idDireccion;
+            return ' id peticion: '.$this->idPeticion. ' asunto: '.$this->asunto.' descripcion: '.$this->descripcion.
+            ' estado: '.$this->estado.' fecha: '.$this->fecha.' precio: '.$this->precio.' id usuario registrado:'.$this->idUsuarioRegistrado.
+            ' id artista: '.$this->idArtista.' id direccion:'. $this->idDireccion;
         }
+
+        public function subirPeticion(peticion $pet){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("INSERT INTO `peticion` (`idpeticion`, `asunto`, `descripcion`, `estado`, `fecha`, `precio`, `Usuario_Registrado_idUsuario_Registrado`, `Artista_idArtista`, `Direccion_IdDireccion`) VALUES (?, ?,?,?,?, ?,?,?, ?);"); //prepared Statement
+                $res->execute([NULL, $pet->getAsunto(), $pet->getDescripcion(), $pet->getEstado(), $pet->getFecha(), $pet->getPrecio(), $pet->getIdUsuarioRegistrado(), $pet->getIdArtista(), $pet->getIdDireccion()]);
+                return true;
+                 
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return error_log($e->getMessage());
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+            
+        }
+
+
+        public function listarPeticionAprobacion($idArtista){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `peticion` where `estado`=0 AND `Artista_idArtista`=?  ");
+                $resul->execute([$idArtista]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new peticion($fila["idpeticion"],$fila["asunto"],$fila["descripcion"],$fila["estado"],$fila["fecha"],$fila["precio"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"],$fila["Direccion_IdDireccion"]);  
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+               // return error_log($e->getMessage());
+               return false;
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+        public function listarPeticionUser($idUsuario){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `peticion` where `Usuario_Registrado_idUsuario_Registrado`=? ORDER BY `idpeticion` DESC");
+                $resul->execute([$idUsuario   ]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new peticion($fila["idpeticion"],$fila["asunto"],$fila["descripcion"],$fila["estado"],$fila["fecha"],$fila["precio"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"],$fila["Direccion_IdDireccion"]);  
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+               // return error_log($e->getMessage());
+               return false;
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function listaPeticionTrabajadas($idArtista){
+            $lista = new ArrayList();
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `peticion` where `estado`!=0 and `estado`!=4 and `Artista_idArtista`=? ORDER BY `idpeticion` DESC ");
+                $resul->execute([$idArtista]);
+                while($fila = $resul->fetch())
+                {
+                    $c = new peticion($fila["idpeticion"],$fila["asunto"],$fila["descripcion"],$fila["estado"],$fila["fecha"],$fila["precio"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"],$fila["Direccion_IdDireccion"]);  
+                    $lista->add($c);
+                }
+                return $lista;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                //return FALSE;
+               // return error_log($e->getMessage());
+               return false;
+
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+
+        public function rechazaPeticion($idpet){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE  peticion SET estado=4 WHERE idpeticion=?");
+                $resul= $res->execute([$idpet]);
+                return true;
+                
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+
+        }
+
+        public function apruebaPeticion($id)
+         {
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE peticion SET estado=1 WHERE idpeticion=?");
+                $res->execute([$id]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function terminandoPeticion($id)
+         {
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE peticion SET estado=2 WHERE idpeticion=?");
+                $res->execute([$id]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function enviadoPeticion($id)
+         {
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("UPDATE peticion SET estado=3 WHERE idpeticion=?");
+                $res->execute([$id]);
+                return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+
+
 
 
     }
