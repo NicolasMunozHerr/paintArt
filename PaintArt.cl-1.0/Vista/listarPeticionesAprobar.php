@@ -159,7 +159,7 @@ if( empty($_SESSION["online"]))
         data:{parametros:parametros,id:id, },
         success: function(data){
             obtener_datos();
-            alert(data);
+            swal(data);
             
     }
     });
@@ -170,7 +170,7 @@ if( empty($_SESSION["online"]))
       var parametros=3;
       var id=$(this).data("id");
       swal({
-        text: 'Escriba la razon por la cual rechaza',
+        text: 'Indique el motivo de rechazo',
         content: "input",
         button: {
           text: "rechazar",

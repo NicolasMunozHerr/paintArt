@@ -36,12 +36,11 @@
         $reportes=new reportes(null, $explicacion, $razon,$idUser, $id);
     
         $resp= $reportes->subirRepor($reportes);
-    
         if($resp==true){
             $_GET['id']= $id;
             header('Location: ../Vista/detalleObra.php?id='.$id);
         }else{
-          echo 'algo salio mal';
+             echo 'algo salio mal';
         }
       }
     }

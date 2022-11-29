@@ -50,7 +50,7 @@ if( empty($_SESSION["online"]))
               </thead>
             </div>
             <div class="login">
-            <?php 
+              <?php 
                 if($online == false)
                 {
                   echo ' <table>
@@ -59,8 +59,7 @@ if( empty($_SESSION["online"]))
                         </table>';
                 }else{
                   echo '<table>
-                          <td style="width: 40px;" ><div class="icon"><img style="width:40px; max-width:40px; heigth: 40px; max-heigth: 40px" src="imagenes/compras.png" alt="">
-                          </td>
+                          <td style="width: 40px;" ><div class="icon"><a style="text-decoration: none;" href="listaCompra.php"> <img style="width:40px; max-width:40px; heigth: 40px; max-heigth: 40px ; margin-top: 15px" src="imagenes/compras.png" alt=""></a><</td>
                           <td style="width: 40px"> <div class="icon"> <a style="text-decoration: none;" href="listarMisPeticiones.php"><img style="width:40px; max-width:40px; heigth: 40px; max-heigth: 40px" src="imagenes/notificacion.png" alt=""></a></td>
                           <td style="width: 40px"> <div class="icon"> <a style="text-decoration: none;" href="../controlador/controllerAccesadorUsuarios.php"><img  style="width:40px; max-width:40px; heigth: 40px; max-heigth: 40px" src="imagenes/user.png" alt=""></a></td>            
                       </table>';
@@ -88,7 +87,7 @@ if( empty($_SESSION["online"]))
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categorias</a>
               <div class="dropdown-menu" > 
-              <a class="dropdown-item" href="listaObras.php?cat=1">Urbano</a>
+                <a class="dropdown-item" href="listaObras.php?cat=1">Urbano</a>
                 <a class="dropdown-item" href="listaObras.php?cat=2">Optico</a>
                 <a class="dropdown-item" href="listaObras.php?cat=4">Surrealismo</a>
                 <a class="dropdown-item" href="listaObras.php?cat=5">Neoplasticismo</a>
@@ -103,24 +102,31 @@ if( empty($_SESSION["online"]))
             </li>
             <?php
               if ($online== false){
-
+                   echo ' <li class="nav-item">
+                         <a class="nav-link" href="registrar.php">Registrar</a>
+                   </li>
+                   <li class="nav-item">
+                        <a class="nav-link" href="iniciarSesion.php">Iniciar</a>
+                   </li>';
               }else{
                 echo '
                 <div  class="lista"> 
                   <li class="nav-item"><a class="nav-link" href="listaCompra.php"><img style="width:30px; max-width:30px; heigth: 30px; max-heigth: 30px" src="imagenes/compras.png" alt="">Mis compras</a></li>
                   <li class="nav-item"><a class="nav-link" href="listarMisPeticiones.php"><img style="width:30px; max-width:30px; heigth: 30px; max-heigth: 30px" src="imagenes/notificacion.png" alt="">Mis pedidos</a></li>
                   <li class="nav-item"><a class="nav-link" href="../controlador/controllerAccesadorUsuarios.php"><img style="width:30px; max-width:30px; heigth: 30px; max-heigth: 30px"  src="imagenes/user.png" alt="">Mi perfil</a></li>
+                   
+                 
+                  
                 </div>
                 ';
               }
-            
             
             ?>
           </div>
         </ul>
       </nav>
       <h3 style="margin-top: 10px;margin-left: 10px;">Lista de Peticiones</h3>
-      <div id="Inputs" class="container">
+      <div id="Inputs" class="container" style="min-height: 80vh;">
         <h5>Lista de Peticiones</h5>
         <?php 
         //$controller->listarReporte();
@@ -160,7 +166,7 @@ if( empty($_SESSION["online"]))
         </div> -->
         
 
-       
+       </div>
       
 </body>
 <?php include_once 'footer.php';?>

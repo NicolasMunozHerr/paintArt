@@ -113,7 +113,7 @@ if( empty($_SESSION["online"]))
           </div>
         </ul>
       </nav>
-      <div class="container">
+      <div class="container" style="min-height: 80vh;">
         <h4>Agregar Moderadores</h5>
         <h6 style="margin-top: 10px;"><a href="quitarModeradores.php">quitar moderadores</a></h6>
         <div style="width: 100%; height: auto;" class="listaPeticiones">
@@ -155,7 +155,7 @@ if( empty($_SESSION["online"]))
             <div id="resultado" class="resultado"></div>
             
         </div>
-
+        </div>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

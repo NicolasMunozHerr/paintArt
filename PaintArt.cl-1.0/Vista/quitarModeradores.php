@@ -113,7 +113,7 @@ if( empty($_SESSION["online"]))
           </div>
         </ul>
       </nav>
-      <div class="container">
+      <div class="container" style="min-height: 80vh;">
         <h4>Quitar Moderadores</h5>
         <h6 style="margin-top: 10px;"><a href="agregarModeradores.php">agregar moderadores</a></h6>
         <div style="width: 100%; height: auto;" class="listaPeticiones">

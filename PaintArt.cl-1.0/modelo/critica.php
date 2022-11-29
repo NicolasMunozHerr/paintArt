@@ -72,11 +72,11 @@ class critica {
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `crititica` where `Obra_idObra`=?  ORDER BY `crititica`.`idCrititica` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `critica` where `Obra_idObra`=?  ORDER BY `critica`.`idCrititica` DESC");
                 $resul->execute([$idObra]);
                 while($fila = $resul->fetch())
                 {
-                    $c = new critica($fila["idCrititica"],$fila["valoracion"],$fila["critica"], $fila["Obra_idObra"],$fila["idUsuarioRegistrado_UsuarioRegistrado"]);
+                    $c = new critica($fila["idCrititica"],$fila["valoracion"],$fila["critica"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"]);
                   
                     $lista->add($c);
                 }
@@ -98,15 +98,15 @@ class critica {
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("INSERT INTO `crititica` ( `valoracion`, `critica`, `Obra_idObra`, `idUsuarioRegistrado_UsuarioRegistrado`) VALUES  ( ?,?,?,?)"); //prepared Statement
+            $res = $this->pdo->useConnection()->prepare("INSERT INTO `critica` (`idCrititica`, `valoracion`, `critica`, `Obra_idObra`, `Usuario_Registrado_idUsuario_Registrado`) VALUES  ( null,?,?,?,?)"); //prepared Statement
             $res->execute([$crit->getValoracion(),$crit->getCritica(),$crit->getIdObra(),$crit->getIdUsuarioRegistrado()]);
             return true;
              
         }
         catch(PDOException $e)
         {
-            error_log($e->getMessage());
-            return false;
+             return error_log($e->getMessage());
+            //return false;
         }
         finally{
             $this->pdo->closeConnection();
@@ -121,11 +121,11 @@ class critica {
         {
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM crititica WHERE idCrititica=?");
+            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM critica WHERE idCrititica=?");
             $resul->execute([$idCriti]);
             while($fila = $resul->fetch())
             {
-                $crit = new critica($fila["idCrititica"],$fila["valoracion"] , $fila["critica"], $fila["Obra_idObra"],$fila["idUsuarioRegistrado_UsuarioRegistrado"]);
+                $crit = new critica($fila["idCrititica"],$fila["valoracion"] , $fila["critica"], $fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"]);
               
                 
                 
@@ -146,7 +146,7 @@ class critica {
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("DELETE FROM crititica WHERE idCrititica=?");
+            $res = $this->pdo->useConnection()->prepare("DELETE FROM critica WHERE idCrititica=?");
             $resul= $res->execute([$idCritica]);
             return true;
             
@@ -164,7 +164,7 @@ class critica {
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("DELETE FROM crititica WHERE Obra_idObra=?");
+            $res = $this->pdo->useConnection()->prepare("DELETE FROM critica WHERE Obra_idObra=?");
             $resul= $res->execute([$idobra]);
             return true;
             
@@ -186,11 +186,11 @@ class critica {
         {
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `crititica` where `Obra_idObra`=?");
+            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `critica` where `Obra_idObra`=?");
             $resul->execute([$idobra]);
             while($fila = $resul->fetch())
             {
-                $c = new critica($fila["idCrititica"],$fila["valoracion"],$fila["critica"],$fila["Obra_idObra"],$fila["idUsuarioRegistrado_UsuarioRegistrado"]);
+                $c = new critica($fila["idCrititica"],$fila["valoracion"],$fila["critica"],$fila["Obra_idObra"],$fila["Usuario_Registrado_idUsuario_Registrado"]);
                 $lista->add($c);
             }
             return $lista;
@@ -216,14 +216,14 @@ class critica {
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
             $resul = $this->pdo->useConnection()->prepare(
-            "SELECT count(crititica.idCrititica) as 'Cantidad',
+            "SELECT count(critica.idCrititica) as 'Cantidad',
             obra.idObra 
             from
-                crititica,
+                critica,
                 obra,
                 artista
             WHERE 
-                crititica.Obra_idObra =obra.idObra and 
+                critica.Obra_idObra =obra.idObra and 
                 obra.Artista_idArtista= artista.idArtista AND 
                 artista.idArtista= ?
             group BY 

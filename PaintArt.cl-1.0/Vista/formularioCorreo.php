@@ -111,6 +111,7 @@ if( empty($_SESSION["online"]))
           </div> 
         </ul> 
       </nav> 
+      <div style="min-height: 80vh;">
       <div class="container" style="background-color: #f8f9fa;
       border: 1px solid #dee2e6;"> 
              <h2 style="margin-top: 20px;">Restablecer Contraseña</h2>
@@ -136,6 +137,7 @@ if( empty($_SESSION["online"]))
 
             </div>  
       </div> 
+      </div>
 
 </body>
 <?php include_once 'footer.php';?> 

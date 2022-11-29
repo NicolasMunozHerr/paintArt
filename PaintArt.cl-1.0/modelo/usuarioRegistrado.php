@@ -120,22 +120,52 @@
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("INSERT INTO `usuario_registrado` (  `nombre`, `apellido`, `correo`, `numeroTel`, `contraseña`, `fechaNac`, `permisos`,`rut`,`Imagen_idImagen`) VALUES  (  ?, ?, ?, ?, ?,?,?,?,?)"); //prepared Statement
+                $res = $this->pdo->useConnection()->prepare("INSERT INTO usuario_registrado (  nombre, apellido, correo, numeroTel, contraseña, fechaNac, permisos,rut,Imagen_idImagen) VALUES  (  ?, ?, ?, ?, ?,?,?,?,?)"); //prepared Statement
                 $res->execute([$user->getNombre(),$user->getApellido(),$user->getCorreo(),$user->getNumeroTel(), $user->getContraseña(), $user->getFechaNac(), 1, $user->getRut(), $user->getIdImagen()]);
                 return true;
                  
             }
             catch(PDOException $e)
             {
-                error_log($e->getMessage());
-                return false;
+               return error_log($e->getMessage());
+                //return false;
             }
             finally{
                 $this->pdo->closeConnection();
             }
         }
 
-
+        PUBLIC function buscarUusuarioCorreo($correo){
+            $idUs = FALSE;
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM usuario_registrado WHERE correo=?");
+                $resul->execute([$correo]);
+                while($fila = $resul->fetch())
+                {
+                   /* $idUs = new usuarioRegistrado();
+                    $idUs->setId($fila["idUsuario_Registrado"]);
+                    $idUs->setNombre($fila["nombre"]);
+                    $idUs->setApellido($fila["apellido"]);
+                    $idUs->setPermisos($fila["permisos"]);
+                    $idUs->setIdImagen($fila["Imagen_idImagen"]);
+                    $idUs->setFechaNac($fila['fechaNac']);*/
+                    
+                }    
+                return true;
+            }
+            catch(PDOException $e)
+            {
+                
+              // error_log($e->getMessage());
+               return false;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
         PUBLIC function buscarUusuarioId($id){
             $idUs = FALSE;
             try
@@ -160,8 +190,8 @@
             catch(PDOException $e)
             {
                 
-               // return error_log($e->getMessage());
-               return false;
+               return error_log($e->getMessage());
+              // return false;
             }
             finally{
                 $this->pdo->closeConnection();
@@ -227,9 +257,9 @@
             }
             catch(PDOException $e)
             {
-                
-               // return error_log($e->getMessage());
-               return false;
+                return $e;
+                return error_log($e->getMessage());
+               //return false;
             }
             finally{
                 $this->pdo->closeConnection();
@@ -273,7 +303,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `usuario_registrado` WHERE permisos=1 LIMIT 5;");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM usuario_registrado WHERE permisos=1 LIMIT 5;");
                 $resul->execute([]);
                 while($fila = $resul->fetch())
                 {
@@ -306,7 +336,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `usuario_registrado` WHERE permisos=4 LIMIT 5;");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM usuario_registrado WHERE permisos=4 LIMIT 5;");
                 $resul->execute([]);
                 while($fila = $resul->fetch())
                 {

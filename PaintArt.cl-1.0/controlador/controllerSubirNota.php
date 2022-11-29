@@ -1,4 +1,4 @@
-<?php 
+<?php session_start();
  include_once '../modelo/notaInformativa.php';
  include_once '../modelo/imagen.php';
  include_once '../modelo/usuarioRegistrado.php';
@@ -21,8 +21,8 @@
        $temp = $_FILES['imagenObra']['tmp_name'];
        //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
       if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000000))) {
-         echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
-         - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+         $_SESSION['informacion']= ' Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.';
+         header('Location: controllerAccesadorUsuarios.php');
       }
       else {
          //Si la imagen es correcta en tamaño y tipo
@@ -42,7 +42,6 @@
               if($respImg!=1){
                  echo 'Oopss problemas al subir su imagen';
               }else{
-                 session_start();
                  $idUsuarioRegistrado= $_SESSION['online'];
                  $user= new usuarioRegistrado ();
                  $respUser= $user->buscarUusuarioId($idUsuarioRegistrado);

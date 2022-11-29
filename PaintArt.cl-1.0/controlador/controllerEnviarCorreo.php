@@ -40,7 +40,7 @@ if(empty($_POST['EMAIL'])){
             $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
             $mail->Username   = 'paintartcl@gmail.com';                     //SMTP username
-            $mail->Password   = 'arrjygzguqbgdbrd';                               //SMTP password
+            $mail->Password   = 'veqtqpsanaktrgxf';                               //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             $mail->CharSet = 'UTF-8';
@@ -71,7 +71,7 @@ if(empty($_POST['EMAIL'])){
                   <p style="font-family:  Arial; ">Hemos recibido una solicitud de cambios de contraseña, esperemos que sea usted, ante manos declaramos que este link solo funcionara durante las primeras 24 hrs de la emision de dicha solicitud</p>
                   <br>
                   <br>
-                  <a style="font-family:  Arial;" href="http://localhost/crono/PaintArt.cl/Vista/reset.php?email='.$correo.'&token='.$token.'">  <button type="button" onmouseover="this.backgroundColor=#ffc107" style=" cursor: pointer;color: #000;background-color: #ffc107;border-color: #ffc107;border: 14px solid transparent; border-radius: 0.25rem; height:45PX ; width: 150PX; "> CLICK AQUI</button></a>     
+                  <a style="font-family:  Arial;" href="https://paintartcla.000webhostapp.com/PaintArt.cl/Vista/reset.php?email='.$correo.'&token='.$token.'">  <button type="button" onmouseover="this.backgroundColor=#ffc107" style=" cursor: pointer;color: #000;background-color: #ffc107;border-color: #ffc107;border: 14px solid transparent; border-radius: 0.25rem; height:45PX ; width: 150PX; "> CLICK AQUI</button></a>     
                 
                 </div>
                           <br>
@@ -82,13 +82,13 @@ if(empty($_POST['EMAIL'])){
             ';
 
             $mail->send();
-            echo 'El mensaje se envio correctamente';
+            
             $estadoEnvio=true;
         } catch (Exception $e) {
             echo "Hubo un error al enviar el correo: {$mail->ErrorInfo}";
         }           
            $contra= new contraseñas(null,$correo, $token, $fecha, $codigo, $idUser);
-           echo $contra->__toString();
+           
             if($estadoEnvio== true){
                 $resp= $contra->crearContraseña($contra);
                 

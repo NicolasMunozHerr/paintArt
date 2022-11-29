@@ -231,6 +231,7 @@ class registroPujadores{
                 $c->__setValor($fila["valor"]);
                 $c->__setIdUser($fila["Usuario_Registrado_idUsuario_Registrado"]);
                 $c->__setSubasta($fila["Subasta_idSubasta"]);
+                $c->__setDireccion_IdDireccion($fila['Direccion_IdDireccion']);
             }    
             return $c;
         }

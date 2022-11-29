@@ -8,6 +8,7 @@ include_once '../modelo/compra.php';
 include_once '../modelo/subastas.php';
 include_once '../modelo/registroPujadores.php';
 include_once '../modelo/usuarioRegistrado.php';
+include_once '../modelo/direccion.php';
 
 class historialCompras{
 
@@ -39,6 +40,14 @@ class historialCompras{
                 ';
                 for ($i=0; $i <$size ; $i++) { 
                     $infoArtista= $artista->buscarIdArtista($listaCompra->get($i)->getIdArtista());
+                    $idDireccion= $listaCompra->get($i)->getIdDireccion();
+                    $direccion = new direccion(null, null, null, null, null, null, null);
+                    $respDireccion= $direccion->buscarDireccionID($idDireccion);
+                    if($respDireccion==false){
+                        $direccion=" Direccion no encontrada";
+                    }else{
+                        $direccion= "direccion adscrita: <br>".$respDireccion->__toString(); 
+                    }
                     if ($infoArtista==false) {
                         echo '
                         <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
@@ -90,6 +99,8 @@ class historialCompras{
                                                     <label>Fecha de compra: '.$listaCompra->get($i)->getFechaCompra().'</label>
                                                     <P>
                                                     <label>Monto de la compra: '.$coste.'</label>
+                                                    <P>
+                                                    <label> '.$direccion.'</label>
                                                     <P>
                                                     
                                                     <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$listaCompra->get($i)->getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a>
@@ -150,6 +161,14 @@ class historialCompras{
                         <br><br>
                         No se puede ver el maximo pujador de subastas hasta el momento';
                     }else{
+                        $idDireccion= $maximoRegistro->__getDireccion_IdDireccion();
+                        $direccion = new direccion(null, null, null, null, null, null, null);
+                        $respDireccion= $direccion->buscarDireccionID($idDireccion);
+                        if($respDireccion==false){
+                            $direccion=" Direccion no encontrada";
+                        }else{
+                            $direccion= "direccion adscrita: <br>".$respDireccion->__toString(); 
+                        }
                         $subasta= new subasta();
                         $resp=$subasta->buscarSubasta($idSubasta);
                         $idUserMaxPujador= $maximoRegistro->__getIdUser();
@@ -201,11 +220,13 @@ class historialCompras{
                                            
                                                     
                                                         <div style="text-align:left; width:95% " class="peticion">
+
                                                             <h5>Estado: '.$estado.'</h5> <p></p>
                                                             <h6>'.$estadoEnvio.'</h6>
                                                             <H6>Titulo de la Obra: '.$obra->getTitulo().'</H6>
                                                             <P>
                                                             <P>
+                                                            <b>
                                                             <label>Fecha de finalizacion: '.$subasta->__getFechaLimite().'</label>
                                                             <P>
                                                             <label>Monto de la puja suya: '.$registro->get($i)->__getValor().'</label>
@@ -215,10 +236,13 @@ class historialCompras{
                                                             <p>
                                                             <label>Monto de la puja Mayor: '.$subasta->__getPrecioPuja().'</label>
                                                             <P>
+                                                            <label>'.$direccion.'</label>
+                                                            <P>
                                                             <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$subasta->__getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a>
                                                             <p>
                                                             <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$obra->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>
                                                             <img style="float:right;width: 120px;; max-width: 120px;height: 120px;max-height: 120px;margin-top:-110px; margin-right:10px" src="'.$imagen->getUrlImagen().'" alt="">
+                                                            </b>
                                                         </div> <br>
                                                     ';
                                 }

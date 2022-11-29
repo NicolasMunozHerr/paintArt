@@ -21,6 +21,8 @@ if( empty($_SESSION["online"]))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/bootstrap.min.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <link rel="stylesheet" href="Css/listaPeticiones.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
 
@@ -124,7 +126,7 @@ if( empty($_SESSION["online"]))
         </ul>
       </nav>
       <h3 style="margin-top: 10px;margin-left: 10px;">Lista de reporte de Usuario</h3>
-      <div id="Inputs" class="container">
+      <div id="Inputs" class="container" style="min-height: 80vh;">
         <h5>Lista de reporte</h5>
         <?php 
         //$controller->listarReporte();
@@ -160,7 +162,7 @@ if( empty($_SESSION["online"]))
           </div>
         </div> -->
         
-  
+  </div>
 </body>
 <?php include_once 'footer.php';?>
 </html>
@@ -190,8 +192,7 @@ if( empty($_SESSION["online"]))
         data:{parametros:parametros,id:id, },
         success: function(data){
             obtener_datos();
-            alert(data);
-            
+        swal(data, {icon:"info",});            
     }
     });
 
@@ -207,7 +208,7 @@ if( empty($_SESSION["online"]))
         data:{parametros:parametros,id:id, },
         success: function(data){
             obtener_datos();
-            alert(data);
+            swal(data, {icon:"info",});
     }
     });
 

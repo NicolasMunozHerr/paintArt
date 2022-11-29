@@ -1,4 +1,5 @@
 <?php 
+session_start();
 if (isset($_GET['email']) && isset($_GET['token'])) {
     $email= $_GET['email'];
     $token= $_GET['token'];
@@ -18,9 +19,7 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     <title>Document</title>
 </head>
 <body>
-<?php 
-session_start();
-?>
+
 <?php ;
 $online= false;
 if( empty($_SESSION["online"]))

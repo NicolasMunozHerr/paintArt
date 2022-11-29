@@ -1,5 +1,6 @@
 <?php 
 session_start();
+
 ?>
 <?php ;
 $online= false;
@@ -18,8 +19,13 @@ if( empty($_SESSION["online"]))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssMain.css">
-    <link rel="stylesheet" href="Css/registrar.css"> 
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
@@ -31,16 +37,16 @@ if( empty($_SESSION["online"]))
           </button>
           <div class="barraBusqueda">
             
-                <thead>
-                  <form class="d-flex " style="height: 40px;" action="../controlador/controllerBusqueda.php" method="POST">
-                    <input name="buscador" class=" form-control Search"  style=" margin-right:3px;margin-top: 2px; " type="text" placeholder="Buscar">
-                    <select name="modo" class="form-select " style="width: 120px; margin-right:2px ;background-color: #f0ad4e; border-color: #f0ad4e; color:black" name="" id="">
-                      <option value="artista"><h6>Artista</h6> </option>
-                      <option value="obra">Obra</option>
-                    </select>
-                    <button class="btn btn-secondary my-2 my-sm-0" style="height:40px ;" type="submit">Buscar</button>
-                  </form>
-                </thead>
+              <thead>
+                <form class="d-flex " style="height: 40px;" action="../controlador/controllerBusqueda.php" method="POST">
+                  <input name="buscador" class=" form-control Search"  style=" margin-right:3px;margin-top: 2px; " type="text" placeholder="Buscar">
+                  <select name="modo" class="form-select " style="width: 120px; margin-right:2px ;background-color: #f0ad4e; border-color: #f0ad4e; color:black" name="" id="">
+                    <option value="artista"><h6>Artista</h6> </option>
+                    <option value="obra">Obra</option>
+                  </select>
+                  <button class="btn btn-secondary my-2 my-sm-0" style="height:40px ;" type="submit">Buscar</button>
+                </form>
+              </thead>
             </div>
             <div class="login">
               <?php 
@@ -66,7 +72,7 @@ if( empty($_SESSION["online"]))
       <ul class="navbar-nav me-auto barrita">
         <div class="collapse navbar-collapse" id="navbarColor03">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Inicio
+              <a class="nav-link active" href="Index.php">Inicio
                 <span class="visually-hidden">(current)</span>
               </a>
             </li>
@@ -95,31 +101,40 @@ if( empty($_SESSION["online"]))
             </li>
             <?php
               if ($online== false){
-
+                   echo ' <li class="nav-item">
+                         <a class="nav-link" href="registrar.php">Registrar</a>
+                   </li>
+                   <li class="nav-item">
+                        <a class="nav-link" href="iniciarSesion.php">Iniciar</a>
+                   </li>';
               }else{
                 echo '
                 <div  class="lista"> 
                   <li class="nav-item"><a class="nav-link" href="listaCompra.php"><img style="width:30px; max-width:30px; heigth: 30px; max-heigth: 30px" src="imagenes/compras.png" alt="">Mis compras</a></li>
                   <li class="nav-item"><a class="nav-link" href="listarMisPeticiones.php"><img style="width:30px; max-width:30px; heigth: 30px; max-heigth: 30px" src="imagenes/notificacion.png" alt="">Mis pedidos</a></li>
                   <li class="nav-item"><a class="nav-link" href="../controlador/controllerAccesadorUsuarios.php"><img style="width:30px; max-width:30px; heigth: 30px; max-heigth: 30px"  src="imagenes/user.png" alt="">Mi perfil</a></li>
+                   
+                 
+                  
                 </div>
                 ';
               }
-            
             
             ?>
           </div>
         </ul>
       </nav>
+      <div style="min-height: 50vh;">
       <div class="container" style="background-color: #f8f9fa;
-      border: 1px solid #dee2e6;"> 
+      border: 1px solid #dee2e6; "> 
              <h2 style="margin-top: 20px;">Cambiar Foto de perfil</h2>
             <div class="form-group formulario" > 
               <form action="../controlador/controllerCambiarFoto.php" method="post" enctype="multipart/form-data">
-                <table class="formularioRegistrar"> 
+                  <br>
+                <table style=" margin: auto"class="formularioRegistrar"> 
                     
                       <tr> 
-                        <td><h5>Imagen nueva a disponer</h5></td> 
+                        <td><h4>Imagen nueva a disponer</h4></td> 
                       </tr> 
                       <tr>
                           <td><input name="imagenUser"class="form-control" type="file" id="formFile"></textarea></td> 
@@ -132,10 +147,11 @@ if( empty($_SESSION["online"]))
                     </tr> 
                   </table> 
               </form>
+              <br>
             </div>  
       </div> 
 
-
+</div>
     </body>
     <?php include_once 'footer.php';?>
 

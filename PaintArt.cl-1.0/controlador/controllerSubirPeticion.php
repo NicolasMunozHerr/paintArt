@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
  include_once '../modelo/peticion.php';
  include_once '../modelo/imagen.php';
  include_once '../modelo/direccion.php';
@@ -27,7 +29,7 @@ if($tipoHogar=="departamento"){
 
 if(empty($_POST["numTarjeta"])||empty($_POST["mesC"])|| empty($_POST["Año"])|| empty($_POST["codigoV"]|| empty($_POST["tipoTarjeta"])))
 {
-    echo 'no hay na'; 
+    //echo 'no hay na'; 
 }else{
     $numTarjet= $_POST["numTarjeta"];
     $mesC= $_POST["mesC"];
@@ -37,7 +39,6 @@ if(empty($_POST["numTarjeta"])||empty($_POST["mesC"])|| empty($_POST["Año"])|| 
     $estadoTarjet= 1;
 
 }
-session_start();
 if(empty($_SESSION['online'])){
     header("Location: ../Vista/iniciarSesion.php");
 }else{

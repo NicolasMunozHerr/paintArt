@@ -148,7 +148,11 @@ if($resp==false){
                 </div>
                 <div  class="titulares">
                 <span><b >Termina:</b><h3><div  id="clock">
-                        cargando
+                         <?php if($online ==false){
+                            echo 'Incie sesion para ver el tiempo de la subasta';
+                        }else{
+                         echo ('cargando');
+                        }  ?>
                     </div></h3></span>
                     <br>
                     <span><h4><?php echo $ob->mostraObra($id)->getTitulo()?></h6>
@@ -326,8 +330,12 @@ countdown("<?php echo $resp->__getFechaLimite() ?> ", 'clock', 'subasta Terminad
               if(data==0)
               {
                 
-                window.location.href = "Pujar.php";
+                window.location.href = "Pujar.php?idObra="+idObra;
               }
+              if(data!=0){
+                  alert(data);
+              }
+              
               obtener_datos();       
           }
       });

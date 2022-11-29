@@ -19,6 +19,7 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/bootstrap.min.css"> 
     <link rel="stylesheet" href="Css/registrar.css"> 
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> 
     <title>Document</title> 
@@ -111,37 +112,41 @@ if( empty($_SESSION["online"]))
           </div> 
         </ul> 
       </nav> 
-      <div class="container" style="background-color: #f8f9fa;
-      border: 1px solid #dee2e6;"> 
-             <h2 style="margin-top: 20px;">Iniciar sesion</h2>
-            <div class="form-group formulario" > 
-                <table class="formularioRegistrar"> 
-                <form action="../controlador/controllerIniciarSesion.php" method="post" >
-                  <tr> 
-                    <td><h5>Correo electronico</h5></td> 
-                  </tr> 
-                  <tr>
-                      <td><input type="email" name="EMAIL" class="form-control" id="floatingInput" placeholder="ejemplo@paintArt.cl"></td> 
-                  </tr>                                
-                  <tr> 
-                    <td><H5>Contraseña</H5></td> 
-                  </tr> 
-                  <tr>
-                      <td><input type="password" name="PASSWORD"  class="form-control" id="floatingPassword" placeholder="Contraseña"></td> 
-                  </tr>          
-                  <tr> 
-                    
-                    <td style="text-align: right; ">
-                      <a href="formularioCorreo.php" style="float: left; margin-top: 30px; margin-left: 20px; margin-bottom: 20px;">Olvide mi Contraseña</a> 
-                      <br>
-                      <button type="submit" style="background-color: #212529; border-radius: 0px ; border-color: #212529; " class="btn btn-primary">Iniciar sesion</button> 
-                    </td> 
-                  </tr> 
-                </form>
-                </table>
+      <div style="min-height: 80vh;">
+        <div class="container" style="background-color: #f8f9fa;border: 1px solid #dee2e6;"> 
+              <h2 style="margin-top: 20px;">Iniciar sesion</h2>
+              <div class="form-group formulario"  > 
+                  <table class="formularioRegistrar"> 
+                  <form action="../controlador/controllerIniciarSesion.php" method="post" >
+                    <tr> 
+                      <td><h5>Correo electronico</h5></td> 
+                    </tr> 
+                    <tr>
+                        <td><input type="email" name="EMAIL" class="form-control" id="floatingInput" placeholder="ejemplo@paintArt.cl"></td> 
+                    </tr>                                
+                    <tr> 
+                      <td><H5>Contraseña</H5></td> 
+                    </tr> 
+                    <tr>
+                        <td><input type="password" name="PASSWORD"  class="form-control" id="floatingPassword" placeholder="Contraseña"></td> 
+                    </tr>          
+                    <tr> 
+                      
+                      <td style="text-align: right; ">
+                        <a href="formularioCorreo.php" style="float: left; margin-top: 30px; margin-left: 20px; margin-bottom: 20px;">Olvide mi Contraseña</a> 
+                        <br>
+                        <button type="submit" style="background-color: #212529; border-radius: 0px ; border-color: #212529; " class="btn btn-primary">Iniciar sesion</button> 
+                      </td> 
+                    </tr> 
+                  </form>
+                  </table>
 
-            </div>  
-      </div> 
+              </div>  
+        </div> 
+    
+    
+      </div>
+      
 
 </body> 
 <?php include_once 'footer.php';?>
@@ -156,7 +161,7 @@ else{
   echo "<script>
 
   
-  confirm('".$error."');
+  swal('".$error."', {icon:'info',});
   
 
 

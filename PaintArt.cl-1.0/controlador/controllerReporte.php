@@ -4,8 +4,15 @@ include_once '../modelo/arraylist.php';
 include_once '../modelo/imagen.php';
 include_once '../modelo/artista.php';
 include_once '../modelo/reportes.php';
-
+include_once '../modelo/subastas.php';
+include_once '../modelo/registroPujadores.php';
+include_once '../modelo/critica.php';
+include_once '../modelo/direccion.php';
+include_once '../modelo/reportesUser.php';
+include_once '../modelo/notaInformativa.php';
+include_once '../modelo/click.php';
 include_once '../modelo/usuarioRegistrado.php';
+include_once '../modelo/compra.php';
 $parametros= $_POST['parametros'];
 
 class controllerReporte{
@@ -69,7 +76,99 @@ class controllerReporte{
             }else{
                 
                 echo 'Ahora se dejara de listar en el sitio web';
+                $obra= new obra(null, null, null ,null, null, null ,null,null, null ,null);
+        $obra = $obra->buscarObraId($idObra);
+        if($obra==false){
+            echo 'Error no se encontro la obra';
+        }else{
+            $subasta= new subasta();
+            $subasta = $subasta->validaAsociacionObra($obra->getIdObra());
+            if ($subasta==false) {
+                # code...
+            }else{
+                $registroPujadores= new registroPujadores();
+                $registroPujadores= $registroPujadores->eliminarRegistroIdSubasta($subasta->__getidSubasta());
+                if($registroPujadores==false){
+                    echo 'Error no se pudo borrar los registros de subastas adyacentes';
+                }else{
+                    $subasta= $subasta->eliminarSubastaIdSubasta($subasta->__getidSubasta());
+                    if($subasta==false){
+                    echo 'Error no se pudo borrar la informacion de la subasta';
+                    
+                    }else{
+                       
+                    }
+                }
+            }
+            $critica = new critica(null, null, null, null, null, null, null);
+            $critica= $critica->bajarCriticaIDObra($obra->getIdObra());
+            if($critica==false){
+                echo 'No se pudo bajar la obra';
+            }
+            $compra = new compra(null, null, null, null, null, null, null,null);
+            $compra= $compra->eliminarCompraidObra($obra->getIdObra());
+            if($compra==false){
+                echo 'No se pudo bajar la compra';
+            }
+            $reportes= new reportes(null, null, null, null, null, null, null,null);
+            $reportes= $reportes->eliminarReporteAdyacentes($obra->getIdObra());
+            if($reportes==false){
+                echo 'No se pudo de bajar los reportes de la obra';
+            }
+            $click= new click();
             
+            $click= $click->buscarClickObras($obra->getIdObra());
+            if($click==false){
+                echo 'No se encontraron todas las visitias a las obras';
+            }else{
+                $largo= $click->size();
+                $eliminacionClick= new click();
+                $eliminacionClick->eliminarClickObra($obra->getIdObra());
+
+                for ($i=0; $i < $largo; $i++) { 
+                    $eliminacionClick= new click();
+
+                    $eliminacionClick->eliminarClic($click->get($i)->__getIdClick());
+                }
+            }
+
+
+            $compra= new compra(null , null, null, null, null, null, null,null);
+            $compra = $compra->eliminarCompraidObra($obra->getIdObra());
+            if ($compra==false) {
+                echo 'No se pudo bajar las compras asociadas a la obra';
+            }
+            $idImagen= $obra->getIdImagen();
+            $imagen = new imagen(null,null);
+            $imagen=  $imagen->buscarImagenID($idImagen);
+            if($imagen==false){
+                echo 'No se puedo encontrar la informacion de la imagen asociada';
+            }else{
+                if(unlink('../Vista/'.$imagen->getUrlImagen())){
+                    $obra= $obra->eliminarObra($obra->getIdObra());
+                    if($obra==false){
+                        echo 'No se pudo bajar la obra';
+                    }else{
+                        $imagen = new imagen(null);
+                        $imagen= $imagen->eliminarImagen($idImagen);
+                        if ($imagen==false) {
+                            echo 'No se pudo bajar la imagen asociada';
+                        }else{
+                            echo ', Se elimino exitosamente';
+                        }
+                    }
+                }else{
+                    echo 'No se pudo eliminar el archivo de imagen';
+                }
+                
+            }
+            
+            
+
+            
+            
+        }
+
             }/*
                
             $obra= $ob->buscarObraId($idObra);

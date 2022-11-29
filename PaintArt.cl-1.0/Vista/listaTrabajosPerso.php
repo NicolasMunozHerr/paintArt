@@ -25,6 +25,7 @@ if( empty($_SESSION["online"]))
     <link rel="stylesheet" href="Css/cssMain.css">
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -163,7 +164,7 @@ if( empty($_SESSION["online"]))
         data:{parametros:parametros,id:id, },
         success: function(data){
             obtener_datos();
-            alert(data);
+           swal(data, {icon:'info',});
             
     }
     });
@@ -181,7 +182,7 @@ if( empty($_SESSION["online"]))
         success: function(data){
             obtener_datos();
             
-            alert(data);
+            swal(data, {icon:'info',});
     }
     });
 
@@ -191,16 +192,32 @@ if( empty($_SESSION["online"]))
     $(document).on("click", "#enviado",function(){
       var parametros=7;
         var id=$(this).data("id");
-        
+        swal({
+        text: 'Escriba el codigo de seguimiento por favor ',
+        content: "input",
+        button: {
+          text: "Enviar",
+          closeModal: false,
+        },
+      })
+      .then(name => {
+        if (!name) throw null;
+        var descripcion= name;
+        var estadoEnvio= descripcion;
         $.ajax({
-        url:'../controlador/controllerListarPeticiones.php',
-        method:"POST",
-        data:{parametros:parametros,id:id, },
-        success: function(data){
-            obtener_datos();
-            alert(data);
-    }
-    });
+            url:'../controlador/controllerListarPeticiones.php',
+            method:"POST",
+            data:{parametros:parametros,id:id, estadoEnvio:estadoEnvio },
+            success: function(data){
+                obtener_datos();
+                swal(data, {icon:'info',});
+            }
+        });
+
+        
+      })
+      ; 
+        
     }) 
 
   });

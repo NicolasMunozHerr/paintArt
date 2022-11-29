@@ -33,9 +33,9 @@ class controllerVentas{
             $click = new click();
             $resp =$click->cantidadClickArtista($artista->getIdArtista());
             if($resp==false){
-                return 0;
+                echo ':No hay visitas al perfil hasta el momento';
             }else{
-                return $resp;
+                return ": ".$resp;
 
             }
         }
@@ -48,7 +48,11 @@ class controllerVentas{
         }else{
             $click = new click();
             $resp =$click->cantidadClickObra($artista->getIdArtista());
-            echo $resp;
+            if ($resp==false || $resp==0) {
+                echo ' No hay visitas en las obras hasta el momento';
+            }else{
+                echo $resp;
+            }
         }
     }
 
@@ -374,9 +378,10 @@ class controllerVentas{
                     for ($i=0; $i <$largo ; $i++) { 
                         array_push($arr, array('label'=>$resp->get($i)->__getFecha(), 'y'=>$resp->get($i)->__getIdClick()));
                     }
+                    
                     return $arr;
                 }else{
-                    return 0;
+                    return '<h6> sin visitas hasta el momentos </h6>';
                 }
                 
 

@@ -166,6 +166,21 @@ $controller= new perfilUusarioRegistrado();
 <?php include_once 'footer.php';?>
 </html>
 <script type="text/javascript">
+<?php 
+  $info = 'nada';
+  if(empty($_SESSION['informacion'])){
+
+  }else{
+    $info= $_SESSION['informacion'];
+    unset($_SESSION['informacion']);
+  }
+  
+  
+  ?>
+  info = "<?php echo $info?>";
+  if (info!="nada") {
+    swal(info, {icon:"info",});
+  }
   var contador=4;
   
   function sumar(){

@@ -208,7 +208,7 @@ class perfilUusarioRegistrado{
             $listObras= $obras->listarObrasArtistas($artista->getIdArtista());
             $size= $listObras->size();
             if($size==0){
-                echo '<h6 style="margin-left:20px ">No hay obras tuyas en la web</h6>';
+                echo '<h6 style="margin-left:20px " id= "cuenta" data-id="4">No hay obras tuyas en la web</h6>';
 
             }else{
                 $a=0;
@@ -265,7 +265,7 @@ class perfilUusarioRegistrado{
             $listObras= $obras->listarObrasArtistaArchivadas($idArtista);
             $size= $listObras->size();
             if($size==0){
-                echo '<h6 style="margin-left:20px ">No hay obras tuyas en la web</h6>';
+                echo '<h6 style="margin-left:20px " id="cuenta" data-id="4">No hay obras archivadas  en la web</h6>';
 
             }else{
                 $a=0;
@@ -593,7 +593,7 @@ class perfilUusarioRegistrado{
                 $a=0;
                 $largo= $lista->size();
                 if($largo==0){
-                    echo "<h6 style='margin-left:20px '>No hay subastas por el momento </h6>";
+                    echo "<h6 style='margin-left:20px' id='cuenta' data-id='4'>No hay subastas por el momento </h6>";
                 }else{
                     $imagen = new imagen(null);
                     date_default_timezone_set("America/Santiago");

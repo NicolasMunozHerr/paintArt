@@ -1,6 +1,7 @@
 <?php 
-include_once '../controlador/controllerVentas.php';
 session_start();
+include_once '../controlador/controllerVentas.php';
+
 $controller= new controllerVentas();
 ?>
 <?php ;
@@ -140,7 +141,6 @@ if( empty($_SESSION["online"]))
         <div class="contenedorPetcion" style="height: auto;">
           <div style="width: 100%; height: auto;" class="listaPeticiones">
           <h3>Resumen de popularidad del mes de <b id= "mes2"></b></h3>
-
           <br>
           <div style="text-align:left; width: 95%" class="peticion">
                 
@@ -194,9 +194,9 @@ if( empty($_SESSION["online"]))
                   echo $controller->mostrarVentasMesGeneral($online);
                 ?>
                 <h4 style="text-align: center;"><b>Tipos de ingresos</b></h4>
-                <div id="chartContainer" style="height: 370px; width: 90%;margin:auto; margin-bottom:10px"></div>
+                <div id="tipoIngresos" style="height: 370px; width: 90%;margin:auto; margin-bottom:10px"></div>
                 <h4 style="text-align: center;"><b>Ventas por categoria</b></h4>
-                <div id="resizable" style="height: 370px;">
+                <div id="ventasPorCategoria" style="height: 370px; width: 90%;margin:auto; margin-bottom:10px">
 	                <div id="chartContainer1" style="height: 90%; width: 90%; margin:auto"></div>
                 </div>
             </div>
@@ -204,6 +204,8 @@ if( empty($_SESSION["online"]))
             <div style="text-align:left; width: 95%" class="peticion">
                 <?php 
                   echo $controller->mostrarVentasGeneralUltimosSeisMeses($online);
+                  
+                  
                 ?>
                 <h4 style="text-align: center;"><b>Tipos de ingresos</b></h4>
                 <div id="tipoIngresosUltimosSeisMeses" style="height: 370px; width: 90%;margin:auto; margin-bottom:10px"></div>
@@ -257,205 +259,255 @@ if( empty($_SESSION["online"]))
 
 
  window.onload = function () {
+  var options = {
+	animationEnabled: true,  
+  theme:"dark2",
+	title:{
+		text: ""
+	},
+	axisX: {
+		valueFormatString: "MMM",
+    title:"MESES - AÑO "    
+	},
+	axisY: {
+    title:'CANTIDAD DE VISITAS ',
+	},
+	data: [{
+    markerType:'square',
+    color: "#F08080",
+		xValueFormatString: "MMMM",
+    name:'Visitas al perfil',
 
-// Construct options first and then pass it as a parameter
+		type: "spline",
+		dataPoints: <?php echo json_encode($controller->visitasPorMesArtista($online), JSON_NUMERIC_CHECK) ?>
+	}]
+};
+$("#VisitasPerfil").CanvasJSChart(options);
+
+var options = {
+	animationEnabled: true,  
+  theme:"dark2",
+	title:{
+		text: ""
+	},
+	axisX: {
+		valueFormatString: "MMM",
+    title:"MESES - AÑO "    
+	},
+	axisY: {
+    title:'CANTIDAD DE VISITAS ',
+	},
+	data: [{
+    markerType:'square',
+    color: "#F08080",
+    name:'Visitas a las obras',
+
+		xValueFormatString: "MMMM",
+		type: "spline",
+		dataPoints: <?php echo json_encode($controller->visitasPorMesObras($online), JSON_NUMERIC_CHECK) ?>
+	}]
+};
+$("#VisitasObras").CanvasJSChart(options);
+
 var ventasObra= <?php echo $controller->mostrarVentasObras($online) ?>;
 var ventasPet= <?php echo $controller->mostrarVentasPeticiones($online) ?>;
 var ventasSub= <?php echo $controller->mostraVentasSubasta($online) ?>;
-var total= ventasObra+ventasPet+ventasSub;
-var pocenObra=  ventasObra/total*100;
-var porcenPet= ventasPet/total*100;
-var porcenSub= ventasSub/total*100;
-<?php date_default_timezone_set("America/Santiago");setlocale(LC_TIME,"spanish");?>
-var visitarAr= {
-  theme:'dark2',
-  
-  axisX:{
-   title:"MESES - AÑO "    
-  },
-  axisY:{
-    title:'CANTIDAD DE VISITAS '
-  },
-  data:[{
-    type:'line',
-    showInLegend:true,
-    name:'Visitas al perfil',
-    markerType:'square',
-    color: "#F08080",
-    dataPoints:  <?php echo json_encode($controller->visitasPorMesArtista($online), JSON_NUMERIC_CHECK) ;?>
-    
-  }]
-};
-$('#VisitasPerfil').CanvasJSChart(visitarAr);
 
-var visitarOB={
-  theme:'dark2',
-	
-  axisY:{
-    title:"CANTIDAD DE VISITAS "    
-  },
-  axisX:{
-    title:"MES - AÑO "    
-  },
-	data: [              
-	{
-		type: "line",
-    dataPoints:  <?php echo json_encode($controller->visitasPorMesObras($online), JSON_NUMERIC_CHECK) ;?>
-
-  }]
-};
-$('#VisitasObras').CanvasJSChart(visitarOB);
-
-var options = {
-	title: {
-		
-	},
+var chart = new CanvasJS.Chart("tipoIngresos", {
+	animationEnabled: true,
+	exportEnabled: true,
   theme:"dark2",
-
+	title:{
+		text: MESES[date.getMonth()]+ " de "+ date.getFullYear()
+	},
 	subtitles: [{
-		text: "Mes de <?php echo strftime("%B")?>, <?php echo date("Y")?>"
+		
 	}],
 	data: [{
 		type: "pie",
-		startAngle: 40,
-		toolTipContent: "<b>{label}</b>: {y}%",
 		showInLegend: "true",
 		legendText: "{label}",
 		indexLabelFontSize: 16,
-		indexLabel: "{label} - {y}%",
-		dataPoints: [
-			{ y: porcenPet.toFixed(2), label: "Peticiones" },
-			{ y: porcenSub.toFixed(2), label: "Subasta " },
-			{ y: pocenObra.toFixed(2), label: "Ventas de obras" }
-			
+		indexLabel: "{label} - #percent%",
+		yValueFormatString: "$#,##0",
+		dataPoints:  [
+			{ y: ventasObra, label: "Ventas durectas de obras" },
+			{ y: ventasPet, label: "Ingresos por peticiones" },
+			{ y: ventasSub, label: "Ingresos por subastas" }
+
 		]
 	}]
-};
-$("#chartContainer").CanvasJSChart(options);
+});
+chart.render();
 
+//ventasPorCategoria
+var chart = new CanvasJS.Chart("ventasPorCategoria", {
+	animationEnabled: false,
+  exportEnabled: true,
 
-var options = {
-  theme:'dark2',
+	theme: "dark2",
 	title: {
-		//text: "Column Chart in jQuery CanvasJS"              
+		text:  MESES[date.getMonth()]+ " de "+ date.getFullYear()
 	},
-  axisY:{
-    title:"Monto (CLP) "    
-  },
-  axisX:{
-    title:"CATEGORIAS "    
-  },
-	data: [              
-	{
-		// Change type to "doughnut", "line", "splineArea", etc.
+	
+	axisY: {
+		prefix: "$",
+		scaleBreaks: {
+			autoCalculate: false
+		}
+	},
+  axisX: {
+		title: "categoria",
+		scaleBreaks: {
+			autoCalculate: false
+		}
+	},
+	data: [{
 		type: "column",
-		dataPoints: <?php echo json_encode($controller->ordenarCat($online), JSON_NUMERIC_CHECK) ;?>
-	}
-	]
-};
-
-$("#chartContainer1").CanvasJSChart(options);
-
+		yValueFormatString: "$#,##0",
+		indexLabel: "{y}",
+		indexLabelPlacement: "inside",
+		indexLabelFontColor: "white",
+		dataPoints: <?php echo json_encode($controller->ordenarCat($online), JSON_NUMERIC_CHECK); ?>
+	}]
+});
+chart.render();
+ 
+//tipoIngresosUltimosSeisMeses
 
 var ventasObra= <?php echo $controller->mostrarVentasObrasUltimosSeisMeses($online) ?>;
 var ventasPet= <?php echo $controller->mostrarVentasPeticionUltimoSeisMeses($online) ?>;
 var ventasSub= <?php echo $controller->mostrarVentasSubasUltimosSeisMeses($online) ?>;
-var total= ventasObra+ventasPet+ventasSub;
-var pocenObra=  ventasObra/total*100;
-var porcenPet= ventasPet/total*100;
-var porcenSub= ventasSub/total*100;
 
-var options = {
-	title: {
-		
-	},
+var chart = new CanvasJS.Chart("tipoIngresosUltimosSeisMeses", {
+	animationEnabled: true,
+  exportEnabled: true,
+
+	exportEnabled: true,
   theme:"dark2",
-
+	title:{
+		text: MESES[date.getMonth()]+ " de "+ date.getFullYear()
+	},
 	subtitles: [{
-		text: "Ultimos seis meses",
+		
 	}],
 	data: [{
 		type: "pie",
-		startAngle: 40,
-		toolTipContent: "<b>{label}</b>: {y}%",
 		showInLegend: "true",
 		legendText: "{label}",
 		indexLabelFontSize: 16,
-		indexLabel: "{label} - {y}%",
-		dataPoints: [
-			{ y: porcenPet.toFixed(2), label: "Peticiones" },
-			{ y: porcenSub.toFixed(2), label: "Subasta " },
-			{ y: pocenObra.toFixed(2), label: "Ventas de obras" }
-			
+		indexLabel: "{label} - #percent%",
+		yValueFormatString: "$#,##0",
+		dataPoints:  [
+			{ y: ventasObra, label: "Ventas durectas de obras" },
+			{ y: ventasPet, label: "Ingresos por peticiones" },
+			{ y: ventasSub, label: "Ingresos por subastas" }
+
 		]
 	}]
-};
-$("#tipoIngresosUltimosSeisMeses").CanvasJSChart(options);
+});
+chart.render();
+
+//ventasObrasUltimosSeisMeses ventasUltimosSeisMeses
+
+var options = {
+	animationEnabled: true, 
+  exportEnabled: true,
  
+  theme:"dark2",
+	title:{
+		text: MESES[date.getMonth()]+ " de "+ date.getFullYear()
+	},
+	axisX: {
+		valueFormatString: "MMM",
+    title:"MESES - AÑO "    
+	},
+	axisY: {
+    title:'Monto total de vetnantas ',
+    prefix: "$"
 
-var ventasOb={
-  theme:'dark2',
-	
-  axisY:{
-    title:"MONTOS [CLP] "    
-  },
-  axisX:{
-    title:"MES - AÑO "    
-  },
-	data: [              
-	{
+	},
+	data: [{
+    markerType:'square',
+    yValueFormatString: "$#,##0",
     color: "#F08080",
+		xValueFormatString: "MMMM",
+    name:'Visitas al perfil',
 
-		type: "line",
-    dataPoints:  <?php echo json_encode($controller->ventasUltimosSeisMeses($online), JSON_NUMERIC_CHECK) ;?>
-
-  }]
+		type: "spline",
+		dataPoints: <?php echo json_encode($controller->ventasUltimosSeisMeses($online), JSON_NUMERIC_CHECK) ?>
+	}]
 };
-$('#ventasObrasUltimosSeisMeses').CanvasJSChart(ventasOb);
+$("#ventasObrasUltimosSeisMeses").CanvasJSChart(options);
 
 
+//peticionesUltimosSeisMeses
+var options = {
+	animationEnabled: true,  
+  exportEnabled: true,
 
-var peti={
-  theme:'dark2',
-	
-  axisY:{
-    title:"MONTOS [CLP] "    
-  },
-  axisX:{
-    title:"MES - AÑO "    
-  },
-	data: [              
-	{
+  theme:"dark2",
+	title:{
+		text: MESES[date.getMonth()]+ " de "+ date.getFullYear()
+	},
+	axisX: {
+		valueFormatString: "MMM",
+    title:"MESES - AÑO "    
+	},
+	axisY: {
+    title:'Monto total de vetnantas ',
+    prefix: "$"
+
+	},
+	data: [{
+    markerType:'square',
+    yValueFormatString: "$#,##0",
     color: "#F08080",
-	
+		xValueFormatString: "MMMM",
+    name:'Visitas al perfil',
 
-		type: "line",
-    dataPoints:  <?php echo json_encode($controller->peticionesUltimosSeisMeses($online), JSON_NUMERIC_CHECK) ;?>
-
-  }]
+		type: "spline",
+		dataPoints: <?php echo json_encode($controller->peticionesUltimosSeisMeses($online), JSON_NUMERIC_CHECK) ?>
+	}]
 };
-$('#peticionesUltimosSeisMeses').CanvasJSChart(peti);
-var sub={
-  theme:'dark2',
-	
-  axisY:{
-    title:"MONTOS [CLP] "    
-  },
-  axisX:{
-    title:"MES - AÑO "    
-  },
-	data: [              
-	{
+$("#peticionesUltimosSeisMeses").CanvasJSChart(options);
+
+
+//subastasUltimosSeisMeses
+
+var options = {
+	animationEnabled: true,   
+  exportEnabled: true,
+
+  theme:"dark2",
+	title:{
+		text: MESES[date.getMonth()]+ " de "+ date.getFullYear()
+	},
+	axisX: {
+		valueFormatString: "MMM",
+    title:"MESES - AÑO "    
+	},
+	axisY: {
+    title:'Monto total de vetnantas ',
+    prefix: "$"
+
+	},
+	data: [{
+    markerType:'square',
+    yValueFormatString: "$#,##0",
     color: "#F08080",
-	
+		xValueFormatString: "MMMM",
+    name:'Visitas al perfil',
 
-		type: "line",
-    dataPoints:  <?php echo json_encode($controller->subUltimosSeisMeses($online), JSON_NUMERIC_CHECK) ;?>
-
-  }]
+		type: "spline",
+		dataPoints: <?php echo json_encode($controller->subUltimosSeisMeses($online), JSON_NUMERIC_CHECK) ?>
+	}]
 };
-$('#subastasUltimosSeisMeses').CanvasJSChart(sub);
+$("#subastasUltimosSeisMeses").CanvasJSChart(options);
+
+
 
 }
+
 
 </script>

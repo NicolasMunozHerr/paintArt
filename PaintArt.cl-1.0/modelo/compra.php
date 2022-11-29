@@ -250,7 +250,7 @@
                 {
                     $this->pdo = Conexion::getInstance();
                     $this->pdo->openConnection();
-                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM compra WHERE `Artista_idArtista`=? and EXTRACT(MONTH FROM fechaCompra)= MONTH(CURRENT_DATE());");
+                    $resul = $this->pdo->useConnection()->prepare("SELECT * FROM compra WHERE `Artista_idArtista`=? and EXTRACT(MONTH FROM fechaCompra)= MONTH(CURRENT_DATE()) ORDER BY `compra`.`fechaCompra` DESC;");
                     $resul->execute([$idAr]);
                     while($fila = $resul->fetch())
                     {
@@ -355,6 +355,33 @@
                 $res = $this->pdo->useConnection()->prepare("UPDATE compra SET estadoEnvio=? WHERE idCompra=?");
                 $res->execute([$codigoEnvio,$idCompra]);
                 return TRUE;
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return FALSE;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+
+
+        public function buscarCompraIdObra($id){
+            $idAr = FALSE;
+            try
+            {
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM compra WHERE Obra_idObra=?");
+                $resul->execute([$id]);
+                while($fila = $resul->fetch())
+                {
+                    $idAr = new compra($fila["idCompra"], $fila['fechaCompra'], $fila['metodoCompra'], $fila['Obra_idObra'],$fila['Usuario_Registrado_idUsuario_Registrado'], $fila['Artista_idArtista'], $fila['Direccion_IdDireccion'], $fila['precioCompra']);
+                    $idAr->setEstadoEnvio($fila['precioCompra']);
+                    
+                }    
+                return $idAr;
             }
             catch(PDOException $e)
             {

@@ -8,12 +8,12 @@
         private $bd;
         private $pdo;
         private $charset;
-
+        private $port;
         private function __construct(){
             $this->host = "localhost:3307";// localhost->127.0.0.1 = Mi computador
             $this->user = "root";
             $this->pass = "";
-            $this->bd = "id19281454_paintart";
+            $this->bd = "id19786183_paintart";
             $this->charset = "utf8mb4";
         }
         

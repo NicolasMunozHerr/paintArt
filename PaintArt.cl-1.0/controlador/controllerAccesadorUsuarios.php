@@ -1,7 +1,7 @@
 <?php 
+session_start();
 
 include_once '../modelo/usuarioRegistrado.php';
-session_start();
 
 $online = $_SESSION['online'];
 $user = new usuarioRegistrado();
@@ -27,7 +27,9 @@ if($resp== false){
             header('Location: ../Vista/perfilAdmin.php');
             break;
         case 5: 
-            header('Location: ../Vista/perfilUsuario.php');
+        $_SESSION['informacion']="No se puede acceder al perfil por inclumplimiento de las normas comunitarias";
+
+            header('Location: ../Vista/Index.php');
             break;      
                 
        

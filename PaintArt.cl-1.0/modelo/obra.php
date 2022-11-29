@@ -179,7 +179,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=? ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM obra where `Reacciones`=? ORDER BY `obra`.`idObra` DESC");
                 $resul->execute([$reacciones]);
                 while($fila = $resul->fetch())
                 {
@@ -211,7 +211,7 @@
                 $resul = $this->pdo->useConnection()->prepare("
                 select * 
                 from 
-                    obra
+                    `obra`
                 where
                     Reacciones=? AND
                     categoria= ?
@@ -252,7 +252,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? and `Reacciones`=0 ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM obra WHERE `Artista_idArtista`=? and `Reacciones`=0 ORDER BY `obra`.`idObra` DESC");
                 $resul->execute([$idArtista]);
                 while($fila = $resul->fetch())
                 {
@@ -283,7 +283,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` WHERE `Artista_idArtista`=? and `Reacciones`=1 ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM obra WHERE `Artista_idArtista`=? and `Reacciones`=1 ORDER BY `obra`.`idObra` DESC");
                 $resul->execute([$idArtista]);
                 while($fila = $resul->fetch())
                 {
@@ -541,7 +541,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=2 ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM obra where `Reacciones`=2 ORDER BY `obra`.`idObra`` DESC");
                 $resul->execute([]);
                 while($fila = $resul->fetch())
                 {
@@ -570,7 +570,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `obra` where `Reacciones`=2 and `Artista_idArtista`=? ORDER BY `obra`.`idObra` DESC");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM obra where `Reacciones`=2 and `Artista_idArtista`=? ORDER BY `obra`.`idObra` DESC");
                 $resul->execute([$idArtista]);
                 while($fila = $resul->fetch())
                 {

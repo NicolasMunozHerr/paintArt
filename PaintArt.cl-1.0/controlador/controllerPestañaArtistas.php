@@ -10,15 +10,17 @@ class listaArtista{
    
     public function __construct($idAr, $accion)
     {
-      if($idAr!=null && $accion!=null)
+      if($idAr!=null )
       {
+       
         if($accion==0){
           date_default_timezone_set('America/Santiago');
           $fecha= date('Y-m-d');
           $click = new click;
+
           $resp= $click->agregarClick($fecha);
           if ($resp== false) {
-              echo 'ta mal';
+              echo 'No se ha agregado la visita';
           }else{
               $idClick= $click->listarUltimoClick();
               $resp = $click->agregarClickArtistaHasClick($idAr, $idClick->__getIdClick());

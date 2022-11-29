@@ -202,7 +202,7 @@ if( empty($_SESSION["online"]))
                     </tr>
                     
                     <tr>
-                        <td><textarea name="sobreObra" style= "border: 0px; border-radius:0px ;" class="form-control" id="exampleTextarea" rows="3" required></textarea></td> 
+                        <td><textarea hidden value= "13" name="sobreObra" style= "border: 0px; border-radius:0px ;" class="form-control" id="exampleTextarea" rows="3" ></textarea></td> 
                     </tr>
                     <tr> 
                         <td><h5>Imagen referencial</h5></td> 

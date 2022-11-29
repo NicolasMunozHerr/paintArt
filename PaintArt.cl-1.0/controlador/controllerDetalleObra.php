@@ -12,17 +12,18 @@ $ob =new obra(null,null,null, null, null, null ,null,null,null);
 class mostrarObra{
     public function __construct($idObra)
     {
+        
         date_default_timezone_set('America/Santiago');
         $fecha= date('Y-m-d');
         $click = new click;
         $resp= $click->agregarClick($fecha);
         if ($resp== false) {
-            echo 'ta mal';
+          //  echo 'ta mal';
         }else{
             $idClick= $click->listarUltimoClick();
             $resp = $click->agregarClickObraHasClick($idObra, $idClick->__getIdClick());
             if ($resp==false) {
-                echo 'Error al tomar la cuenta de visita';
+            //    echo 'Error al tomar la cuenta de visita';
             }
         }
     }
@@ -80,7 +81,8 @@ class mostrarObra{
         }
 
     }
-
+    
+  
 }
 
 

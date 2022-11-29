@@ -14,7 +14,7 @@ if(empty($_POST['email']) || empty($_POST['token'])|| empty($_POST['password'])|
     $token= $_POST['token'];
     $password= $_POST['password'];
     $password2= $_POST['password2'];
-    echo $password. $password2; 
+  
     if($password== $password2){
         $contra= new contraseñas(null, null, null, null, null,null);
         $resp = $contra->buscarConstraseña($email, $token);

@@ -267,7 +267,7 @@ class subasta{
                     $c->__setFechaLimite($fila["fechaTermino"]);
                     $c->__setPrecioPuja($fila["precioPuja"]);
                     $c->__setPrecioMinimo($fila["precioMinimo"]);
-                    $idAr->__setEstadoEnvio($fila["estadoEnvio"]);
+                    $c->__setEstadoEnvio($fila["estadoEnvio"]);
                     $lista->add($c);
                 }
                 return $lista;

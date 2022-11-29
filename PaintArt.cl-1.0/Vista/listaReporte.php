@@ -20,6 +20,7 @@ if( empty($_SESSION["online"]))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/bootstrap.min.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <link rel="stylesheet" href="Css/listaPeticiones.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
@@ -187,7 +188,7 @@ if( empty($_SESSION["online"]))
         data:{parametros:parametros,id:id, },
         success: function(data){
             obtener_datos();
-            alert(data);
+            swal(data);
             
     }
     });
@@ -204,7 +205,7 @@ if( empty($_SESSION["online"]))
         data:{parametros:parametros,id:id, },
         success: function(data){
             obtener_datos();
-            alert(data);
+           swal(data);
     }
     });
 

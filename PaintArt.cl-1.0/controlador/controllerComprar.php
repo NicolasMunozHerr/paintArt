@@ -72,7 +72,7 @@ if(empty($_SESSION['online'])){
                         
                         }else{
                             $_SESSION['errorCompra']= 'compra exitosa';
-                            header("Location: ../Vista/Index.php");   
+                            header("Location: ../Vista/listaCompra.php");   
                         }
                     }
                 }

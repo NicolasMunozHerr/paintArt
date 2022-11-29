@@ -73,7 +73,7 @@
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("INSERT INTO `reportesuser` (  `explicacion`, `razon`, `Usuario_Registrado_idUsuario_Registrado`, `Crititica_idCrititica`) VALUES  (  ?, ?, ?, ?)"); //prepared Statement
+            $res = $this->pdo->useConnection()->prepare("INSERT INTO `reportesuser` (  `explicacion`, `razon`, `Usuario_Registrado_idUsuario_Registrado`, `Critica_idCrititica`) VALUES  (  ?, ?, ?, ?)"); //prepared Statement
             $res->execute([$repor->getExplicacion(),$repor->getRazon(),$repor->getIdUsuarioRegistrado(),$repor->getIdCriticas()]);
             return true;
              
@@ -97,7 +97,7 @@
             $resul->execute([$id]);
             while($fila = $resul->fetch())
             {
-                $repor = new reporteUser($fila["idReportesUser"],$fila["explicacion"],$fila["razon"] , $fila["Usuario_Registrado_idUsuario_Registrado"], $fila["Crititica_idCrititica"]);
+                $repor = new reporteUser($fila["idReportesUser"],$fila["explicacion"],$fila["razon"] , $fila["Usuario_Registrado_idUsuario_Registrado"], $fila["Critica_idCrititica"]);
               
                 
                 
@@ -137,7 +137,7 @@
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("DELETE FROM reportesuser WHERE Crititica_idCrititica=?");
+            $res = $this->pdo->useConnection()->prepare("DELETE FROM reportesuser WHERE Critica_idCrititica=?");
             $resul= $res->execute([$id]);
             return true;
             
@@ -162,7 +162,7 @@
             $resul->execute([]);
             while($fila = $resul->fetch())
             {
-                $c = new reporteUser($fila["idReportesUser"],$fila["explicacion"],$fila["razon"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Crititica_idCrititica"]);
+                $c = new reporteUser($fila["idReportesUser"],$fila["explicacion"],$fila["razon"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Critica_idCrititica"]);
                
                 
                 $lista->add($c);

@@ -6,6 +6,7 @@ include_once '../modelo/artista.php';
 include_once '../modelo/compra.php';
 include_once '../modelo/subastas.php';
 include_once '../modelo/registroPujadores.php';
+include_once '../modelo/direccion.php';
 class controllerConfirmarEnvio{
     public function modificarEstadoEnvio($idCompra, $codigoEnvio){
             $compra= new compra(null, null, null, null, null,null,null, null);
@@ -21,7 +22,7 @@ class controllerConfirmarEnvio{
         $artista= new artista(null, null, null, null);
         $resp=$artista->buscarArtistaIdUser($idUsuario);
         if($resp==false){
-            echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+            echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                 <button id="subasta" type="button" style= "width:200px; "class="btn btn-warning ">ver Subasta</button> ';
             echo 'No se encontro al perfil del artista';
         }else{
@@ -29,11 +30,11 @@ class controllerConfirmarEnvio{
             $compra= new compra(null ,null, null,null,null,null,null,null,null,null,null,null);
             $lista= $compra->listarVentasIdArtista($idArtista);
             if($lista==false){
-                echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                 <button id="subasta" type="button" style= "width:200px; "class="btn btn-warning ">ver Subasta</button> ';
                 echo 'no se pudo encontrar la lista de ventas del usuario';
             }else{
-                echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                 <button id="subasta" type="button" style= "width:200px; "class="btn btn-warning ">ver Subasta</button> ';
                 $size= $lista->size();
                 $infoObra="";
@@ -50,48 +51,68 @@ class controllerConfirmarEnvio{
                             echo 'No se encontro informacion sobre la obra';
                         }else{
                             $infoObra= $resp; 
-                            $infoImagen= new imagen(null);
-                            $resp = $infoImagen->buscarImagenID($infoObra->getIdImagen());
-                            if ($resp==false) {
-                                echo 'No se encontro informacion sobre la imagen de la obra';
+                            $compra = new compra(null, null, null, null,null, null, null, null);
+                            $respCompra= $compra->buscarCompraIdObra($infoObra->getIdObra());
+                            if($respCompra==false){
+                                echo 'No se encontro la compra';
                             }else{
-                               $infoImagen= $resp;
-                               $estadoEnvio="Por  confirmar";
-                                if($lista->get($i)->getEstadoEnvio()==""){
-                                    $estadoEnvio= '<button id="enviar" data-id="'.$lista->get($i)->getIdCompra().'" type="submit" class="btn btn-success"> Por Confirmar Envio </button>';
+                                $direccion= new direccion(null, null, null, null, null,null,null);
+                                $repDireccion= $direccion->buscarDireccionID($respCompra->getIdDireccion());
+                                if($repDireccion==false){
+                                    echo 'No se encontro la direccion'.$respCompra->getIdDireccion();
                                 }else{
-                                    $estadoEnvio= '
-                                     
-                                    CODIGO DE ENVIO: '.$lista->get($i)->getEstadoEnvio().'
-                                    <p>
-                                    </p>
-                                    
-                                    <button id="enviar" data-id="'.$lista->get($i)->getIdCompra().'" type="submit" class="btn btn-success"> Editar codigo Envio </button> <p>
-                                    </p>';
-                                    
+
+                                    $infoImagen= new imagen(null);
+                                    $resp = $infoImagen->buscarImagenID($infoObra->getIdImagen());
+                                    if ($resp==false) {
+                                        echo 'No se encontro informacion sobre la imagen de la obra';
+                                    }else{
+                                        
+                                        $infoImagen= $resp;
+                                        $estadoEnvio="Por  confirmar";
+                                            if($lista->get($i)->getEstadoEnvio()==""){
+                                                $estadoEnvio= '<button id="enviar" data-id="'.$lista->get($i)->getIdCompra().'" type="submit" class="btn btn-success"> Por Confirmar Envio </button>';
+                                            }else{
+                                                $estadoEnvio= '
+                                                
+                                                CODIGO DE ENVIO: '.$lista->get($i)->getEstadoEnvio().'
+                                                <p>
+                                                </p>
+                                                
+                                                <button id="enviar" data-id="'.$lista->get($i)->getIdCompra().'" type="submit" class="btn btn-success"> Editar codigo Envio </button> <p>
+                                                </p>';
+                                                
+                                            }
+                                            echo'
+                                
+                                            <div style="text-align:left; width:95% " class="peticion">
+                                            <h5>Comprada por: '.$nombre.'</h5>
+                                            
+                                            <H6>Titulo de la Obra: '.$infoObra->getTitulo().'</H6>
+                                            <H6>'.$estadoEnvio.'<b/></H6>
+                                            <P>
+                                            <P>
+                                            <label>Fecha de compra: '.$lista->get($i)->getFechaCompra().'</label>
+                                            <P>
+                                            <label>Monto de la compra: $'.$respCompra->getPrecioCompra().'</label>
+                                            <P>
+                                            <label>direccion del cliente: <br>'.$repDireccion->__toString().'</label>
+                                            <P>
+                                            
+                                            
+                                            
+                                            
+                                            <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$lista->get($i)->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>
+                                            <img style="float:right;width: 120px;; max-width: 120px;height: 120px;max-height: 120px;margin-top:-110px; margin-right:10px" src="'.$infoImagen->getUrlImagen().'" alt="">
+                                        </div> <br>'    ;
+                                            
+                                        
+                                    }
                                 }
-                                echo'
-                    
-                                <div style="text-align:left; width:95% " class="peticion">
-                                <h5>Comprada por: '.$nombre.'</h5>
+                                    
                                 
-                                <H6>Titulo de la Obra: '.$infoObra->getTitulo().'</H6>
-                                <H6>'.$estadoEnvio.'<b/></H6>
-                                <P>
-                                <P>
-                                <label>Fecha de compra: '.$lista->get($i)->getFechaCompra().'</label>
-                                <P>
-                                <label>Monto de la compra: $'.$lista->get($i)->getPrecioCompra().'</label>
-                                <P>
-                                
-                                
-                                
-                                <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$lista->get($i)->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>
-                                <img style="float:right;width: 120px;; max-width: 120px;height: 120px;max-height: 120px;margin-top:-110px; margin-right:10px" src="'.$infoImagen->getUrlImagen().'" alt="">
-                            </div> <br>'    ;
-                                  
-                               
                             }
+                            
                             
                         }
                        
@@ -109,7 +130,7 @@ class controllerConfirmarEnvio{
         $artista= new artista(null, null, null, null);
         $resp=$artista->buscarArtistaIdUser($idUser);
         if($resp==false){
-            echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+            echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                 <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-warning ">ver ventas de obras</button> ';
             echo 'No se encontro al perfil del artista';
         }else{
@@ -125,27 +146,36 @@ class controllerConfirmarEnvio{
                 if($size==0){
                     echo 'No se encontraron subastas terminadas hasta el momento';
                 }else{
-                    echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                    echo '<h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                     <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-warning ">ver ventas de obras</button> 
                     <br><br> ';
                     for ($i=0; $i < $size; $i++) { 
                         $idSubasta=$registro->get($i)->__getidSubasta();
                         $maximoRegistro= new registroPujadores();
                         $maximoRegistro= $maximoRegistro->maximoPujador($idSubasta);
+                        $direccionMax="";
                         if($maximoRegistro==false){
                             $maximoRegistro= 'No hay ninguna puja todavia en esta subastas';
                         }else{
                             $idUserMaxPujador= $maximoRegistro->__getIdUser();
                             $usuarioRegistraod= new usuarioRegistrado();
+                            $direccion = new direccion(null, null, null, null, null, null, null);
+                            $respDireccion= $direccion->buscarDireccionID($maximoRegistro->__getDireccion_IdDireccion());
+                            if($respDireccion==false){
+                                $direccionMax="No se encontro direccion";
+                            }else{
+                                $direccionMax= "Direccion del cliente: <br>".$respDireccion->__toString();
+                            }
                             $UserMaxPujador =$usuarioRegistraod->buscarUusuarioId($idUserMaxPujador);
                             $maximoRegistro=$UserMaxPujador->getNombreYApellido();
+                           
                         }
                             $subasta= new subasta();
                             $resp=$subasta->buscarSubasta($idSubasta);
                            
                             if($resp==false){
                                 echo '
-                                    <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                    <h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                                     <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-primary ">ver ventas de obras</button> 
                                     <br><br>
                                     No hay algun registro de subastas hasta el momento ';
@@ -156,7 +186,7 @@ class controllerConfirmarEnvio{
                                 $resp= $obra->buscarObraId($idObra);
                                 if($resp==false){
                                     echo '
-                                    <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                    <h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                                     <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-primary ">ver ventas de obras</button> 
                                     <br><br>
                                     No se obtuvo la obra en este momento';
@@ -166,7 +196,7 @@ class controllerConfirmarEnvio{
                                     $resp= $imagen ->buscarImagenID($obra->getIdImagen());
                                     if($resp == false){
                                         echo '
-                                        <h3 style="margin-top: 10px;margin-left: 10px;">Historial de Compras</h3>
+                                        <h3 style="margin-top: 10px;margin-left: 10px;">Historial de mis ventas</h3>
                                         <button id="comprasobras" type="button" style= "width:200px; "class="btn btn-warning ">ver ventas de obras</button> 
                                         <br><br>
                                         No se obtuvo la imagen en este momento';
@@ -197,6 +227,8 @@ class controllerConfirmarEnvio{
                                                 <label>Fecha de finalizacion: '.$subasta->__getFechaLimite().'</label> </b>
                                                 <P>
                                                 <label><b>Monto de la puja Mayor: $'.$subasta->__getPrecioPuja().'<b></label>
+                                                <P>
+                                                <label>'.$direccionMax.'</label>
                                                 <P>
                                                 
                                                 <a style="text-decoration: none; margin-bottom: 5px;" href="detalleObra.php?id='.$obra->getidObra().'">CLICK AQUI PARA VER AL OBRA</a>

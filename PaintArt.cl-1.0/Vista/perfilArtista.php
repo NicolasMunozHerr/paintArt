@@ -350,8 +350,9 @@ $perfiUsuario= new perfilUusarioRegistrado();
     var subasta= 1;
     var idUser=<?php echo $online ?>;
     let btn= document.getElementById("cuenta");
+
     btn.dataset.id=4;
-  
+
     var contador= sacarContador();
     $.ajax({
       url:'../controlador/controllerPerfilUsuarioRegistrado.php',

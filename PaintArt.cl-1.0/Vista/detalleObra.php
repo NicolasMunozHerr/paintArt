@@ -1,13 +1,37 @@
 <?php 
 session_start();
 $id=$_GET['id'];
-
 $_SESSION['idCompra']= $id;
 
+include_once '../controlador/accesadorSubasta.php';
+$id=$_GET['id'];
+$acc= new cambiaraSubasta($id);
 include_once '../controlador/controllerDetalleObra.php';
+
+
+
+
+$id=$_GET['id'];
+$_SESSION['idCompra']= $id;
 $ob= new mostrarObra($id);
+/*$resp= $ob->validarSubasta($id);
+
+if($resp==false){
+ 
+  echo $resp;
+}else{
+  
+  unset($_SESSION['idCompra']);
+  header("Location: subasta.php?id=".$id."");
+}*/
+
+
+
+
+
+
 ?>
-<?php ;
+<?php 
 $online= false;
 if( empty($_SESSION["online"]))
 {
@@ -17,16 +41,7 @@ if( empty($_SESSION["online"]))
   
 }
 
-$resp= $ob->validarSubasta($id);
 
-if($resp==false){
- 
-  echo $resp;
-}else{
-  
-  unset($_SESSION['idCompra']);
-  header("Location: subasta.php?id=".$id."");
-}
 
 ?>
 
@@ -42,6 +57,7 @@ if($resp==false){
     <link rel="stylesheet" href="Css/cssMain.css">
     <link rel="stylesheet" href="Css/cssDetalleObra.css">
     <link rel="stylesheet" href="Css/cssindexL.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
     <title>Document</title>
 </head>
@@ -282,7 +298,7 @@ if($resp==false){
         data:{parametros:parametros,critica:critica,estrella, estrella, },
         success: function(data){
             obtener_datos();
-            alert(data);
+            swal(data, {icon:"success",});
             
     }
     });
@@ -290,7 +306,8 @@ if($resp==false){
     })
 
     $(document).on("click", "#compra",function(){
-        alert("No hay stock en estos momentos :,)");    
+        
+        swal("No hay stock en estos momentos", {icon:"info",});
     })
 
    

@@ -1,5 +1,7 @@
 <?php 
 session_start();
+$id= $_GET['idObra'];
+$_SESSION['idCompra']=$id;
 include_once '../controlador/controllerValidarTarjeta.php';
 ?>
 <?php ;
@@ -119,7 +121,7 @@ if( empty($_SESSION["online"]))
             <div class="form-group formulario" > 
               <form action="../controlador/controllerPrimerPuja.php" method="post" enctype="multipart/form-data">
                 <table class="formularioRegistrar" > 
-                     
+                <input type="hidden" name="idCompra" required class="form-control" id="floatingInput" placeholder="hola1234" value="<?php echo $id?>">
                     <tr> 
                          <td><h5>Region</h5></td> 
                     </tr> 

@@ -16,6 +16,8 @@ session_start();
     <link rel="stylesheet" href="Css/bootstrap.min.css"> 
 
     <link rel="stylesheet" href="Css/registrar.css"> 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
 
@@ -99,6 +101,7 @@ session_start();
             <div class="form-group formulario" >   
                 <table class="formularioRegistrar"> 
                   <form action="../controlador/controllerRegistrar.php" method="post" enctype="multipart/form-data">
+                     
                     <tr> 
                       <td><h5>Nombres</h5></td> 
                     </tr> 
@@ -127,7 +130,7 @@ session_start();
                       <td><h5>Numero de contacto</h5></td> 
                     </tr> 
                     <tr>
-                        <td><input type="number" name="NUMTELEFONO" class="form-control" id="floatingInput" placeholder="+56 9 1234 5678" required></td> 
+                        <td><input type="number"  maxlength="11" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="NUMTELEFONO" class="form-control" id="floatingInput" placeholder="+56 9 1234 5678" required></td> 
                     </tr>
                     <tr> 
                       <td><h5>Fecha de nacimiento</h5></td> 
@@ -147,12 +150,22 @@ session_start();
                     <tr>
                         <td><input type="password" name="PASSWORD2" class="form-control" id="floatingPassword" placeholder="Contraseña" minlength="5" required ></td> 
                     </tr>
+                     <tr> 
+                      <td></td> 
+                    </tr> 
+                     <tr>
+                        <td>  <div class="form-check form-switch" sytle=" margin-top:10px">
+                            <p>
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                <label class="form-check-label" for="flexSwitchCheckDefault"><b><a href="terminosCondiciones.php">He leido y aceptado los terminos y condiciones de PaintArt.cl</a></b></label>
+                            </p> </div></td> 
+                    </tr>
                     <tr> 
                       <td style="text-align: right; "> 
 
                         <br>
 
-                        <button type="submit" style="background-color: #212529; border-radius: 0px ; border-color: #212529; " class="btn btn-primary">Registrar</button> 
+                        <button type="submit" style="background-color: #212529; border-radius: 0px ; border-color: #212529; "id="registrar" class="btn btn-primary disabled">Registrar</button> 
 
                       </td> 
                     </tr> 
@@ -171,7 +184,7 @@ else{
   $error =  $_SESSION["error"];
   echo "<script>
   
-  confirm('".$error."');
+  swal('".$error."', {icon:'info',});
   
 
 
@@ -182,5 +195,26 @@ unset($_SESSION["error"]);
 
 ?>
 </html> 
+
+<script>
+    var checkbox = document.getElementById('flexSwitchCheckDefault');
+checkbox.addEventListener("change", validaCheckbox, false);
+function validaCheckbox()
+{
+  var checked = checkbox.checked;
+  if(checked){
+    
+
+    $('#registrar').removeClass('"btn btn-primary disabled');
+    $('#registrar').addClass('"btn btn-primary ');
+       
+  }else{
+      $('#registrar').removeClass('"btn btn-primary ');
+    $('#registrar').addClass('"btn btn-primary disabled ');
+  }
+}
+    
+    
+</script>
 
 

@@ -117,7 +117,7 @@ if( empty($_SESSION["online"]))
           </div>
         </ul>
       </nav>
-      <h3 style="margin-top: 10px;margin-left: 10px;">Lista de ventas</h3>
+      <h3 style="margin-top: 10px;margin-left: 10px;">Lista de mis ventas</h3>
       
      
         <div id="Inputs" class="container" style="height: auto; min-height: 80vh;">

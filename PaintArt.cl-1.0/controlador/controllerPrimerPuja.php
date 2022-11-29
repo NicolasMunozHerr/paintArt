@@ -40,15 +40,18 @@ if(empty($_SESSION['online'])){
                     $codigoV= $_POST["codigoV"];
                     $tipoTarjeta= $_POST["tipoTarjeta"];
                     $estadoTarjet= 1;
-                    
+                    $resp= $tarjeta->agregarTarjeta($numTarjet,$mesC, $año, $codigoV, $idUser, $tipoTarjeta);
+                    if($resp==false){
+                        $resp=false;
+                    }
                 }
             }
-            $resp= $tarjeta->agregarTarjeta($numTarjet,$mesC, $año, $codigoV, $idUser, $tipoTarjeta);
+            
             if($resp==false){
                 echo 'No se pudo agregar la tarjeta';
             }else{
                 $idUser= $_SESSION['online'];
-                $metodo=$_POST['metodoPago'];
+                //$metodo=$_POST['metodoPago'];
                 $region=$_POST['region'];
                 $ciudad=$_POST['Ciudad'];
                 $comuna=$_POST['comuna'];
@@ -64,9 +67,10 @@ if(empty($_SESSION['online'])){
                 date_default_timezone_set("America/Santiago");
                 $fecha= date("Y-m-d");
     
-                $idObra= $_SESSION['idCompra'];
+                $idObra=  $_POST['idCompra'];;
                 $ob =new obra($idObra,null, null,null, null,null, null,null, null);
                 $obra= $ob->buscarObraId($idObra);
+                
                 if($obra== false){
                     $_SESSION['errorCompra']= 'hemos tenido problemas al buscar su obra';
                     header("Location: ../Vista/Subasta.php");
@@ -84,13 +88,13 @@ if(empty($_SESSION['online'])){
                         header("Location: ../Vista/Subasta.php");
                         }else{
                             //$compra= new compra(null, $fecha, $metodo,$idObra,$idUser,$obra->getIdArtista(), $direccion->getIdDireccion());
-                            $stock=$obra->getStock();
+                            //$stock=$obra->getStock();
                             
                             //$resp= $compra->crearCompra($compra);
-                            unset($_SESSION['idCompra']);
+                           // unset($_SESSION['idCompra']);
                             //if ($resp==false) {
-                                $_SESSION['errorCompra']= 'hemos tenido problemas procesar su compra';
-                                header("Location: ../Vista/Subasta.php?id='.$ob->getIdObra().'");
+                               // $_SESSION['errorCompra']= 'hemos tenido problemas procesar su compra';
+                                //header("Location: ../Vista/Subasta.php?id='.$ob->getIdObra().'");
                             
                             //}else{
                                 //$_SESSION['errorCompra']= 'compra exitosa';
@@ -119,14 +123,14 @@ if(empty($_SESSION['online'])){
                                         
                                         $resp=$subasta->aumentarPujaActual($valor, $idSub);
                                         
-                                        if($resp==false|| $resp2==false){
+                                        if($resp==false){
                                             echo 'Opps problemas';
                                         }else{
                                             
                                             
-                                                echo 'no se ha podido modificar la puja del usuario';
+                                                //echo 'no se ha podido modificar la puja del usuario';
                                             
-                                                header("Location: ../Vista/Subasta.php?id=".$ob->getIdObra()."");
+                                                header("Location: ../Vista/subasta.php?id=".$obra->getIdObra()."");
                                             
                                            
                                         }
@@ -142,6 +146,7 @@ if(empty($_SESSION['online'])){
             }
         }
     } 
+    
 }
 
 

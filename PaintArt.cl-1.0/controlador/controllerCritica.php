@@ -12,51 +12,57 @@ class controllerCritica{
     public function listarCritica($idObra){
         $criticas= new critica(null, null, null, null, null);
         $lista=$criticas->listarCritica($idObra);
-        $size= $lista->size();
-        if($size==0){
+        if($lista==false){
             echo "<p><h6> Todavia no hay comentario, Se el primero en comentar!!!</h6>
             <br>";
         }else{
-            for ($i=0; $i < $size; $i++) { 
-                $usuarioRegistrado= new usuarioRegistrado();
-                $idUser =$lista->get($i)->getIdUsuarioRegistrado();
-                $nombreyapellido= $usuarioRegistrado->buscarUusuarioId($idUser);
-                $putuacion=$lista->get($i)->getValoracion();
-                $estrellitas="a";
-                switch ($putuacion) {
-                    case 1:
-                        $estrellitas='★';
-                        break;
-                    case 2:
-                        $estrellitas='★★';
-                        break;
-                    case 3:
-                        $estrellitas='★★★';  
-                        break;
-                    case 4:
-                        $estrellitas='★★★★';
-                        break;
-                    case 5:
-                        $estrellitas='★★★★★';  
-                        break;      
-                    default:
-                        # code...
-                        break;
+            $size= $lista->size();
+            if($size==0){
+                echo "<p><h6> Todavia no hay comentario, Se el primero en comentar!!!</h6>
+                <br>";
+            }else{
+                for ($i=0; $i < $size; $i++) { 
+                    $usuarioRegistrado= new usuarioRegistrado();
+                    $idUser =$lista->get($i)->getIdUsuarioRegistrado();
+                    $nombreyapellido= $usuarioRegistrado->buscarUusuarioId($idUser);
+                    $putuacion=$lista->get($i)->getValoracion();
+                    $estrellitas="a";
+                    switch ($putuacion) {
+                        case 1:
+                            $estrellitas='★';
+                            break;
+                        case 2:
+                            $estrellitas='★★';
+                            break;
+                        case 3:
+                            $estrellitas='★★★';  
+                            break;
+                        case 4:
+                            $estrellitas='★★★★';
+                            break;
+                        case 5:
+                            $estrellitas='★★★★★';  
+                            break;      
+                        default:
+                            
+                            break;
+                    }
+                    if ($nombreyapellido==false) {
+                        echo "<h6> Hemos tenido problemas para encontrar comentarios </h6>";
+                    }else{
+                        echo '
+                        <div class="itemComentario">
+                            <b>'.$nombreyapellido->getNombreYApellido().'</b>
+                            <p>'.$lista->get($i)->getCritica().'</p>
+                            <div id="estrellas" class="valoracion">'.$estrellitas.'</div>
+                            <div class="reportar"> <a style="text-decoration: none;color: black;" href="subirReporteUsuario.php?idUserReporte='.$idUser.'&idReporte='.$lista->get($i)->getIdCritica().'"><b>REPORTAR</b> </a></div>
+                        </div>
+                        ';    
+                    }   
                 }
-                if ($nombreyapellido==false) {
-                    echo "<h6> Hemos tenido problemas para encontrar comentarios </h6>";
-                }else{
-                    echo '
-                    <div class="itemComentario">
-                        <b>'.$nombreyapellido->getNombreYApellido().'</b>
-                        <p>'.$lista->get($i)->getCritica().'</p>
-                        <div id="estrellas" class="valoracion">'.$estrellitas.'</div>
-                        <div class="reportar"> <a style="text-decoration: none;color: black;" href="subirReporteUsuario.php?idUserReporte='.$idUser.'&idReporte='.$lista->get($i)->getIdCritica().'"><b>REPORTAR</b> </a></div>
-                    </div>
-                    ';    
-                }   
             }
         }
+        
     }
 
     public function criticar($idObra,$critica, $estrellitas, $idUsuarioRegistrdo){
@@ -76,6 +82,7 @@ class controllerCritica{
                 }else{
                     echo 'Se ha registrado con exito su critica';
                 }
+                
                 
             }
         }

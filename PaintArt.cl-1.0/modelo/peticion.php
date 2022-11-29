@@ -13,6 +13,8 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
         private $idUsuarioRegistrado;
         private $idArtista;
         private $idDireccion;
+        private $estadoEnvio;
+        
 
         public function __construct($idPeticion, $asunto, $descripcion, $estado, $fecha, $precio, $idUsuarioRegistrado, $idArtista, $idDireccion)
         {
@@ -106,6 +108,15 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
         }
 
 
+        public function getEstadoEnvio(){
+            return $this->estadoEnvio;
+
+        }
+        public function setEstadoEnvio($estadoEnvio){
+            $this->estadoEnvio= $estadoEnvio;
+            return $this;
+        }
+
         public function __toString()
         {
             return ' id peticion: '.$this->idPeticion. ' asunto: '.$this->asunto.' descripcion: '.$this->descripcion.
@@ -173,6 +184,7 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
                 while($fila = $resul->fetch())
                 {
                     $c = new peticion($fila["idpeticion"],$fila["asunto"],$fila["descripcion"],$fila["estado"],$fila["fecha"],$fila["precio"],$fila["Usuario_Registrado_idUsuario_Registrado"],$fila["Artista_idArtista"],$fila["Direccion_IdDireccion"]);  
+                    $c->setEstadoEnvio($fila['estadoEnvio']);
                     $lista->add($c);
                 }
                 return $lista;
@@ -274,13 +286,13 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
                 $this->pdo->closeConnection();
             }
         }
-        public function enviadoPeticion($id)
+        public function enviadoPeticion($id , $estado)
          {
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("UPDATE peticion SET estado=3 WHERE idpeticion=?");
-                $res->execute([$id]);
+                $res = $this->pdo->useConnection()->prepare("UPDATE peticion SET estado=3, estadoEnvio=? WHERE idpeticion=?");
+                $res->execute([$estado ,$id]);
                 return TRUE;
             }
             catch(PDOException $e)
@@ -292,6 +304,7 @@ use JetBrains\PhpStorm\Internal\ReturnTypeContract;
                 $this->pdo->closeConnection();
             }
         }
+       
 
         public function listarPeticionesEnviadas($idArtista){
             $lista = new ArrayList();

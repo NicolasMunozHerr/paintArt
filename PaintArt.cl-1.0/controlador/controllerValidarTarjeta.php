@@ -27,7 +27,7 @@ class validarTarjeta{
                     </tr> 
                     <tr>
                         <td>
-                          <input name="numTarjeta" maxlength="12" minlength="12" type="number" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" placeholder="0000 0000 0000 0000" id="inputDefault" required> 
+                          <input name="numTarjeta" maxlength="16" minlength="16" type="number" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" placeholder="0000 0000 0000 0000" id="inputDefault" required> 
                         </td> 
                     </tr>
                     <tr> 
@@ -65,7 +65,7 @@ class validarTarjeta{
                     <tr style="background-color:white; position:relative; left:20px; top:20px">
                       <td>
                         <p></p>
-                        <h5><b> La tajerta asociada es: **** **** **** '.substr($resp->__getNumTarjeta(),8).'</b></h5>
+                        <h5><b> La tajerta asociada es: **** **** **** '.substr($resp->__getNumTarjeta(),12).'</b></h5>
                         <p></p>
                         <b style="position:relative; left:20px">En caso de cambiar la informacion de la tarjeta asociada: </b><button type="button" style= "color:black"class="btn btn-link"><a href="medioPago.php">aqui</a></button>
 

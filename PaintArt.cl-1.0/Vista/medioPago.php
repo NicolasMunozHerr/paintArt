@@ -128,6 +128,7 @@ if( empty($_SESSION["online"]))
             <div class="form-group formulario" > 
               <form action="../controlador/controllerMedioPago.php" method="post" enctype="multipart/form-data">
                 <table class="formularioRegistrar" > 
+                <select name="parametros" value=2 hidden style=" border-radius: 0px; border: 0px;" class="form-select" id="exampleSelect1">
                     <tr> 
                       <td><h5>Tipo de tarjeta</h5></td> 
                     </tr> 
@@ -145,7 +146,7 @@ if( empty($_SESSION["online"]))
                     </tr> 
                     <tr>
                         <td>
-                        <input name="numTarjeta"  maxlength="12" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"type="number" class="form-control" placeholder="1234 1234 1234 1234" id="inputDefault" required> 
+                        <input name="numTarjeta"  maxlength="16" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"type="number" class="form-control" placeholder="1234 1234 1234 1234" id="inputDefault" required> 
                         </td>
                     </tr>
                       <td><h5>Fecha de caducidad</h5></td> 

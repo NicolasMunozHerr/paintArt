@@ -87,7 +87,7 @@ class tarjetaUser{
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("INSERT INTO `tarjetauser` ( `idTarjetaUser`, `numTarjeta`, `mesCaducidad`, `AñoCaducidad`, `cvv`, `Usuario_Registrado_idUsuario_Registrado`,`tipoTarjeta`) VALUES ( null, ?,?, ?, ?, ?, ?);"); //prepared Statement
+            $res = $this->pdo->useConnection()->prepare("INSERT INTO tarjetauser ( `idTarjetaUser`, `numTarjeta`, `mesCaducidad`, `AñoCaducidad`, `cvv`, `Usuario_Registrado_idUsuario_Registrado`,`tipoTarjeta`) VALUES ( null, ?,?, ?, ?, ?, ?);"); //prepared Statement
             $res->execute([$numTarjeta, $mesCaducidad, $añoCaducidad, $cvv, $idUsuarioRegistrado, $tipoTarjeta]);
             return true;
              
@@ -141,7 +141,7 @@ class tarjetaUser{
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("UPDATE `tarjetauser` SET `numTarjeta` = ?, `mesCaducidad` = ?, `AñoCaducidad` = ?, `cvv` = ?, `tipoTarjeta`=? WHERE `tarjetauser`.`Usuario_Registrado_idUsuario_Registrado` = ?;");
+            $res = $this->pdo->useConnection()->prepare("UPDATE tarjetauser SET `numTarjeta` = ?, `mesCaducidad` = ?, `AñoCaducidad` = ?, `cvv` = ?, `tipoTarjeta`=? WHERE `tarjetauser`.`Usuario_Registrado_idUsuario_Registrado` = ?;");
             $res->execute([$numTarjeta,$mesCaducidad, $añoCaducidad, $cvv, $tipoTarjeta, $idUsuarioRegistrado]);
             return TRUE;
         }

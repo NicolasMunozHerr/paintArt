@@ -5,6 +5,7 @@ include_once '../modelo/imagen.php';
 include_once '../modelo/artista.php';
 include_once '../modelo/peticion.php';
 include_once '../modelo/usuarioRegistrado.php';
+include_once '../modelo/direccion.php';
 
 $parametros= $_POST['parametros'];
 
@@ -72,6 +73,15 @@ class mostrarPeticion{
                         $user= new usuarioRegistrado();
                         $infoUser= $user->buscarUusuarioId($listaPeticiones->get($i)->getIdUsuarioRegistrado())  ; 
                         $estado = $listaPeticiones->get($i)->getEstado();
+                        $idDireccion = $listaPeticiones->get($i)->getIdDireccion();
+                        $direccion= new direccion(null, null, null, null, null, null,null);
+                        $respDireccion= $direccion->buscarDireccionID($idDireccion);
+                        $detalleDireccion= "";
+                        if ($respDireccion==false) {
+                            $detalleDireccion="Direccion no encontrada";
+                        }else{
+                            $detalleDireccion= "direccion del cliente: <br>".$respDireccion->__toString();
+                        }
                         switch ($estado) {
                             case 1:
                                 echo'
@@ -82,6 +92,7 @@ class mostrarPeticion{
                                             <p></p><p></p>
                                             <h6>asunto: '.$listaPeticiones->get($i)->getAsunto().'</h6>
                                             <b>precio:'.$listaPeticiones->get($i)->getPrecio().'</b>
+                                            <b>'.$detalleDireccion.'</b>
                                             <p>descripcion:'.$listaPeticiones->get($i)->getDescripcion().'</p>
                                             
                                         </div>
@@ -89,7 +100,7 @@ class mostrarPeticion{
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                             <button type="button" id="iniciando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-warning btn-sm">Iniciando</button>
                                             <button type="button" id="terminando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm">terminado</button>
-                                            <button type="button" id="enviado" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm">enviado</button>
+                                            <button type="button" id="enviado" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm disabled">enviado</button>
                                         </div>
                                         </div>
                                     </div>
@@ -106,12 +117,14 @@ class mostrarPeticion{
                                             <p></p><p></p>
                                             <h6>asunto: '.$listaPeticiones->get($i)->getAsunto().'</h6>
                                             <b>precio:'.$listaPeticiones->get($i)->getPrecio().'</b>
+                                            <b>'.$detalleDireccion.'</b>
+
                                             <p>descripcion:'.$listaPeticiones->get($i)->getDescripcion().'</p>
                                             
                                         </div>
                                         <div style="float: right; " class="botoneraEstado">
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" id="iniciando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm">Iniciando</button>
+                                            <button type="button" id="iniciando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm disabled">Iniciando</button>
                                             <button type="button" id="terminando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-warning btn-sm">terminado</button>
                                             <button type="button" id="enviado" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm">enviado</button>
                                         </div>
@@ -129,14 +142,16 @@ class mostrarPeticion{
                                             <p></p><p></p>
                                             <h6>asunto: '.$listaPeticiones->get($i)->getAsunto().'</h6>
                                             <b>precio:'.$listaPeticiones->get($i)->getPrecio().'</b>
+                                            <b>'.$detalleDireccion.'</b>
+
                                             <p>descripcion:'.$listaPeticiones->get($i)->getDescripcion().'</p>
                                             
                                         </div>
                                         <div style="float: right; " class="botoneraEstado">
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" id="iniciando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm">Iniciando</button>
-                                            <button type="button" id="terminando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm">terminado</button>
-                                            <button type="button" id="enviado" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-warning btn-sm">enviado</button>
+                                            <button type="button" id="iniciando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm disabled">Iniciando</button>
+                                            <button type="button" id="terminando" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-dark btn-sm disabled">terminado</button>
+                                            <button type="button" id="enviado" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" class="btn btn-warning btn-sm ">enviado</button>
                                         </div>
                                         </div>
                                     </div>
@@ -201,13 +216,13 @@ class mostrarPeticion{
         }
 
     }
-    public function estadoEnviado($id){
+    public function estadoEnviado($id, $estado){
         $peticiones=  new peticion(null, null, null, null, null, null, null, null ,null);
-        $resp= $peticiones->enviadoPeticion($id);
+        $resp= $peticiones->enviadoPeticion($id, $estado);
         if ($resp==false) {
             echo 'No se pudo cambiar el estado de la peticion';
         }else{
-            echo 'Ahora encontraras la peticion en TERMINANDO';
+            echo 'Ahora encontraras la peticion en ENVIADO';
         }
 
     }
@@ -230,7 +245,9 @@ class mostrarPeticion{
                         $user= new usuarioRegistrado();
                         $infoUser= $user->buscarUusuarioId($infoArtista->getIdUsuarioRegistrado())  ; 
                         $estado = $listaPeticiones->get($i)->getEstado();
+
                         $resultado='';
+                        $estadoEnvio="";
                         switch ($estado){
                             case 0:
                                 $resultado = 'Por revisar';
@@ -243,12 +260,15 @@ class mostrarPeticion{
                                 break;
                             case 3:
                                 $resultado = 'enviado';
+                                $estadoEnvio = $listaPeticiones->get($i)->getEstadoEnvio();
+                                $estadoEnvio= " <h6> Estado de la peticion: <b>cod. de seguimiento ".$estadoEnvio." </b></h6>";
                                 break;
                             case 4:
                                 $resultado = 'no fue aceptado';
                                 break;            
                         }
                         if($estado==4){
+
                             echo'
                                 <div class="contenedorPetcion">
                                     <div style="width: 100%; height: auto;" class="listaPeticiones">
@@ -259,6 +279,7 @@ class mostrarPeticion{
                                             <b> " '.$listaPeticiones->get($i)->getDescripcion().' " </b>
                                             <div style="text-align: right; width:90%; margin:auto;"> <button    id="rechazo" data-id="'.$listaPeticiones->get($i)->getIdPeticion().'" type="button" class="btn btn-warning">Eliminar </button></div>
                                             <p></p>
+                                            <p><b> <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$infoArtista->getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a></b></p>
 
                                         </div>
                                         <div style="float: right; " class="botoneraEstado">
@@ -275,10 +296,11 @@ class mostrarPeticion{
                                         <div style="text-align:left " class="peticionAprobado">
                                             <h4>Peticion para:'.$infoUser->getNombreYApellido().'</h4>
                                             <p></p><p></p>
+                                            '.$estadoEnvio.'
                                             <h6>asunto: '.$listaPeticiones->get($i)->getAsunto().'</h6>
-                                            <b>precio:'.$listaPeticiones->get($i)->getPrecio().'</b>
-                                            <p>descripcion:'.$listaPeticiones->get($i)->getDescripcion().'</p>
-                                            
+                                            <b>precio: '.$listaPeticiones->get($i)->getPrecio().'</b>
+                                            <p>descripcion: '.$listaPeticiones->get($i)->getDescripcion().'</p>
+                                            <p><b> <a style="text-decoration: none; margin-bottom: 5px;" href="verArtista.php?idArtista='.$infoArtista->getIdArtista().'">CLICK AQUI PARA VER LA ARTISTA</a></b></p>
                                         </div>
                                         <div style="float: right; " class="botoneraEstado">
                                             <h6>Estado: '.$resultado.'
@@ -328,8 +350,9 @@ if ($parametros==1) {
     echo $lista->estadoTerminando($id);
 }elseif ($parametros==7) {
     $id= $_POST['id'];
+    $estado= $_POST['estadoEnvio'];
     $lista= new mostrarPeticion();
-    echo $lista->estadoEnviado($id);
+    echo $lista->estadoEnviado($id, $estado);
 }elseif($parametros==8){
     session_start();
     $idUsuario=$_SESSION['online'];

@@ -81,6 +81,17 @@
         }
 
 
+        public function __toString()
+        {
+            $hogar="";
+            if ($this->tipoHogar==1) {
+                $hogar="casa";
+            }else{
+                $hogar="departamento";
+            }
+            return $this->calle." ".$this->numeracion." (".$hogar."), ".$this->comuna." ,".$this->ciudad." ,Region de ".$this->region;
+        }
+
         public function crearDireccion(direccion $direccion){
             try{
                 $this->pdo = Conexion::getInstance();
@@ -107,6 +118,31 @@
                 $this->pdo->openConnection();
                 $res = $this->pdo->useConnection()->prepare("SELECT * FROM `direccion` ORDER BY `IdDireccion` DESC LIMIT 1"); //prepared Statement
                 $res->execute([]);
+                while($fila = $res->fetch())
+                {
+                    $dire = new direccion($fila["IdDireccion"],$fila["region"],$fila["ciudad"],$fila["comuna"],$fila["calle"],$fila["tipoHogar"],$fila["numeracion"]);
+                   
+                    
+                }    
+               
+                return $dire;
+                 
+            }
+            catch(PDOException $e)
+            {
+                error_log($e->getMessage());
+                return false;
+            }
+            finally{
+                $this->pdo->closeConnection();
+            }
+        }
+        public function buscarDireccionID($ID){
+            try{
+                $this->pdo = Conexion::getInstance();
+                $this->pdo->openConnection();
+                $res = $this->pdo->useConnection()->prepare("SELECT * FROM `direccion` where `IdDireccion`=?"); //prepared Statement
+                $res->execute([$ID]);
                 while($fila = $res->fetch())
                 {
                     $dire = new direccion($fila["IdDireccion"],$fila["region"],$fila["ciudad"],$fila["comuna"],$fila["calle"],$fila["tipoHogar"],$fila["numeracion"]);

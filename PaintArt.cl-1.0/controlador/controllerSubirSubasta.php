@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include_once "../modelo/subastas.php";
 //declarar zona horaria en php
 date_default_timezone_set("America/Santiago");
@@ -33,7 +34,7 @@ echo (date('d-m-Y H:i:s', $fechaDespues));*/
 
 
 
-session_start();
+
 include_once '../modelo/obra.php';
 include_once '../modelo/imagen.php';
 include_once '../modelo/usuarioRegistrado.php';
@@ -141,7 +142,7 @@ if($respUser==false){
                                              $subasta->mostrarSubasta();
                                             $resp=$subasta->agregarSubasta($subasta);
                                             
-                                            echo $resp;
+                                            //echo $resp;
                                             if($resp==true){
                                                 header('Location: ../controlador/controllerAccesadorUsuarios.php');
                                                 

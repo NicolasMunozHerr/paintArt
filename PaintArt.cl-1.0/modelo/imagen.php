@@ -38,7 +38,7 @@ class imagen
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("INSERT INTO `imagen` ( `urlImagen`) VALUES  ( ?)"); //prepared Statement
+            $res = $this->pdo->useConnection()->prepare("INSERT INTO `imagen`  ( `UrlImagen`) VALUES  ( ?)"); //prepared Statement
             $res->execute([$imagen->getUrlImagen()]);
             return true;
              
@@ -60,7 +60,7 @@ class imagen
         {
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM imagen WHERE UrlImagen=?");
+            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `imagen`  WHERE UrlImagen=?");
             $resul->execute([$imagen->getUrlImagen()]);
             while($fila = $resul->fetch())
             {
@@ -87,7 +87,7 @@ class imagen
         {
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM imagen WHERE idImagen=?");
+            $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `imagen` WHERE idImagen=?");
             $resul->execute([$imagen]);
             while($fila = $resul->fetch())
             {
@@ -111,7 +111,7 @@ class imagen
         try{
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $res = $this->pdo->useConnection()->prepare("DELETE FROM imagen WHERE `imagen`.`idImagen` = ?");
+            $res = $this->pdo->useConnection()->prepare("DELETE FROM `imagen`  WHERE `imagen`.`idImagen` = ?");
             $resul= $res->execute([$id]);
             return true;
             
@@ -133,7 +133,7 @@ class imagen
         {
             $this->pdo = Conexion::getInstance();
             $this->pdo->openConnection();
-            $resul = $this->pdo->useConnection()->prepare("SELECT MAX(`idImagen`) AS id FROM imagen");
+            $resul = $this->pdo->useConnection()->prepare("SELECT MAX(`idImagen`) AS id FROM `imagen` ");
             $resul->execute([]);
             while($fila = $resul->fetch())
             {
@@ -159,7 +159,7 @@ class imagen
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("UPDATE imagen SET UrlImagen=? WHERE idImagen=?");
+                $res = $this->pdo->useConnection()->prepare("UPDATE `imagen`  SET UrlImagen=? WHERE idImagen=?");
                 $res->execute([$imagen->getUrlImagen(),$imagen->getIdImagen()]);
                 return TRUE;
             }

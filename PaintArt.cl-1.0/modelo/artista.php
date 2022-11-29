@@ -87,7 +87,7 @@
             try{
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $res = $this->pdo->useConnection()->prepare("INSERT INTO `artista` (  `idArtista`, `biografia`, `Usuario_Registrado_idUsuario_Registrado`) VALUES  (  ?, ?, ?)"); //prepared Statement
+                $res = $this->pdo->useConnection()->prepare("INSERT INTO artista (  `idArtista`, `biografia`, `Usuario_Registrado_idUsuario_Registrado`) VALUES  (  ?, ?, ?)"); //prepared Statement
                 $res->execute([NULL , $artista->getBiografia(), $artista->getIdUsuarioRegistrado()]);
                 return true;
                  
@@ -161,7 +161,7 @@
             {
                 $this->pdo = Conexion::getInstance();
                 $this->pdo->openConnection();
-                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM `artista`");
+                $resul = $this->pdo->useConnection()->prepare("SELECT * FROM artista");
                 $resul->execute([]);
                 while($fila = $resul->fetch())
                 {

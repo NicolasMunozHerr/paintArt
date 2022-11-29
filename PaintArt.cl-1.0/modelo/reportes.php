@@ -73,7 +73,7 @@
             }
             catch(PDOException $e)
             {
-                error_log($e->getMessage());
+               //return error_log($e->getMessage());
                 return false;
             }
             finally{
